@@ -1,7 +1,25 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 export default defineNuxtConfig({
+  target: 'static',
+  ssr: true,
+  prerender: true,
   devtools: { enabled: true },
+  app: {
+    head: {
+      title: 'Pokedex-Online',
+      link: [
+        {
+          rel: 'icon',
+          type: 'image/png',
+          href: '/favicon.png',
+        }
+      ]
+    }
+  },
+  bridge: {
+    meta: true
+  },
   build: {
     transpile: ['vuetify'],
   },

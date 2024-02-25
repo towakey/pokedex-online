@@ -1,11 +1,24 @@
 <script setup lang="ts">
+const title = ref('')
+const pageTitle = ref('')
 const drawer = ref(false)
+const route = useRoute()
 const menu = [
   {
     title: 'TOP',
     path: ''
   }
 ]
+pageTitle.value = route.meta.title
+
+const onTitleChanged = (newTitle: string) => {
+  pageTitle.value = newTitle
+  title.value = newTitle
+}
+
+watchEffect(() => {
+  route.meta.title && onTitleChanged(route.meta.title as string)
+})
 </script>
 <template>
   <v-layout>
@@ -15,9 +28,15 @@ const menu = [
     >
       <v-app-bar-nav-icon
       @click.stop="drawer = !drawer"
-      ></v-app-bar-nav-icon>
+      >
+        <v-img src="/icon.png"></v-img>
+      </v-app-bar-nav-icon>
       <v-toolbar-title>
-        Pokedex-Online
+        <NuxtLink
+        :to="{path: `/`}"
+        >
+        {{ pageTitle }}
+        </NuxtLink>
       </v-toolbar-title>
       <v-spacer />
     </v-app-bar>

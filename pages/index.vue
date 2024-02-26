@@ -14,6 +14,10 @@ const menu = [
   {
     title: '図鑑カメラ',
     path: '/camera'
+  },
+  {
+    title: 'pokedex.json',
+    path: '/pokedexjson'
   }
 ]
 </script>

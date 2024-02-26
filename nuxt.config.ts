@@ -23,6 +23,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify'],
   },
+  css: ["@/assets/styles/common.scss"],
   modules: [
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) => {
@@ -36,6 +37,13 @@ export default defineNuxtConfig({
     vue: {
       template: {
         transformAssetUrls,
+      },
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          // "@/assets/styles/common.css"
+        },
       },
     },
   },

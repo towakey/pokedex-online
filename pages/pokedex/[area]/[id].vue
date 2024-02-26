@@ -8,6 +8,9 @@ definePageMeta({
 let nameDialog = ref(false)
 let model = ref(0)
 const pokedex = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+route.params.id)).data.value.result
+const prev = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) - 1))).data.value.result
+const next = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) + 1))).data.value.result
+const src = "/img/" + ('0000' + pokedex.globalNo).slice( -4 ) + ".png"
 
 const nextModel = () => {
   if((pokedex.status.length - 1) <= model.value)
@@ -57,7 +60,27 @@ const prevModel = () => {
       </v-container>
     </v-dialog>
   </ClientOnly>
-  <v-container>
+  <v-container
+  >
+    <v-card
+    elevation="0"
+    >
+      <v-card-actions>
+        <v-btn
+        v-if='prev'
+        :to='{path: `/pokedex/${route.params.area}/${prev.no}`}'
+        >{{ prev.name.jpn }}</v-btn>
+        <v-spacer />
+        <v-btn
+        :to='{path: `/pokedex/${route.params.area}`}'
+        >TOP</v-btn>
+        <v-spacer />
+        <v-btn
+        v-if='next'
+        :to='{path: `/pokedex/${route.params.area}/${next.no}`}'
+        >{{ next.name.jpn }}</v-btn>
+      </v-card-actions>
+    </v-card>
     <v-carousel :show-arrows="false" hide-delimiters v-model="model" height="auto">
       <v-carousel-item
         v-for="(item, index) in pokedex.status" :key="index"
@@ -81,10 +104,10 @@ const prevModel = () => {
                 @click="nameDialog = true"
                 >
                   <v-card-title>
-                    <h2>{{ pokedex["status"][0].name.jpn }}</h2>
+                    <h2>{{ pokedex["status"][index].name.jpn }}</h2>
                   </v-card-title>
                 </v-card>
-                <p>{{ pokedex["status"][0].classification }}</p>
+                <p>{{ pokedex["status"][index].classification }}</p>
               </v-card-title>
               <v-card-text>
                 <h2>たかさ<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M18.5 1.586L22.914 6L21.5 7.414l-2-2v13.172l2-2L22.914 18L18.5 22.414L14.086 18l1.414-1.414l2 2V5.414l-2 2L14.086 6zM2 2h10v20H2zm2 2v16h6V4z"/></svg>:{{ pokedex["status"][0].height }}m</h2>
@@ -96,7 +119,17 @@ const prevModel = () => {
           lg6
           sm6
           xs6
-          ></v-col>
+          >
+            <v-card
+            elevation="0"
+            width="100%"
+            height="100%"
+            >
+              <v-img
+                :src="`${src}`"
+              ></v-img>
+            </v-card>
+          </v-col>
         </v-row>
       </v-carousel-item>
     </v-carousel>
@@ -120,6 +153,10 @@ const prevModel = () => {
       <v-carousel-item
         v-for="(item, index) in pokedex.status" :key="index"
       >
+        <TypeView :pokedex="pokedex.status[index]" />
+        <StatusChart :statusData="pokedex.status[index]" />
+        <AbilityView :pokedex="pokedex.status[index]" />
+        <DescriptionView :description="pokedex.status[index].description" />
       </v-carousel-item>
     </v-carousel>
   </v-container>

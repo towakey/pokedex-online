@@ -15,6 +15,7 @@ const pokelist = computed(() => {
   else
   {
     if(route.params.area == 'global'){
+      // console.log(pokedex)
       return pokedex.filter(item => String(item.name.jpn).match(searchTerm.value) || String(item.id).match(searchTerm.value))
     }
     else
@@ -24,9 +25,29 @@ const pokelist = computed(() => {
     }
   }
 })
+let breadcrumbs = []
+breadcrumbs.push({
+  title: 'ポケモン図鑑',
+  href: '/pokedex'
+})
+Object.keys(route.params).forEach((val) => {
+  if(val === 'area'){
+    breadcrumbs.push({
+      title: appConfig.pokedex_eng2jpn[route.params[val]],
+      href: '/pokedex/'+route.params[val]
+    })
+  }else if(val === 'id'){
+    breadcrumbs.push({
+      title: pokedex.name.jpn,
+      href: '/pokedex/'+route.params['area']+'/'+route.params['id']
+    })
+  }
+})
+
 </script>
 <template>
   <v-container>
+    <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
     <v-row>
       <v-col>
         <v-text-field
@@ -44,9 +65,11 @@ const pokelist = computed(() => {
       >
         <NuxtLink
         :to="{path: `/pokedex/${route.params.area}/${pokemon.no}`}"
+        class="nuxtlink"
         >
           <v-card
           elevation="0"
+          variant="outlined"
           >
             <v-card-title>
               No.{{ pokemon.no }} {{ pokemon.status[0].name.jpn }}

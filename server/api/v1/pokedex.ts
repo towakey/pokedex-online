@@ -116,28 +116,36 @@ export default defineEventHandler(async (event) => {
       break
   }
 
-  for(let game_ver of type_json)
+  if(area != 'global')
   {
-    if(game_ver["geme_version"].includes(ver))
-    {
-      type = game_ver['type']
-    }
-  }
 
-  if(area != 'unova_bw' && area != 'unova_b2w2')
-  {
-    id--
-    if( 0 > id || id > (pokedex[appConfig.pokedex_eng2jpn[area]].length - 1) )
+    for(let game_ver of type_json)
     {
-      flag = false
+      if(game_ver["geme_version"].includes(ver))
+      {
+        type = game_ver['type']
+      }
+    }
+
+    if(area != 'unova_bw' && area != 'unova_b2w2')
+    {
+      id--
+      if( 0 > id || id > (pokedex[appConfig.pokedex_eng2jpn[area]].length - 1) )
+      {
+        flag = false
+      }
+    }
+    else
+    {
+      if( 0 > id || id > (pokedex[appConfig.pokedex_eng2jpn[area]].length - 1) )
+      {
+        flag = false
+      }
     }
   }
   else
   {
-    if( 1 > id || id > (pokedex[appConfig.pokedex_eng2jpn[area]].length - 1) )
-    {
-      flag = false
-    }
+    id--
   }
 
 
@@ -147,6 +155,12 @@ export default defineEventHandler(async (event) => {
     if(area == 'global')
     {
       result = global
+      result.forEach(pokemon => {
+        pokemon["no"] = pokemon["id"]
+        pokemon["globalNo"] = pokemon["id"]
+        pokemon["status"] = []
+        pokemon["status"].push({"name": pokemon["name"]})
+      });
     }
     else
     {
@@ -205,8 +219,21 @@ export default defineEventHandler(async (event) => {
     {
       if(area == 'global')
       {
-        result = global[id]
-        result["no"] = id
+        // console.log(area+'=>'+String(id))
+        if( 0 <= id && id < global.length)
+        {
+          result = global[id]
+          result["no"] = id+1
+          result["globalNo"] = id+1
+        }
+        // result["status"] = []
+        // result["status"].push(
+        //   {
+        //     "name": pokemon["name"]
+        //     "classification": 
+        //   }
+        // )
+  
       }
       else
       {
@@ -301,6 +328,19 @@ export default defineEventHandler(async (event) => {
     {
       result = false
     }
+  }else if(mode == 'exists'){
+    // console.log(pokedex[appConfig.pokedex_eng2jpn[area]])
+    // console.log(area+'=>'+String(id))
+    // result = false
+    result = 0
+    pokedex[appConfig.pokedex_eng2jpn[area]].forEach(pokemon => {
+      // if(pokemon[id]["globalNo"] == id) result = true
+      // if(pokemon.globalNo == id + 1) console.log(pokemon)
+      if(pokemon.globalNo == id + 1){
+        // result = true
+        result = pokemon.no
+      }
+    });
   }
   return{
     "query": query,

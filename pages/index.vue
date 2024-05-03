@@ -16,7 +16,7 @@ const menu = [
     path: '/camera'
   },
   {
-    title: 'pokedex.json',
+    title: 'pokedex.jsonについて',
     path: '/pokedexjson'
   }
 ]
@@ -31,9 +31,11 @@ const menu = [
       >
         <NuxtLink
         :to="{path: `${item.path}`}"
+        class="nuxtlink"
         >
           <v-card
           elevation-0
+          variant="outlined"
           >
             <v-card-title>{{ item.title }}</v-card-title>
           </v-card>

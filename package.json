@@ -1,17 +1,19 @@
 {
-  "name": "nuxt-app",
+  "name": "pokedex-online",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "generate": "nuxt generate",
+    "generate": "nuxi generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@nuxt/content": "^2.12.0",
+    "@teachablemachine/image": "^0.8.5",
+    "@tensorflow/tfjs": "^4.18.0",
     "chart.js": "^4.4.1",
     "chartjs-plugin-datalabels": "^2.2.0",
     "nuxt": "^3.10.2",

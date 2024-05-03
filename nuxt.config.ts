@@ -12,7 +12,7 @@ export default defineNuxtConfig({
         {
           rel: 'icon',
           type: 'image/png',
-          href: '/favicon.png',
+          href: '/icon.png',
         }
       ]
     }
@@ -24,6 +24,13 @@ export default defineNuxtConfig({
     transpile: ['vuetify'],
   },
   css: ["@/assets/styles/common.scss"],
+  content: {
+    highlight: {
+      theme: 'github-dark-dimmed',
+      preload: ['vb', 'ruby', 'python'],
+    },
+    documentDriven: false,
+  },
   modules: [
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) => {
@@ -32,19 +39,21 @@ export default defineNuxtConfig({
       })
     },
     //...
+    "@nuxt/content",
   ],
+  sourcemap: false,
   vite: {
     vue: {
       template: {
         transformAssetUrls,
       },
     },
-    css: {
-      preprocessorOptions: {
-        scss: {
-          // "@/assets/styles/common.css"
-        },
-      },
-    },
+    // css: {
+    //   preprocessorOptions: {
+    //     scss: {
+    //       additionalData: '@import "@/assets/styles/common.css";',
+    //     },
+    //   },
+    // },
   },
 })

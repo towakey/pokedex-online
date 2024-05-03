@@ -1,15 +1,28 @@
 <script setup lang="ts">
+definePageMeta({
+  title: "pokedex.jsonについて"
+})
 </script>
 <template>
-  <v-sheet
-  class="mx-auto"
-  max-width="600"
-  border
-  >
-    <h4>pokedex.jsonについて</h4>
-    <p>
-pokedex.jsonはポケモンの様々な情報をプログラムで使用しやすいjson形式で保存しています。
-編集を手伝ってくださる方を募集しています。
-    </p>
-  </v-sheet>
+  <ContentList path="pokedexjson" v-slot="{ list }">
+    <v-container>
+      <ContentDoc />
+    </v-container>
+    <!-- <v-col v-for="article in list" :key="article._path"
+    cols="12"
+    sm="6"
+    >
+      <NuxtLink
+      :to="{path: article._path}"
+      >
+        <v-card
+          :title="article.title"
+          :text="article.description"
+          elevation="0"
+          color="#e3e1e1"
+          height="150"
+        />
+      </NuxtLink>
+    </v-col> -->
+  </ContentList>
 </template>

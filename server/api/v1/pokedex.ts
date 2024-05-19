@@ -190,6 +190,7 @@ export default defineEventHandler(async (event) => {
           if(global[pokemon["globalNo"] - 1].gigantamax)
           {
             global[pokemon["globalNo"] - 1]["gigantamax"].forEach(normal => {
+              status["name"] = global[pokemon["globalNo"] - 1].name
               if(status.form == normal.form)
               {
                 Object.keys(normal).forEach((key) => {

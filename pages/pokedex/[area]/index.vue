@@ -8,38 +8,38 @@ definePageMeta({
 })
 const pokedex = (await useFetch('/api/v1/pokedex?mode=index&area='+route.params.area)).data.value.result
 const pokelist = computed(() => {
-  if(searchTerm.value === '')
+  if(searchTerm.value === null)
   {
     return pokedex
   }
   else
   {
     if(route.params.area == 'global'){
-      // console.log(pokedex)
       return pokedex.filter(item => String(item.name.jpn).match(searchTerm.value) || String(item.id).match(searchTerm.value))
     }
     else
     {
-      return pokedex
-      // return pokedex.filter(item => String(item.status.name.jpn).match(searchTerm.value) || String(item.id).match(searchTerm.value))
+      return pokedex.filter(item => item.status.some(value => value.name.jpn.match(searchTerm.value)) || String(item.no).match(searchTerm.value))
     }
   }
 })
 let breadcrumbs = []
 breadcrumbs.push({
+  title: 'HOME',
+  href: '/',
+  disabled: false
+})
+breadcrumbs.push({
   title: 'ポケモン図鑑',
-  href: '/pokedex'
+  href: '/pokedex',
+  disabled: false
 })
 Object.keys(route.params).forEach((val) => {
   if(val === 'area'){
     breadcrumbs.push({
       title: appConfig.pokedex_eng2jpn[route.params[val]],
-      href: '/pokedex/'+route.params[val]
-    })
-  }else if(val === 'id'){
-    breadcrumbs.push({
-      title: pokedex.name.jpn,
-      href: '/pokedex/'+route.params['area']+'/'+route.params['id']
+      href: '/pokedex/'+route.params[val],
+      disabled: true
     })
   }
 })
@@ -47,7 +47,18 @@ Object.keys(route.params).forEach((val) => {
 </script>
 <template>
   <v-container>
-    <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
+    <v-breadcrumbs :items="breadcrumbs">
+        <template v-slot:item="props">
+          <v-breadcrumbs-item
+          exact
+          :disabled="props.item.disabled"
+          :to="props.item.href"
+          nuxt
+          >
+          {{ props.item.title }}
+          </v-breadcrumbs-item>
+        </template>
+      </v-breadcrumbs>
     <v-row>
       <v-col>
         <v-text-field

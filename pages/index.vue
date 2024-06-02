@@ -20,9 +20,48 @@ const menu = [
     path: '/pokedexjson'
   }
 ]
+let breadcrumbs = []
+breadcrumbs.push({
+  title: 'HOME',
+  href: '/',
+  disabled: true
+})
+const metaTitle = ref("Pokedex-Online")
+useHead({
+  title: metaTitle,
+  meta: [
+  {
+      hid: 'og:title',
+      name: 'og:title',
+      content: metaTitle.value
+    },
+    {
+      hid: 'twitter:card',
+      name: 'twitter:card',
+      content: 'summary'
+    },
+    {
+      hid: 'twitter:title',
+      name: 'twitter:title',
+      content: metaTitle.value
+    }
+  ]
+})
 </script>
 <template>
   <v-container>
+    <v-breadcrumbs :items="breadcrumbs">
+      <template v-slot:item="props">
+        <v-breadcrumbs-item
+        exact
+        :disabled="props.item.disabled"
+        :to="props.item.href"
+        nuxt
+        >
+        {{ props.item.title }}
+        </v-breadcrumbs-item>
+      </template>
+    </v-breadcrumbs>
     <v-row>
       <v-col
       cols="12"

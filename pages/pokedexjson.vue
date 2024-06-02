@@ -2,6 +2,27 @@
 definePageMeta({
   title: "pokedex.jsonについて"
 })
+const metaTitle = ref("pokedex.jsonについて")
+useHead({
+  title: metaTitle,
+  meta: [
+  {
+      hid: 'og:title',
+      name: 'og:title',
+      content: metaTitle.value
+    },
+    {
+      hid: 'twitter:card',
+      name: 'twitter:card',
+      content: 'summary'
+    },
+    {
+      hid: 'twitter:title',
+      name: 'twitter:title',
+      content: metaTitle.value
+    }
+  ]
+})
 </script>
 <template>
   <ContentList path="pokedexjson" v-slot="{ list }">

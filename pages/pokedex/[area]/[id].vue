@@ -23,22 +23,31 @@ for(pdx in appConfig.pokedex_list.filter(item => !item.area.includes('global')))
   existsPokedex[appConfig.pokedex_list[Number(pdx)+1].area] = data.value.result
 }
 // console.log(existsPokedex)
+const metaImage = ref("https://pokedex-online.jp/img/" + ('0000' + pokedex.globalNo).slice( -4 ) + ".png")
 
 let breadcrumbs = []
 breadcrumbs.push({
+  title: 'HOME',
+  href: '/',
+  disabled: false
+})
+breadcrumbs.push({
   title: 'ポケモン図鑑',
-  href: '/pokedex'
+  href: '/pokedex',
+  disabled: false
 })
 Object.keys(route.params).forEach((val) => {
   if(val === 'area'){
     breadcrumbs.push({
       title: appConfig.pokedex_eng2jpn[route.params[val]],
-      href: '/pokedex/'+route.params[val]
+      href: '/pokedex/'+route.params[val],
+      disabled: false
     })
   }else if(val === 'id'){
     breadcrumbs.push({
       title: pokedex.name.jpn,
-      href: '/pokedex/'+route.params['area']+'/'+route.params['id']
+      href: '/pokedex/'+route.params['area']+'/'+route.params['id'],
+      disabled: true
     })
   }
 })
@@ -83,7 +92,7 @@ useHead({
   {
       hid: 'og:title',
       name: 'og:title',
-      content: metaTitle
+      content: metaTitle.value
     },
     {
       hid: 'twitter:card',
@@ -93,7 +102,12 @@ useHead({
     {
       hid: 'twitter:title',
       name: 'twitter:title',
-      content: metaTitle
+      content: metaTitle.value
+    },
+    {
+      hid: 'twitter:image',
+      name: 'twitter:image',
+      content: metaImage.value
     }
   ]
 })
@@ -129,7 +143,18 @@ useHead({
   </ClientOnly>
 
     <v-container>
-      <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
+      <v-breadcrumbs :items="breadcrumbs">
+        <template v-slot:item="props">
+          <v-breadcrumbs-item
+          exact
+          :disabled="props.item.disabled"
+          :to="props.item.href"
+          nuxt
+          >
+          {{ props.item.title }}
+          </v-breadcrumbs-item>
+        </template>
+      </v-breadcrumbs>
       <v-card
       elevation="0"
       >
@@ -269,7 +294,18 @@ useHead({
     </v-dialog>
   </ClientOnly>
   <v-container>
-    <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
+    <v-breadcrumbs :items="breadcrumbs">
+      <template v-slot:item="props">
+        <v-breadcrumbs-item
+        exact
+        :disabled="props.item.disabled"
+        :to="props.item.href"
+        nuxt
+        >
+        {{ props.item.title }}
+        </v-breadcrumbs-item>
+      </template>
+    </v-breadcrumbs>
     <v-card
     elevation="0"
     >

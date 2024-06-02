@@ -43,7 +43,27 @@ Object.keys(route.params).forEach((val) => {
     })
   }
 })
-
+const metaTitle = ref(route.meta.title)
+useHead({
+  title: metaTitle.value,
+  meta: [
+  {
+      hid: 'og:title',
+      name: 'og:title',
+      content: metaTitle.value
+    },
+    {
+      hid: 'twitter:card',
+      name: 'twitter:card',
+      content: 'summary'
+    },
+    {
+      hid: 'twitter:title',
+      name: 'twitter:title',
+      content: metaTitle.value
+    }
+  ]
+})
 </script>
 <template>
   <v-container>
@@ -82,9 +102,23 @@ Object.keys(route.params).forEach((val) => {
           elevation="0"
           variant="outlined"
           >
-            <v-card-title>
-              No.{{ pokemon.no }} {{ pokemon.status[0].name.jpn }}
-            </v-card-title>
+            <div
+            class="d-flex flex-no-wrap justify-space-between"
+            style="float: left;"
+            >
+
+              <v-avatar
+                class="ms-2"
+                size="100"
+                style="/*background-color: aqua;*/"
+                >
+                  <v-img :src='`${"/img/" + ("0000"+pokemon.globalNo).slice(-4)+".png"}`'></v-img>
+              </v-avatar>
+
+              <v-card-title>
+                No.{{ pokemon.no }} {{ pokemon.status[0].name.jpn }}
+              </v-card-title>
+            </div>
           </v-card>
         </NuxtLink>
       </v-col>

@@ -84,6 +84,8 @@ useHead({
         <v-text-field
         v-model="searchTerm"
         label="検索(図鑑No or 名前)"
+        variant="outlined"
+        bg-color="white"
         />
       </v-col>
     </v-row>
@@ -101,6 +103,7 @@ useHead({
           <v-card
           elevation="0"
           variant="outlined"
+          style="background-color: white;"
           >
             <div
             class="d-flex flex-no-wrap justify-space-between"
@@ -116,7 +119,7 @@ useHead({
               </v-avatar>
 
               <v-card-title>
-                No.{{ pokemon.no }} {{ pokemon.status[0].name.jpn }}
+                No.{{ pokemon.no }}<br>{{ pokemon.status[0].name.jpn }}
               </v-card-title>
             </div>
           </v-card>

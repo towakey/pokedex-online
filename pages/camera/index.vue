@@ -117,7 +117,9 @@ const facingChange = async () => {
 }
 </script>
 <template>
-  <v-container>
+  <v-container
+  style="background-color: white;"
+  >
     <v-card
     variant="text"
     >

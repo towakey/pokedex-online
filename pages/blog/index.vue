@@ -67,8 +67,9 @@ useHead({
               :title="article.title"
               :text="article.category"
               elevation="0"
-              color="#e3e1e1"
+              style="background-color: white;"
               height="100"
+              variant="outlined"
             />
           </NuxtLink>
         </v-col>

@@ -30,7 +30,9 @@ useHead({
 })
 </script>
 <template>
-  <v-container>
+  <v-container
+  style="background-color: white;"
+  >
     <v-row no-gutters>
       <v-col
       cols="12"

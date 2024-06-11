@@ -49,7 +49,10 @@ let chartData = {
 
 </script>
 <template>
-<v-card>
+<v-card
+variant="outlined"
+style="margin-top: 20px;background-color: white;"
+>
   <v-card-text>
     <Bar
     id="my-chart-id"

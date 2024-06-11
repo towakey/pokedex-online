@@ -7,7 +7,7 @@ pageTitle.value = route.meta.title
 
 const menu = [
 {
-    title: 'TOP',
+    title: 'HOME',
     path: ''
   },
   {
@@ -48,7 +48,10 @@ watchEffect(() => {
       class="btn-fix"
       >
         <!-- <v-img src="/public/icon.png"></v-img> -->
-        <v-icon>mdi-menu</v-icon>
+        <!-- <v-img src="/public/icon.png" alt="icon" max-width="40"></v-img> -->
+        <v-icon>
+          <img src="/public/icon.png" alt="Nav icon">
+        </v-icon>        <!-- <v-icon>mdi-menu</v-icon> -->
       </v-app-bar-nav-icon>
       <v-toolbar-title>
         <NuxtLink
@@ -80,7 +83,7 @@ watchEffect(() => {
       </NuxtLink>
     </v-navigation-drawer>
     <v-main
-    style="height: 100%;"
+    style="height: 100%;background-color: #f2f2f2;"
     >
       <slot></slot>
     </v-main>

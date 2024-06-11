@@ -65,6 +65,7 @@ useHead({
           <v-card
           elevation-0
           variant="outlined"
+          style="background-color: white;"
           >
             <v-card-title>{{ item.title }}</v-card-title>
           </v-card>

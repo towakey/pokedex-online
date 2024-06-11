@@ -71,8 +71,10 @@ for(let val in typeList)
 <template>
   <v-card
   @click="typeDialog = true"
+  style="margin-top: 20px"
+  variant="outlined"
   >
-    <v-card-title style="display: flex;">
+    <v-card-title style="display: flex;padding: 0px;">
       <div style="" v-if='pokedex.type1 === "ノーマル"' class="type_Normal">{{ pokedex.type1 }}</div>
       <div style="" v-else-if='pokedex.type1 === "ほのお"' class="type_Fire">{{ pokedex.type1 }}</div>
       <div style="" v-else-if='pokedex.type1 === "みず"' class="type_Water">{{ pokedex.type1 }}</div>
@@ -124,24 +126,24 @@ for(let val in typeList)
             :key="val"
             style="display: inline-block;"
             >
-            <div v-if='val.value === "ノーマル"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Normal">{{ val.value }}</div>
-              <div v-else-if='val.value === "ほのお"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fire">{{ val.value }}</div>
-              <div v-else-if='val.value === "みず"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Water">{{ val.value }}</div>
-              <div v-else-if='val.value === "でんき"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Electric">{{ val.value }}</div>
-              <div v-else-if='val.value === "くさ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Grass">{{ val.value }}</div>
-              <div v-else-if='val.value === "こおり"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ice">{{ val.value }}</div>
-              <div v-else-if='val.value === "かくとう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fighting">{{ val.value }}</div>
-              <div v-else-if='val.value === "どく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Poison">{{ val.value }}</div>
-              <div v-else-if='val.value === "じめん"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ground">{{ val.value }}</div>
-              <div v-else-if='val.value === "ひこう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Flying">{{ val.value }}</div>
-              <div v-else-if='val.value === "エスパー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Psychic">{{ val.value }}</div>
-              <div v-else-if='val.value === "むし"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Bug">{{ val.value }}</div>
-              <div v-else-if='val.value === "いわ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Rock">{{ val.value }}</div>
-              <div v-else-if='val.value === "ゴースト"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ghost">{{ val.value }}</div>
-              <div v-else-if='val.value === "ドラゴン"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dragon">{{ val.value }}</div>
-              <div v-else-if='val.value === "あく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dark">{{ val.value }}</div>
-              <div v-else-if='val.value === "はがね"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Steel">{{ val.value }}</div>
-              <div v-else-if='val.value === "フェアリー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fairy">{{ val.value }}</div>
+            <div v-if='val.value === "ノーマル"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Normal type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ほのお"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fire type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "みず"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Water type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "でんき"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Electric type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "くさ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Grass type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "こおり"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ice type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "かくとう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fighting type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "どく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Poison type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "じめん"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ground type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ひこう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Flying type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "エスパー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Psychic type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "むし"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Bug type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "いわ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Rock type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ゴースト"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ghost type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ドラゴン"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dragon type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "あく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dark type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "はがね"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Steel type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "フェアリー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fairy type_icon">{{ val.value }}</div>
             </div>
 
             <h2>こうかはばつぐんだ(2倍)</h2>
@@ -150,24 +152,24 @@ for(let val in typeList)
             :key="val"
             style="display: inline-block;"
             >
-            <div v-if='val.value === "ノーマル"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Normal">{{ val.value }}</div>
-              <div v-else-if='val.value === "ほのお"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fire">{{ val.value }}</div>
-              <div v-else-if='val.value === "みず"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Water">{{ val.value }}</div>
-              <div v-else-if='val.value === "でんき"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Electric">{{ val.value }}</div>
-              <div v-else-if='val.value === "くさ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Grass">{{ val.value }}</div>
-              <div v-else-if='val.value === "こおり"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ice">{{ val.value }}</div>
-              <div v-else-if='val.value === "かくとう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fighting">{{ val.value }}</div>
-              <div v-else-if='val.value === "どく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Poison">{{ val.value }}</div>
-              <div v-else-if='val.value === "じめん"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ground">{{ val.value }}</div>
-              <div v-else-if='val.value === "ひこう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Flying">{{ val.value }}</div>
-              <div v-else-if='val.value === "エスパー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Psychic">{{ val.value }}</div>
-              <div v-else-if='val.value === "むし"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Bug">{{ val.value }}</div>
-              <div v-else-if='val.value === "いわ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Rock">{{ val.value }}</div>
-              <div v-else-if='val.value === "ゴースト"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ghost">{{ val.value }}</div>
-              <div v-else-if='val.value === "ドラゴン"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dragon">{{ val.value }}</div>
-              <div v-else-if='val.value === "あく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dark">{{ val.value }}</div>
-              <div v-else-if='val.value === "はがね"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Steel">{{ val.value }}</div>
-              <div v-else-if='val.value === "フェアリー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fairy">{{ val.value }}</div>
+            <div v-if='val.value === "ノーマル"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Normal type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ほのお"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fire type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "みず"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Water type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "でんき"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Electric type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "くさ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Grass type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "こおり"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ice type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "かくとう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fighting type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "どく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Poison type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "じめん"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ground type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ひこう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Flying type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "エスパー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Psychic type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "むし"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Bug type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "いわ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Rock type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ゴースト"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ghost type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ドラゴン"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dragon type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "あく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dark type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "はがね"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Steel type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "フェアリー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fairy type_icon">{{ val.value }}</div>
             </div>
             <h2>こうかはふつうのようだ</h2>
             <div
@@ -175,24 +177,24 @@ for(let val in typeList)
             :key="val"
             style="display: inline-block;"
             >
-            <div v-if='val.value === "ノーマル"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Normal">{{ val.value }}</div>
-              <div v-else-if='val.value === "ほのお"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fire">{{ val.value }}</div>
-              <div v-else-if='val.value === "みず"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Water">{{ val.value }}</div>
-              <div v-else-if='val.value === "でんき"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Electric">{{ val.value }}</div>
-              <div v-else-if='val.value === "くさ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Grass">{{ val.value }}</div>
-              <div v-else-if='val.value === "こおり"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ice">{{ val.value }}</div>
-              <div v-else-if='val.value === "かくとう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fighting">{{ val.value }}</div>
-              <div v-else-if='val.value === "どく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Poison">{{ val.value }}</div>
-              <div v-else-if='val.value === "じめん"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ground">{{ val.value }}</div>
-              <div v-else-if='val.value === "ひこう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Flying">{{ val.value }}</div>
-              <div v-else-if='val.value === "エスパー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Psychic">{{ val.value }}</div>
-              <div v-else-if='val.value === "むし"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Bug">{{ val.value }}</div>
-              <div v-else-if='val.value === "いわ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Rock">{{ val.value }}</div>
-              <div v-else-if='val.value === "ゴースト"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ghost">{{ val.value }}</div>
-              <div v-else-if='val.value === "ドラゴン"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dragon">{{ val.value }}</div>
-              <div v-else-if='val.value === "あく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dark">{{ val.value }}</div>
-              <div v-else-if='val.value === "はがね"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Steel">{{ val.value }}</div>
-              <div v-else-if='val.value === "フェアリー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fairy">{{ val.value }}</div>
+            <div v-if='val.value === "ノーマル"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Normal type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ほのお"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fire type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "みず"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Water type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "でんき"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Electric type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "くさ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Grass type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "こおり"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ice type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "かくとう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fighting type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "どく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Poison type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "じめん"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ground type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ひこう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Flying type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "エスパー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Psychic type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "むし"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Bug type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "いわ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Rock type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ゴースト"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ghost type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ドラゴン"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dragon type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "あく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dark type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "はがね"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Steel type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "フェアリー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fairy type_icon">{{ val.value }}</div>
             </div>
 
             <h2>こうかはいまひとつのようだ(0.5倍)</h2>
@@ -201,76 +203,76 @@ for(let val in typeList)
             :key="val"
             style="display: inline-block;"
             >
-            <div v-if='val.value === "ノーマル"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Normal">{{ val.value }}</div>
-              <div v-else-if='val.value === "ほのお"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fire">{{ val.value }}</div>
-              <div v-else-if='val.value === "みず"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Water">{{ val.value }}</div>
-              <div v-else-if='val.value === "でんき"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Electric">{{ val.value }}</div>
-              <div v-else-if='val.value === "くさ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Grass">{{ val.value }}</div>
-              <div v-else-if='val.value === "こおり"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ice">{{ val.value }}</div>
-              <div v-else-if='val.value === "かくとう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fighting">{{ val.value }}</div>
-              <div v-else-if='val.value === "どく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Poison">{{ val.value }}</div>
-              <div v-else-if='val.value === "じめん"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ground">{{ val.value }}</div>
-              <div v-else-if='val.value === "ひこう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Flying">{{ val.value }}</div>
-              <div v-else-if='val.value === "エスパー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Psychic">{{ val.value }}</div>
-              <div v-else-if='val.value === "むし"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Bug">{{ val.value }}</div>
-              <div v-else-if='val.value === "いわ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Rock">{{ val.value }}</div>
-              <div v-else-if='val.value === "ゴースト"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ghost">{{ val.value }}</div>
-              <div v-else-if='val.value === "ドラゴン"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dragon">{{ val.value }}</div>
-              <div v-else-if='val.value === "あく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dark">{{ val.value }}</div>
-              <div v-else-if='val.value === "はがね"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Steel">{{ val.value }}</div>
-              <div v-else-if='val.value === "フェアリー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fairy">{{ val.value }}</div>
+            <div v-if='val.value === "ノーマル"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Normal type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ほのお"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fire type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "みず"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Water type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "でんき"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Electric type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "くさ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Grass type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "こおり"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ice type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "かくとう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fighting type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "どく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Poison type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "じめん"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ground type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ひこう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Flying type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "エスパー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Psychic type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "むし"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Bug type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "いわ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Rock type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ゴースト"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ghost type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ドラゴン"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dragon type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "あく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dark type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "はがね"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Steel type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "フェアリー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fairy type_icon">{{ val.value }}</div>
             </div>
 
-            <h2>こうかはいまひとつ(0.25倍)</h2>
+            <h2>こうかはいまひとつのようだ(0.25倍)</h2>
             <div
             v-for="val in damage025"
             :key="val"
             style="display: inline-block;"
             >
-            <div v-if='val.value === "ノーマル"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Normal">{{ val.value }}</div>
-              <div v-else-if='val.value === "ほのお"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fire">{{ val.value }}</div>
-              <div v-else-if='val.value === "みず"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Water">{{ val.value }}</div>
-              <div v-else-if='val.value === "でんき"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Electric">{{ val.value }}</div>
-              <div v-else-if='val.value === "くさ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Grass">{{ val.value }}</div>
-              <div v-else-if='val.value === "こおり"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ice">{{ val.value }}</div>
-              <div v-else-if='val.value === "かくとう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fighting">{{ val.value }}</div>
-              <div v-else-if='val.value === "どく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Poison">{{ val.value }}</div>
-              <div v-else-if='val.value === "じめん"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ground">{{ val.value }}</div>
-              <div v-else-if='val.value === "ひこう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Flying">{{ val.value }}</div>
-              <div v-else-if='val.value === "エスパー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Psychic">{{ val.value }}</div>
-              <div v-else-if='val.value === "むし"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Bug">{{ val.value }}</div>
-              <div v-else-if='val.value === "いわ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Rock">{{ val.value }}</div>
-              <div v-else-if='val.value === "ゴースト"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ghost">{{ val.value }}</div>
-              <div v-else-if='val.value === "ドラゴン"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dragon">{{ val.value }}</div>
-              <div v-else-if='val.value === "あく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dark">{{ val.value }}</div>
-              <div v-else-if='val.value === "はがね"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Steel">{{ val.value }}</div>
-              <div v-else-if='val.value === "フェアリー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fairy">{{ val.value }}</div>
+            <div v-if='val.value === "ノーマル"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Normal type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ほのお"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fire type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "みず"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Water type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "でんき"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Electric type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "くさ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Grass type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "こおり"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ice type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "かくとう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fighting type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "どく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Poison type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "じめん"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ground type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ひこう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Flying type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "エスパー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Psychic type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "むし"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Bug type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "いわ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Rock type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ゴースト"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ghost type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ドラゴン"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dragon type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "あく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dark type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "はがね"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Steel type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "フェアリー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fairy type_icon">{{ val.value }}</div>
             </div>
 
-            <h2>こうかはない</h2>
+            <h2>こうかはないようだ</h2>
             <div
             v-for="val in damage0"
             :key="val"
             style="display: inline-block;"
             >
-            <div v-if='val.value === "ノーマル"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Normal">{{ val.value }}</div>
-              <div v-else-if='val.value === "ほのお"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fire">{{ val.value }}</div>
-              <div v-else-if='val.value === "みず"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Water">{{ val.value }}</div>
-              <div v-else-if='val.value === "でんき"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Electric">{{ val.value }}</div>
-              <div v-else-if='val.value === "くさ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Grass">{{ val.value }}</div>
-              <div v-else-if='val.value === "こおり"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ice">{{ val.value }}</div>
-              <div v-else-if='val.value === "かくとう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fighting">{{ val.value }}</div>
-              <div v-else-if='val.value === "どく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Poison">{{ val.value }}</div>
-              <div v-else-if='val.value === "じめん"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ground">{{ val.value }}</div>
-              <div v-else-if='val.value === "ひこう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Flying">{{ val.value }}</div>
-              <div v-else-if='val.value === "エスパー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Psychic">{{ val.value }}</div>
-              <div v-else-if='val.value === "むし"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Bug">{{ val.value }}</div>
-              <div v-else-if='val.value === "いわ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Rock">{{ val.value }}</div>
-              <div v-else-if='val.value === "ゴースト"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ghost">{{ val.value }}</div>
-              <div v-else-if='val.value === "ドラゴン"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dragon">{{ val.value }}</div>
-              <div v-else-if='val.value === "あく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dark">{{ val.value }}</div>
-              <div v-else-if='val.value === "はがね"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Steel">{{ val.value }}</div>
-              <div v-else-if='val.value === "フェアリー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fairy">{{ val.value }}</div>
+            <div v-if='val.value === "ノーマル"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Normal type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ほのお"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fire type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "みず"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Water type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "でんき"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Electric type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "くさ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Grass type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "こおり"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ice type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "かくとう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fighting type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "どく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Poison type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "じめん"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ground type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ひこう"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Flying type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "エスパー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Psychic type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "むし"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Bug type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "いわ"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Rock type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ゴースト"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Ghost type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "ドラゴン"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dragon type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "あく"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Dark type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "はがね"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Steel type_icon">{{ val.value }}</div>
+              <div v-else-if='val.value === "フェアリー"' style="margin: 5px;padding: 5px;border-radius: 10px;" class="type_Fairy type_icon">{{ val.value }}</div>
             </div>
 
           </v-card-item>

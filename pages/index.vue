@@ -5,19 +5,23 @@ definePageMeta({
 const menu = [
   {
     title: 'ポケモン図鑑',
-    path: '/pokedex'
+    path: '/pokedex',
+    img: '/icon.png'
   },
   {
     title: 'ブログ',
-    path: '/blog'
+    path: '/blog',
+    img: '/blog.png'
   },
   {
     title: '図鑑カメラ',
-    path: '/camera'
+    path: '/camera',
+    img: '/camera.png'
   },
   {
     title: 'pokedex.jsonについて',
-    path: '/pokedexjson'
+    path: '/pokedexjson',
+    img: '/icon.png'
   }
 ]
 let breadcrumbs = []
@@ -58,7 +62,7 @@ useHead({
         :to="props.item.href"
         nuxt
         >
-        {{ props.item.title }}
+          HOME
         </v-breadcrumbs-item>
       </template>
     </v-breadcrumbs>
@@ -75,8 +79,21 @@ useHead({
           <v-card
           elevation-0
           variant="outlined"
+          style="background-color: white;"
           >
-            <v-card-title>{{ item.title }}</v-card-title>
+            <div
+            class="d-flex flex-no-wrap justify-space-between"
+            style="float: left;"
+            >
+              <v-avatar
+              class="ms-2"
+              size="100"
+              tile
+              >
+                <v-img :src="`${item.img}`"></v-img>
+              </v-avatar>
+              <v-card-title>{{ item.title }}</v-card-title>
+            </div>
           </v-card>
         </NuxtLink>
       </v-col>

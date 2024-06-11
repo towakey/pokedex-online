@@ -26,7 +26,9 @@ useHead({
 </script>
 <template>
   <ContentList path="pokedexjson" v-slot="{ list }">
-    <v-container>
+    <v-container
+    style="background-color: white;"
+    >
       <ContentDoc />
     </v-container>
     <!-- <v-col v-for="article in list" :key="article._path"

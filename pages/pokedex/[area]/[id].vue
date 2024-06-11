@@ -157,18 +157,22 @@ useHead({
       </v-breadcrumbs>
       <v-card
       elevation="0"
+      style="background-color: #f2f2f2;"
       >
         <v-card-actions>
           <v-btn
+          style="background-color: white;width: 130px;"
           v-if='prev'
           :to='{path: `/pokedex/${route.params.area}/${prev.no}`}'
           >{{ prev.name.jpn }}</v-btn>
           <v-spacer />
           <v-btn
+          style="background-color: white;width: 130px;"
           :to='{path: `/pokedex/${route.params.area}`}'
           >TOP</v-btn>
           <v-spacer />
           <v-btn
+          style="background-color: white;width: 130px;"
           v-if='next'
           :to='{path: `/pokedex/${route.params.area}/${next.no}`}'
           >{{ next.name.jpn }}</v-btn>
@@ -188,6 +192,8 @@ useHead({
               elevation="0"
               width="100%"
               height="100%"
+              variant="outlined"
+              style="background-color: white;"
               >
                 <v-card-title
                 width="auto"
@@ -217,6 +223,8 @@ useHead({
               elevation="0"
               width="100%"
               height="100%"
+              variant="outlined"
+              style="background-color: white;"
               >
                 <v-img
                   :src="`${src}`"
@@ -232,7 +240,9 @@ useHead({
         >
         </v-carousel-item>
       </v-carousel>
-      <v-row>
+      <v-row
+      style="margin-top: 20px;"
+      >
         <v-col
         cols="12"
         sm="6"
@@ -245,6 +255,8 @@ useHead({
           >
             <v-card
             elevation-0
+            variant="outlined"
+            style="background-color: white;"
             >
               <v-card-title>{{ item.title }}</v-card-title>
             </v-card>
@@ -252,6 +264,8 @@ useHead({
           <v-card
           elevation-0
           disabled
+          variant="outlined"
+          style="background-color: #f2f2f2;"
           v-if="existsPokedex[item.area] == 0"
           >
             <v-card-title>{{ item.title }}</v-card-title>
@@ -266,6 +280,7 @@ useHead({
 
   <!-- global以外 -->
   <div
+  style="background-color: #f2f2f2;"
   v-else>
   <ClientOnly>
     <v-dialog
@@ -308,24 +323,34 @@ useHead({
     </v-breadcrumbs>
     <v-card
     elevation="0"
+    style="background-color: #f2f2f2;"
     >
       <v-card-actions>
         <v-btn
+        style="background-color: white;width: 130px;"
         v-if='prev'
         :to='{path: `/pokedex/${route.params.area}/${prev.no}`}'
         >{{ prev.name.jpn }}</v-btn>
         <v-spacer />
         <v-btn
+        style="background-color: white;width: 130px;"
         :to='{path: `/pokedex/${route.params.area}`}'
         >TOP</v-btn>
         <v-spacer />
         <v-btn
+        style="background-color: white;width: 130px;"
         v-if='next'
         :to='{path: `/pokedex/${route.params.area}/${next.no}`}'
         >{{ next.name.jpn }}</v-btn>
       </v-card-actions>
     </v-card>
-    <v-carousel :show-arrows="false" hide-delimiters v-model="model" height="auto">
+    <v-carousel
+    :show-arrows="false"
+    hide-delimiters
+    v-model="model"
+    height="auto"
+    style="margin-top: 20px;"
+    >
       <v-carousel-item
         v-for="(item, index) in pokedex.status" :key="index"
       >
@@ -339,6 +364,8 @@ useHead({
             elevation="0"
             width="100%"
             height="100%"
+            variant="outlined"
+            style="background-color: white;"
             >
               <v-card-title
               width="auto"
@@ -368,9 +395,11 @@ useHead({
             elevation="0"
             width="100%"
             height="100%"
+            style="background-color: white;"
+            variant="outlined"
             >
               <v-img
-                :src="`${src}`"
+              :src="`${src}`"
               ></v-img>
             </v-card>
           </v-col>
@@ -380,6 +409,7 @@ useHead({
     <v-card
     v-if="pokedex.status.length > 1"
     elevation="0"
+    style="margin-top: 20px;"
     >
       <v-card-actions>
         <v-btn
@@ -393,7 +423,12 @@ useHead({
         >＞</v-btn>
       </v-card-actions>
     </v-card>
-    <v-carousel :show-arrows="false" hide-delimiters v-model="model" height="auto">
+    <v-carousel
+    :show-arrows="false" 
+    hide-delimiters 
+    v-model="model" 
+    height="auto"
+    >
       <v-carousel-item
         v-for="(item, index) in pokedex.status" :key="index"
       >

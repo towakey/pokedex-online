@@ -374,23 +374,27 @@ useHead({
     elevation="0"
     style="background-color: #f2f2f2;"
     >
-      <v-card-actions>
-        <v-btn
-        style="background-color: white;width: 130px;"
-        v-if='prev'
-        :to='{path: `/pokedex/${route.params.area}/${prev.no}`}'
-        >{{ prev.name.jpn }}</v-btn>
-        <v-spacer />
-        <v-btn
-        style="background-color: white;width: 130px;"
-        :to='{path: `/pokedex/${route.params.area}`}'
-        >TOP</v-btn>
-        <v-spacer />
-        <v-btn
-        style="background-color: white;width: 130px;"
-        v-if='next'
-        :to='{path: `/pokedex/${route.params.area}/${next.no}`}'
-        >{{ next.name.jpn }}</v-btn>
+      <v-card-actions style="display: flex; justify-content: space-between;">
+        <div style="flex: 1; display: flex; justify-content: flex-start;">
+          <v-btn
+            v-if='prev'
+            :to='{path: `/pokedex/${route.params.area}/${prev.no}`}'
+            style="background-color: white; width: 130px;"
+          >{{ prev.name.jpn }}</v-btn>
+        </div>
+        <div style="flex: 1; display: flex; justify-content: center;">
+          <v-btn
+            :to='{path: `/pokedex/${route.params.area}`}'
+            style="background-color: white; width: 130px;"
+          >TOP</v-btn>
+        </div>
+        <div style="flex: 1; display: flex; justify-content: flex-end;">
+          <v-btn
+            v-if='next'
+            :to='{path: `/pokedex/${route.params.area}/${next.no}`}'
+            style="background-color: white; width: 130px;"
+          >{{ next.name.jpn }}</v-btn>
+        </div>
       </v-card-actions>
     </v-card>
     <v-carousel

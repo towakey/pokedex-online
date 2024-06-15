@@ -11,6 +11,7 @@ const pokedex = (await useFetch('/api/v1/pokedex?mode=details&area='+route.param
 const prev = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) - 1))).data.value.result
 const next = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) + 1))).data.value.result
 const src = "/img/" + ('0000' + pokedex.globalNo).slice( -4 ) + ".png"
+// console.log(src)
 
 let existsPokedex = {}
 let pdx
@@ -22,7 +23,55 @@ for(pdx in appConfig.pokedex_list.filter(item => !item.area.includes('global')))
   // console.log(data.value.result)
   existsPokedex[appConfig.pokedex_list[Number(pdx)+1].area] = data.value.result
 }
-// console.log(existsPokedex)
+
+let pokedex_status
+let normal = 0
+let alora = 1
+let galar = 1
+let hisui = 1
+let paldea = 1
+let region_name = ''
+let mega = 1
+let giga = 1
+let mugen = 1
+if(route.params.area !== 'global'){
+  for(pokedex_status in pokedex.status){
+    if(pokedex.status[pokedex_status].form == 'メガシンカ'){
+      pokedex.status[pokedex_status]["src"]='/img/'+('0000' + pokedex.globalNo).slice( -4 ) + '-mega' + mega + ".png"
+      mega++
+    }else if(pokedex.status[pokedex_status].form.includes('キョダイマックス')){
+      pokedex.status[pokedex_status]["src"]='/img/'+('0000' + pokedex.globalNo).slice( -4 ) + '-gigantmax' + giga + ".png"
+      giga++
+    }else if(pokedex.status[pokedex_status].form.includes('ムゲンダイマックス')){
+      pokedex.status[pokedex_status]["src"]='/img/'+('0000' + pokedex.globalNo).slice( -4 ) + '-mugen' + mugen + ".png"
+      mugen++
+    }else if(pokedex.status[pokedex_status].form.includes('アローラのすがた')){
+      region_name = 'alora'
+      pokedex.status[pokedex_status]["src"]='/img/'+('0000' + pokedex.globalNo).slice( -4 ) + '-' + region_name + alora + ".png"
+      alora++
+    }else if(pokedex.status[pokedex_status].form.includes('ガラルのすがた')){
+      region_name = 'galar'
+      pokedex.status[pokedex_status]["src"]='/img/'+('0000' + pokedex.globalNo).slice( -4 ) + '-' + region_name + galar + ".png"
+      galar++
+    }else if(pokedex.status[pokedex_status].form.includes('ヒスイのすがた')){
+      region_name = 'hisui'
+      pokedex.status[pokedex_status]["src"]='/img/'+('0000' + pokedex.globalNo).slice( -4 ) + '-' + region_name + hisui + ".png"
+      hisui++
+    }else if(pokedex.status[pokedex_status].form.includes('パルデアのすがた')){
+      region_name = 'paldea'
+      pokedex.status[pokedex_status]["src"]='/img/'+('0000' + pokedex.globalNo).slice( -4 ) + '-' + region_name + paldea + ".png"
+      paldea++
+    }else{
+      if(normal == 0){
+        pokedex.status[pokedex_status]["src"]='/img/'+('0000' + pokedex.globalNo).slice( -4 ) + ".png"
+      }else{
+        pokedex.status[pokedex_status]["src"]='/img/'+('0000' + pokedex.globalNo).slice( -4 ) + '-' + normal + ".png"
+      }
+      normal++
+    }
+    // console.log(pokedex.status[pokedex_status].src)
+  }
+}
 const metaImage = ref("https://pokedex-online.jp/img/" + ('0000' + pokedex.globalNo).slice( -4 ) + ".png")
 
 let breadcrumbs = []
@@ -355,10 +404,13 @@ useHead({
         v-for="(item, index) in pokedex.status" :key="index"
       >
         <v-row>
-          <v-col
+          <!-- <v-col
           lg6
           sm6
           xs6
+          > -->
+          <v-col
+          :cols="6"
           >
             <v-card
             elevation="0"
@@ -375,7 +427,7 @@ useHead({
                 @click="nameDialog = true"
                 >
                   <v-card-title>
-                    <h2>{{ pokedex["status"][index].name.jpn }}</h2>
+                    <h2 class="responsive-text">{{ pokedex["status"][index].name.jpn }}</h2>
                   </v-card-title>
                 </v-card>
                 <p>{{ pokedex["status"][index].classification }}</p>
@@ -386,10 +438,13 @@ useHead({
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col
+          <!-- <v-col
           lg6
           sm6
           xs6
+          > -->
+          <v-col
+          :cols="6"
           >
             <v-card
             elevation="0"
@@ -398,9 +453,12 @@ useHead({
             style="background-color: white;"
             variant="outlined"
             >
-              <v-img
-              :src="`${src}`"
-              ></v-img>
+            <!-- <v-img
+            :src="`${src}`"
+            ></v-img> -->
+            <v-img
+            :src="`${pokedex['status'][index].src}`"
+            ></v-img>
             </v-card>
           </v-col>
         </v-row>
@@ -409,7 +467,8 @@ useHead({
     <v-card
     v-if="pokedex.status.length > 1"
     elevation="0"
-    style="margin-top: 20px;"
+    style="margin-top: 20px;background-color: white;"
+    variant="outlined"
     >
       <v-card-actions>
         <v-btn
@@ -441,3 +500,9 @@ useHead({
   </v-container>
   </div>
 </template>
+<style scoped>
+.responsive-text {
+  font-size: clamp(0.75rem, 2vw, 1.5rem);
+}
+</style>
+

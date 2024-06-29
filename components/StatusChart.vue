@@ -2,6 +2,7 @@
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
+import { color } from 'chart.js/helpers';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 ChartJS.register(ChartDataLabels)
@@ -22,7 +23,14 @@ let chartOptions = {
     legend: {
       display: false,
       labels: {
-        color: 'rgb(255, 99, 132)',
+        color: '#000',
+      }
+    },
+    datalabels: {
+      color: '#fff',
+      font: {
+        weight: 'bold',
+        size: 14,
       }
     },
     tooltip: {
@@ -42,6 +50,14 @@ let chartData = {
         props.statusData.special_attack,
         props.statusData.special_defense,
         props.statusData.speed
+      ],
+      backgroundColor: [
+      "#3F88C5",
+      "#3F88C5",
+      "#3F88C5",
+      "#3F88C5",
+      "#3F88C5",
+      "#3F88C5"
       ]
     }
   ],

@@ -1,132 +1,96 @@
 .type_Normal{
   text-align: center;
   background: gainsboro;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
 }
 .type_Fire{
   text-align: center;
   background: red;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
 }
 .type_Water{
   text-align: center;
   background: blue;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
 }
 .type_Electric{
   text-align: center;
-  background: yellow;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
+  background: #f5c842;
 }
 .type_Grass{
   text-align: center;
   background: green;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
 }
 .type_Ice{
   text-align: center;
   background: deepskyblue;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
 }
 .type_Fighting{
   text-align: center;
   background: darkorange;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
 }
 .type_Poison{
   text-align: center;
   background: darkmagenta;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
 }
 .type_Ground{
   text-align: center;
   background: chocolate;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
 }
 .type_Flying{
   text-align: center;
   background: dodgerblue;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
+
 }
 .type_Psychic{
   text-align: center;
   background: deeppink;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
 }
 .type_Bug{
   text-align: center;
   background: limegreen;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
 }
 .type_Rock{
   text-align: center;
   background: saddlebrown;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
 }
 .type_Ghost{
   text-align: center;
   background: slateblue;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
 }
 .type_Dragon{
   text-align: center;
   background: royalblue;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
 }
 .type_Dark{
   text-align: center;
   background: indigo;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
 }
 .type_Steel{
   text-align: center;
   background: lightsteelblue;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
 }
 .type_Fairy{
   text-align: center;
   background: violet;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
 }
 
 .type_icon{
-  width: 100px;
+  width: 80px;
+  height: 35px;
+  line-height: 30px;
+  margin: 3px;
+  padding: 5px;
+  border-radius: 10px;
+  font-weight: bold;
+  color: white;
+  // -webkit-text-stroke-width: 1px;
+  // -webkit-text-stroke-color: #222222;
+}
+
+.type_view{
+  width: 100%;
+  height: 45px;
+  line-height: 50px;
+  font-weight: bold;
+  color: white;
 }
 
 .nuxtlink{

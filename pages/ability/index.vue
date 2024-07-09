@@ -1,41 +1,22 @@
 <script setup lang="ts">
+const appConfig = useAppConfig()
+const route = useRoute()
+route.meta.title = 'とくせい一覧'
 definePageMeta({
   title: "Pokedex-Online"
 })
-const menu = [
-{
-    title: 'ポケモン図鑑',
-    path: '/pokedex',
-    img: '/icon.png'
-  },
-  {
-    title: 'とくせい一覧',
-    path: '/ability',
-    img: '/icon.png'
-  },
-  {
-    title: 'ブログ',
-    path: '/blog',
-    img: '/blog.png'
-  },
-  {
-    title: '図鑑カメラ',
-    path: '/camera',
-    img: '/camera.png'
-  },
-  {
-    title: 'pokedex.jsonについて',
-    path: '/pokedexjson',
-    img: '/icon.png'
-  }
-]
 let breadcrumbs = []
 breadcrumbs.push({
   title: 'HOME',
   href: '/',
+  disabled: false
+})
+breadcrumbs.push({
+  title: 'とくせい一覧',
+  href: '/ability',
   disabled: true
 })
-const metaTitle = ref("Pokedex-Online")
+const metaTitle = ref("とくせい一覧")
 useHead({
   title: metaTitle,
   meta: [
@@ -67,18 +48,21 @@ useHead({
         :to="props.item.href"
         nuxt
         >
-          HOME
+        {{ props.item.title }}
         </v-breadcrumbs-item>
       </template>
     </v-breadcrumbs>
     <v-row>
+      <template
+      v-for="(item, index) in appConfig.pokedex_list" :key="index"
+      >
       <v-col
       cols="12"
       sm="6"
-      v-for="item in menu" :key="item.title"
+      v-if='appConfig.region2game[item.area] != ""'
       >
         <NuxtLink
-        :to="{path: `${item.path}`}"
+        :to="{path: `/ability${item.path}`}"
         class="nuxtlink"
         >
           <v-card
@@ -86,22 +70,11 @@ useHead({
           variant="outlined"
           style="background-color: white;"
           >
-            <div
-            class="d-flex flex-no-wrap justify-space-between"
-            style="float: left;"
-            >
-              <v-avatar
-              class="ms-2"
-              size="100"
-              tile
-              >
-                <v-img :src="`${item.img}`"></v-img>
-              </v-avatar>
-              <v-card-title>{{ item.title }}</v-card-title>
-            </div>
+            <v-card-title>{{ appConfig.region_eng2jpn[item.area] }}</v-card-title>
           </v-card>
         </NuxtLink>
       </v-col>
+    </template>
     </v-row>
   </v-container>
 </template>

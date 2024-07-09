@@ -304,20 +304,20 @@ useHead({
                       >
                         <v-col
                         class="pa-0 ma-0"
-                        cols="6"><div class="responsive-text">図鑑No</div></v-col>
+                        cols="6"><div class="responsive-text">図鑑番号</div></v-col>
                         <v-col
                         class="pa-0 ma-0"
-                        cols="6"><div class="responsive-text">{{ ('0000' + pokedex.no).slice(-4) }}</div></v-col>
+                        cols="6"><div class="responsive-text">No.{{ ('0000' + pokedex.no).slice(-4) }}</div></v-col>
                       </v-row>
                       <v-row
                       class="pa-0 ma-0"
                       >
                         <v-col
                         class="pa-0 ma-0"
-                        cols="6"><div class="responsive-text">全国図鑑No</div></v-col>
+                        cols="6"><div class="responsive-text">全国図鑑番号</div></v-col>
                         <v-col
                         class="pa-0 ma-0"
-                        cols="6"><div class="responsive-text">{{ ('0000' + pokedex.globalNo).slice(-4) }}</div></v-col>
+                        cols="6"><div class="responsive-text">No.{{ ('0000' + pokedex.globalNo).slice(-4) }}</div></v-col>
                       </v-row>
                       <!-- <v-row
                       class="pa-0 ma-0"
@@ -403,7 +403,7 @@ useHead({
         v-for="item in appConfig.pokedex_list.filter(item => item.title !== '全国図鑑')" :key="item.title"
         >
           <NuxtLink
-          :to="{path: `${item.path}/${existsPokedex[item.area]}`}"
+          :to="{path: `/pokedex${item.path}/${existsPokedex[item.area]}`}"
           class="nuxtlink"
           v-if="existsPokedex[item.area] > 0"
           >
@@ -551,7 +551,8 @@ useHead({
                   <v-list-item class="pa-0 ma-0 narrow-list-item" style="">
                     <v-list-item-title class="pa-0 ma-0">
                       <v-row class="pa-0 ma-0">
-                        <v-col class="pa-0 ma-0" cols="12">
+                        <v-col class="pa-0 ma-0" cols="6"><div class="responsive-text">分類</div></v-col>
+                        <v-col class="pa-0 ma-0" cols="6">
                           <div class="responsive-text">{{ pokedex["status"][index].classification }}</div>
                         </v-col>
                       </v-row>
@@ -564,20 +565,20 @@ useHead({
                       >
                         <v-col
                         class="pa-0 ma-0"
-                        cols="6"><div class="responsive-text">図鑑No</div></v-col>
+                        cols="6"><div class="responsive-text">図鑑番号</div></v-col>
                         <v-col
                         class="pa-0 ma-0"
-                        cols="6"><div class="responsive-text">{{ ('0000' + pokedex.no).slice(-4) }}</div></v-col>
+                        cols="6"><div class="responsive-text">No.{{ ('0000' + pokedex.no).slice(-4) }}</div></v-col>
                       </v-row>
                       <v-row
                       class="pa-0 ma-0"
                       >
                         <v-col
                         class="pa-0 ma-0"
-                        cols="6"><div class="responsive-text">全国図鑑No</div></v-col>
+                        cols="6"><div class="responsive-text">全国図鑑番号</div></v-col>
                         <v-col
                         class="pa-0 ma-0"
-                        cols="6"><div class="responsive-text">{{ ('0000' + pokedex.globalNo).slice(-4) }}</div></v-col>
+                        cols="6"><div class="responsive-text">No.{{ ('0000' + pokedex.globalNo).slice(-4) }}</div></v-col>
                       </v-row>
                       <v-row
                       class="pa-0 ma-0"
@@ -658,11 +659,12 @@ useHead({
       <v-carousel-item
         v-for="(item, index) in pokedex.status" :key="index"
       >
-        <TypeView :pokedex="pokedex.status[index]" />
+        <TypeView :pokedex="pokedex.status[index]" :area="route.params.area" />
         <StatusChart :statusData="pokedex.status[index]" />
-        <AbilityView :pokedex="pokedex.status[index]" />
+        <AbilityView :pokedex="pokedex.status[index]" :area="route.params.area" />
         <DescriptionView :description="pokedex.status[index].description" />
         <wazaView :wazaData="pokedex.status[index]" />
+        <evolveView :evolveData="pokedex.status[index]" :area="route.params.area" />
       </v-carousel-item>
     </v-carousel>
   </v-container>

@@ -7,6 +7,54 @@ definePageMeta({
   title: "Pokedex-Online"
 })
 const pokedex = (await useFetch('/api/v1/pokedex?mode=index&area='+route.params.area)).data.value.result
+const sort_type = ref("番号順")
+watch(sort_type, () => {
+  if(sort_type.value == "番号順")
+  {
+    console.log("番号順")
+    pokedex.sort((a, b) => {
+      if(Number(a.no) < Number(b.no)) return -1
+      if(Number(a.no) > Number(b.no)) return 1
+      return 0
+    })
+  }
+  else if(sort_type.value == "軽い順")
+  {
+    console.log("軽い順")
+    pokedex.sort((a, b) => {
+      if(Number(a.status[0].weight) < Number(b.status[0].weight)) return -1
+      if(Number(a.status[0].weight) > Number(b.status[0].weight)) return 1
+      return 0
+    })
+  }
+  else if(sort_type.value == "重い順")
+  {
+    console.log("重い順")
+    pokedex.sort((a, b) => {
+      if(Number(a.status[0].weight) > Number(b.status[0].weight)) return -1
+      if(Number(a.status[0].weight) < Number(b.status[0].weight)) return 1
+      return 0
+    })
+  }
+  else if(sort_type.value == "低い順")
+  {
+    console.log("低い順")
+    pokedex.sort((a, b) => {
+      if(Number(a.status[0].height) < Number(b.status[0].height)) return -1
+      if(Number(a.status[0].height) > Number(b.status[0].height)) return 1
+      return 0
+    })
+  }
+  else if(sort_type.value == "高い順")
+  {
+    console.log("高い順")
+    pokedex.sort((a, b) => {
+      if(Number(a.status[0].height) > Number(b.status[0].height)) return -1
+      if(Number(a.status[0].height) < Number(b.status[0].height)) return 1
+      return 0
+    })
+  }
+})
 const pokelist = computed(() => {
   if(searchTerm.value === null)
   {
@@ -23,6 +71,7 @@ const pokelist = computed(() => {
     }
   }
 })
+
 let breadcrumbs = []
 breadcrumbs.push({
   title: 'HOME',
@@ -89,6 +138,19 @@ useHead({
         />
       </v-col>
     </v-row>
+    <v-row
+    v-if="route.params.area != 'global'"
+    >
+      <v-col>
+        <v-combobox
+        v-model="sort_type"
+        label="並び順"
+        :items="['番号順','軽い順','重い順','低い順','高い順']"
+        variant="outlined"
+        bg-color="white"
+        ></v-combobox>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col
       cols="12"
@@ -119,7 +181,7 @@ useHead({
               </v-avatar>
 
               <v-card-title>
-                No.{{ pokemon.no }}<br>{{ pokemon.status[0].name.jpn }}
+                No.{{ ("0000"+pokemon.no).slice(-4) }}<br>{{ pokemon.status[0].name.jpn }}
               </v-card-title>
             </div>
           </v-card>

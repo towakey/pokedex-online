@@ -119,7 +119,10 @@ for(let val in typeList)
     style="width: 90%;"
     >
       <v-container>
-        <v-card>
+        <v-card
+        variant="outlined"
+        style="background-color: rgba(255,255,255,0.9);"
+        >
           <v-card-item>
             <h3>こうかはばつぐんだ(4倍)</h3>
             <div

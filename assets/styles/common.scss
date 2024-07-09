@@ -73,7 +73,7 @@
 }
 
 .type_icon{
-  width: 80px;
+  width: 100px;
   height: 35px;
   line-height: 30px;
   margin: 3px;
@@ -83,6 +83,7 @@
   color: white;
   // -webkit-text-stroke-width: 1px;
   // -webkit-text-stroke-color: #222222;
+  border: 1px solid #000000;
 }
 
 .type_view{

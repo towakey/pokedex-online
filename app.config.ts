@@ -53,119 +53,200 @@ export default defineAppConfig({
   pokedex_list: [
     {
       title: '全国図鑑',
-      path: '/pokedex/global',
+      path: '/global',
       content: '図鑑総数 1008匹',
       area: 'global'
     },
     {
       title: 'ブルーベリー図鑑',
-      path: '/pokedex/blueberry',
+      path: '/blueberry',
       content: '図鑑総数 242匹',
       area: 'blueberry'
     },
     {
       title: 'キタカミ図鑑',
-      path: '/pokedex/kitakami',
+      path: '/kitakami',
       content: '図鑑総数 200匹',
       area: 'kitakami'
     },
     {
       title: 'パルデア図鑑',
-      path: '/pokedex/paldea',
+      path: '/paldea',
       content: '図鑑総数 400匹',
       area: 'paldea'
     },
     {
       title: 'ヒスイ図鑑',
-      path: '/pokedex/hisui',
+      path: '/hisui',
       content: '図鑑総数 242匹',
       area: 'hisui'
     },
     {
       title: 'ヨロイ島図鑑',
-      path: '/pokedex/isle_of_armor',
+      path: '/isle_of_armor',
       content: '図鑑総数 242匹',
       area: 'isle_of_armor'
     },
     {
       title: 'カンムリ雪原図鑑',
-      path: '/pokedex/crown_tundra',
+      path: '/crown_tundra',
       content: '図鑑総数 210匹',
       area: 'crown_tundra'
     },
     {
       title: 'ガラル図鑑',
-      path: '/pokedex/galar',
+      path: '/galar',
       content: '図鑑総数 400匹',
       area: 'galar'
     },
     {
       title: 'アローラ図鑑(ウルトラサン ウルトラムーン)',
-      path: '/pokedex/alola_usum',
+      path: '/alola_usum',
       content: '図鑑総数 403匹',
       area: 'alola_usum'
     },
     {
       title: 'アローラ図鑑(サン ムーン)',
-      path: '/pokedex/alola_sm',
+      path: '/alola_sm',
       content: '図鑑総数 302匹',
       area: 'alola_sm'
     },
     {
       title: 'マウンテンカロス図鑑',
-      path: '/pokedex/mountain_kalos',
+      path: '/mountain_kalos',
       content: '図鑑総数 151匹',
       area: 'mountain_kalos'
     },
     {
       title: 'コーストカロス図鑑',
-      path: '/pokedex/coast_kalos',
+      path: '/coast_kalos',
       content: '図鑑総数 153匹',
       area: 'coast_kalos'
     },
     {
       title: 'セントラルカロス図鑑',
-      path: '/pokedex/central_kalos',
+      path: '/central_kalos',
       content: '図鑑総数 151匹',
       area: 'central_kalos'
     },
     {
       title: 'イッシュ図鑑(ブラック2 ホワイト2)',
-      path: '/pokedex/unova_b2w2',
+      path: '/unova_b2w2',
       content: '図鑑総数 300匹',
       area: 'unova_b2w2'
     },
     {
       title: 'イッシュ図鑑(ブラック ホワイト)',
-      path: '/pokedex/unova_bw',
+      path: '/unova_bw',
       content: '図鑑総数 155匹',
       area: 'unova_bw'
     },
     {
       title: 'シンオウ図鑑',
-      path: '/pokedex/sinnoh',
+      path: '/sinnoh',
       content: '図鑑総数 210匹',
       area: 'sinnoh'
     },
     {
       title: 'ホウエン図鑑',
-      path: '/pokedex/hoenn',
+      path: '/hoenn',
       content: '図鑑総数 202匹',
       area: 'hoenn'
     },
     {
       title: 'ジョウト図鑑',
-      path: '/pokedex/johto',
+      path: '/johto',
       content: '図鑑総数 251匹',
       area: 'johto'
     },
     {
       title: 'カントー図鑑',
-      path: '/pokedex/kanto',
+      path: '/kanto',
       content: '図鑑総数 151匹',
       area: 'kanto'
     },  
   ],
+  game_ver: [
+    {
+      "region": "赤・緑・青・ピカチュウ",
+      "path": "/kanto"
+    },
+    {
+      "region": "金・銀・クリスタル",
+      "path": "/johto"
+    },
+    {
+      "region": "ルビー・サファイア・エメラルド",
+      "path": "/hoenn"
+    },
+    {
+      "region": "ダイアモンド・パール・プラチナ",
+      "path": "/sinnoh"
+    },
+    {
+      "region": "ブラック・ホワイト・ブラック2・ホワイト2",
+      "path": "/unova"
+    },
+    {
+      "region": "X・Y",
+      "path": "/kalos"
+    },
+    {
+      "region": "サン・ムーン・ウルトラサン・ウルトラムーン",
+      "path": "/alola"
+    },
+    {
+      "region": "ソード・シールド",
+      "path": "/galar"
+    },
+    {
+      "region": "スカーレット・バイオレット",
+      "path": "/paldea"
+    }
+],
+  region2game: {
+    "global": "",
+    "kanto": "",
+    "johto": "",
+    "hoenn": "Ruby_Sapphire_Emerald",
+    "sinnoh": "Diamond_Pearl_Platinum",
+    "unova_bw": "Black_White",
+    "unova_b2w2": "Black2_White2",
+    "central_kalos": "X_Y",
+    "coast_kalos": "X_Y",
+    "mountain_kalos": "X_Y",
+    "alola_sm": "Sun_Moon",
+    "alola_usum": "UltraSun_UltraMoon",
+    "galar": "Sword_Shield",
+    "isle_of_armor": "Sword_Shield",
+    "crown_tundra": "Sword_Shield",
+    "hisui": "",
+    "paldea": "Scarlet_Violet",
+    "kitakami": "Scarlet_Violet",
+    "blueberry": "Scarlet_Violet",
+  },
+  region_eng2jpn: {
+    "global": "",
+    "kanto": "カントー地方",
+    "johto": "ジョウト地方",
+    "hoenn": "ホウエン地方",
+    "sinnoh": "シンオウ地方",
+    "unova_bw": "イッシュ地方",
+    "unova_b2w2": "イッシュ地方",
+    "central_kalos": "カロス地方",
+    "coast_kalos": "カロス地方",
+    "mountain_kalos": "カロス地方",
+    "alola_sm": "アローラ地方",
+    "alola_usum": "アローラ地方",
+    "galar": "ガラル地方",
+    "isle_of_armor": "ヨロイじま",
+    "crown_tundra": "カンムリせつげん",
+    "hisui": "ヒスイ地方",
+    "paldea": "パルデア地方",
+    "kitakami": "キタカミ地方",
+    "blueberry": "ブルーベリー学園",
+  },
+
   ver_eng2jpn: {
     "red": "赤",
     "green": "緑",

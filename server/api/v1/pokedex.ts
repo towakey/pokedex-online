@@ -20,6 +20,10 @@ export default defineEventHandler(async (event) => {
   let pokedex: any
   let ver: any
   let type_list: any
+  let waza: any
+  let evolve: any
+  waza = {}
+  evolve = []
   switch(area)
   {
     case "global":
@@ -103,6 +107,20 @@ export default defineEventHandler(async (event) => {
       ver = "Scarlet_Violet"
       pokedex = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default.pokedex
       type_list = appConfig.type_list['3']
+      try {
+        waza = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/waza.json')).default.waza.paldea
+      }catch(e){
+        waza = {}
+      }
+      try {
+        // console.log("evolve found")
+
+        // evolve = {}
+        evolve = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/evolve.json')).default.evolve.paldea
+      }catch(e){
+        // console.log("evolve not found")
+        evolve = []
+      }
       break
     case "kitakami":
       ver = "Scarlet_Violet"
@@ -240,6 +258,7 @@ export default defineEventHandler(async (event) => {
       {
         result = pokedex[appConfig.pokedex_eng2jpn[area]][id]
         result["name"] = global[result["globalNo"] - 1]["name"]
+
         result["status"].forEach(status => {
           status["type_compatibility"] = {}
           type_list.forEach(val => {
@@ -321,6 +340,27 @@ export default defineEventHandler(async (event) => {
                 })
               }
             })
+          }
+
+          if(Object.keys(waza).length > 0){
+            // console.log(Object.keys(waza).length)
+            // status["waza"] = waza[id]
+            // console.log(id+1)
+            status["waza"] = waza[id+1][status.form]
+          }
+
+          // status["evolve"] = {}
+          if(Object.keys(evolve).length > 0){
+            if(Object.keys(evolve["進化先"][id+1][status.form]).length > 0){
+              status["evolve"] = evolve["進化先"][id+1][status.form]
+              // console.log(Object.keys(status["evolve"]))
+              // for(let val in evolve["進化先"][id+1][status.form]){
+              for(let val in Object.keys(status["evolve"])){
+                status["evolve"][val]["globalNo"] = pokedex[appConfig.pokedex_eng2jpn[area]][Number(Object.keys(evolve["進化先"][id+1][status.form][val])[0]) - 1]["globalNo"]
+                status["evolve"][val]["name"] = global[status["evolve"][val]["globalNo"]-1]["name"]
+                // console.log(Object.keys(evolve["進化先"][id+1][status.form][val])[0])
+              }
+            }
           }
         })
       }

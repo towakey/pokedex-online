@@ -59,7 +59,7 @@ useHead({
       v-for="item in appConfig.pokedex_list" :key="item.title"
       >
         <NuxtLink
-        :to="{path: `${item.path}`}"
+        :to="{path: `/pokedex${item.path}`}"
         class="nuxtlink"
         >
           <v-card

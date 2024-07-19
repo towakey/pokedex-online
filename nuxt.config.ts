@@ -17,6 +17,11 @@ export default defineNuxtConfig({
       ]
     }
   },
+  runtimeConfig: {
+    public: {
+      siteUrl: process.env.SITE_URL || 'https://pokedex-online.jp'
+    }
+  },
   bridge: {
     meta: true
   },

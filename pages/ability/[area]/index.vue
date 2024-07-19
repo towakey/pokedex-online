@@ -1,13 +1,21 @@
 <script setup lang="ts">
 const appConfig = useAppConfig()
 const route = useRoute()
+const config = useRuntimeConfig()
 route.meta.title = 'とくせい一覧'
-
-const ability = (await useFetch('/api/v1/ability?mode=index&area='+route.params.area)).data.value.result
 
 definePageMeta({
   title: "Pokedex-Online"
 })
+// const ability = (await useFetch('/api/v1/ability?mode=index&area='+route.params.area)).data.value.result
+const ability = (await import('~/assets/pokedex/v1/ability/ability.json')).ability
+
+const shareOptions = [
+  { title: 'Twitter', icon: 'mdi-twitter', network: 'twitter' },
+  // { title: 'Mastodon', icon: 'mdi-mastodon', network: 'mastodon' },
+  // 他のSNSオプションを追加できます
+];
+
 let breadcrumbs = []
 breadcrumbs.push({
   title: 'HOME',
@@ -46,18 +54,34 @@ useHead({
   ]
 })
 
-onMounted(() => {
-const hash = route.hash;
-if (hash) {
-  const element = document.querySelector(hash);
-  if (element) {
-    window.scrollTo({
-      top: element.getBoundingClientRect().top + window.scrollY - 100, // 固定ヘッダーの高さを引く
-      behavior: 'smooth'
-    });
+const shareOn = (network, key) => {
+  const urlObject = new URL(`${config.public.siteUrl}${route.fullPath}`)
+  // const currentUrl = `${config.public.siteUrl}${route.fullPath.slice(0, -1)}#${key}`
+  urlObject.hash = ''
+  const currentUrl = `${urlObject.toString()}#${key}`
+  const text = encodeURIComponent(key+"\n"+ability[key][appConfig.region2game[route.params.area]]+"\n");
+  const url = encodeURIComponent(currentUrl);
+  
+  let shareUrl;
+  switch (network) {
+    case 'twitter':
+      shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+      break;
+    case 'mastodon':
+      // マストドンの場合、ユーザーにインスタンスURLを入力してもらう必要があります
+      const instance = prompt('マストドンのインスタンスURLを入力してください');
+      if (instance) {
+        shareUrl = `${instance}/share?text=${text} ${url}`;
+      }
+      break;
+    // 他のSNSの場合分けをここに追加
   }
-}
-})
+  
+  if (shareUrl) {
+    window.open(shareUrl, '_blank', 'width=550,height=420');
+  }
+};
+
 </script>
 <template>
   <v-container>
@@ -73,8 +97,9 @@ if (hash) {
         </v-breadcrumbs-item>
       </template>
     </v-breadcrumbs>
-    <div
+    <template
     v-for="(item, key) in ability"
+    :key="item"
     >
     <v-card
     elevation-0
@@ -85,16 +110,46 @@ if (hash) {
     >
       <v-card-title>
         {{ key }}
+        <v-menu>
+          <template v-slot:activator="{ props }">
+            <v-btn
+            variant="plain"
+            icon="mdi-share-variant"
+            size="small"
+            class="share-btn"
+            v-bind="props"
+            />
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(item, index) in shareOptions"
+              :key="index"
+              @click="shareOn(item.network, key)"
+            >
+              <v-list-item-title>
+                <v-icon :icon="item.icon" size="small" class="mr-2" />
+                {{ item.title }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-card-title>
       <v-card-text>
         {{ item[appConfig.region2game[route.params.area]] }}
       </v-card-text>
     </v-card>
-    </div>
+    </template>
   </v-container>
 </template>
 <style>
 [id] {
   scroll-margin-top: 80px;
+}
+</style>
+<style scoped>
+.share-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
 }
 </style>

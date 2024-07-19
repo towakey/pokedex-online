@@ -9,6 +9,11 @@ const menu = [
     img: '/icon.png'
   },
   {
+    title: 'わざ一覧',
+    path: '/waza',
+    img: '/icon.png'
+  },
+  {
     title: 'とくせい一覧',
     path: '/ability',
     img: '/icon.png'
@@ -87,7 +92,7 @@ useHead({
           style="background-color: white;"
           >
             <div
-            class="d-flex flex-no-wrap justify-space-between"
+            class="d-flex align-center"
             style="float: left;"
             >
               <v-avatar

@@ -2,7 +2,9 @@
 definePageMeta({
   title: "pokedex.jsonについて"
 })
+const updateMetadata = inject('updateMetadata') as (title: string) => void
 const metaTitle = ref("pokedex.jsonについて")
+updateMetadata(metaTitle.value)
 useHead({
   title: metaTitle,
   meta: [

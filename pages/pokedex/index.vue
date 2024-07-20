@@ -16,7 +16,9 @@ breadcrumbs.push({
   href: '/pokedex',
   disabled: true
 })
+const updateMetadata = inject('updateMetadata') as (title: string) => void
 const metaTitle = ref("ポケモン図鑑")
+updateMetadata(metaTitle.value)
 useHead({
   title: metaTitle,
   meta: [

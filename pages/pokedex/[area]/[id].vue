@@ -130,7 +130,9 @@ const prevModel = () => {
 //   return data
 // }
 
+const updateMetadata = inject('updateMetadata') as (title: string) => void
 const metaTitle = ref(pokedex.name.jpn+" - "+route.meta.title)
+updateMetadata(metaTitle.value)
 useHead({
   title: metaTitle,
   meta: [

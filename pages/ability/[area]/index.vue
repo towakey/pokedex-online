@@ -32,7 +32,9 @@ breadcrumbs.push({
   href: '/ability/'+route.params.area,
   disabled: true
 })
+const updateMetadata = inject('updateMetadata') as (title: string) => void
 const metaTitle = ref("とくせい一覧")
+updateMetadata(metaTitle.value)
 useHead({
   title: metaTitle,
   meta: [

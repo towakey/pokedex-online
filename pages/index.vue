@@ -40,7 +40,9 @@ breadcrumbs.push({
   href: '/',
   disabled: true
 })
+const updateMetadata = inject('updateMetadata') as (title: string) => void
 const metaTitle = ref("Pokedex-Online")
+updateMetadata(metaTitle.value)
 useHead({
   title: metaTitle,
   meta: [

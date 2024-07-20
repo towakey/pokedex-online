@@ -92,7 +92,10 @@ Object.keys(route.params).forEach((val) => {
     })
   }
 })
+const updateMetadata = inject('updateMetadata') as (title: string) => void
 const metaTitle = ref(route.meta.title)
+updateMetadata(metaTitle.value)
+
 useHead({
   title: metaTitle.value,
   meta: [

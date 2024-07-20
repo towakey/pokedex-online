@@ -15,6 +15,30 @@ definePageMeta({
   title: "カメラ"
 })
 
+const updateMetadata = inject('updateMetadata') as (title: string) => void
+const metaTitle = ref("図鑑カメラ")
+updateMetadata(metaTitle.value)
+useHead({
+  title: metaTitle,
+  meta: [
+  {
+      hid: 'og:title',
+      name: 'og:title',
+      content: metaTitle.value
+    },
+    {
+      hid: 'twitter:card',
+      name: 'twitter:card',
+      content: 'summary'
+    },
+    {
+      hid: 'twitter:title',
+      name: 'twitter:title',
+      content: metaTitle.value
+    }
+  ]
+})
+
 const url = "https://teachablemachine.withgoogle.com/models/m_0GwUGGX/"
 let model, webcam = "", labelContainer, maxPredictions
 const flag = ref(0)

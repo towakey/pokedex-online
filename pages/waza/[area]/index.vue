@@ -33,6 +33,8 @@ breadcrumbs.push({
   disabled: true
 })
 const metaTitle = ref("わざ一覧")
+const updateMetadata = inject('updateMetadata') as (title: string) => void
+updateMetadata(metaTitle.value)
 useHead({
   title: metaTitle,
   meta: [

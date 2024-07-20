@@ -35,6 +35,15 @@ export default defineNuxtConfig({
       preload: ['vb', 'ruby', 'python'],
     },
     documentDriven: false,
+    experimental: {
+      clientDB: true
+    },
+    markdown: {
+      rehypePlugins: {
+        'rehype-slug': {},
+        'rehype-autolink-headings': {},
+      },
+    },
   },
   modules: [
     (_options, nuxt) => {

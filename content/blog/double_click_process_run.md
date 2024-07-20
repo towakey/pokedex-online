@@ -3,7 +3,6 @@ title: 特定のセルをダブルクリックした時だけ処理を実行す�
 description: 設定した特性のセルをダブルクリックした時だけ処理を実行する
 category: VBA
 ---
-# 特定のセルをダブルクリックした時だけ処理を実行する
 ```vb
 Private Sub Worksheet_BeforeDoubleClick(ByVal Target As Range, Cancel As Boolean)
 

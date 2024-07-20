@@ -1,9 +1,9 @@
 ---
 title: 二つの日付の差だけ処理を繰り返す
 description: 二つの日付の差の分だけ処理を繰り返すテンプレート
+slug: 二つの日付の差だけ処理を繰り返す
 category: VBA
 ---
-# 二つの日付の差だけ処理を繰り返す
 ```vb
 start_date = ThisWorkbook.Worksheets("Sheet1").Cells(1, 1).Value
 end_date = ThisWorkbook.Worksheets("Sheet1").Cells(1, 2).Value

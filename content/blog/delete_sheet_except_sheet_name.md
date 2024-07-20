@@ -3,7 +3,6 @@ title: 指定したシート名以外のシートを削除する
 description: ブック内の、あらかじめ指定したシート名以外のシートを削除するマクロ
 category: VBA
 ---
-# 指定したシート名以外のシートを削除する
 ```vb
 Sub sheetDelete()
     Dim wsArray()

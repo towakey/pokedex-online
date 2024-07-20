@@ -3,7 +3,6 @@ title: Bundlerの基礎
 description: 
 category: ruby
 ---
-# Bundler基礎
 任意のフォルダに初期化コマンド。
 実行後Gemfileが作成される。
 ```

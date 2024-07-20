@@ -3,7 +3,6 @@ title: 折れ線グラフ作成テンプレート
 description: 単純な折れ線グラフをマクロで作成するテンプレート
 category: VBA
 ---
-# 折れ線グラフ作成テンプレート
 ```vb
 Sub createGraph()
 

@@ -3,7 +3,6 @@ title: 指定したチャートオブジェクトを画像として保存する
 description: 指定したチャートオブジェクトをブックと同じ場所に保存するマクロ
 category: VBA
 ---
-# 指定したチャートオブジェクトを画像として保存する
 ```vb
 Sub chartImageSave()
     Dim title

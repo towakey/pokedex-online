@@ -3,7 +3,6 @@ title: 日付でループするサンプル
 category: python
 ---
 
-# 日付でループするサンプル
 
 ```python
 import datetime

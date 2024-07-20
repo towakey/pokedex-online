@@ -18,6 +18,8 @@
     "chart.js": "^4.4.1",
     "chartjs-plugin-datalabels": "^2.2.0",
     "nuxt": "^3.10.2",
+    "rehype-autolink-headings": "^7.1.0",
+    "rehype-slug": "^6.0.0",
     "sass": "^1.71.1",
     "sharp": "^0.33.4",
     "vue": "^3.4.19",

@@ -1,52 +1,35 @@
 <script setup lang="ts">
 definePageMeta({
-  title: "Pokedex-Online"
+  title: "webapp"
 })
+
 const menu = [
-{
-    title: 'ポケモン図鑑',
-    path: '/pokedex',
-    img: '/icon.png'
-  },
+  // {
+  //   title: 'コミュニティカード',
+  //   path: '/webapp/communitycard',
+  //   img: '/icon.png'
+  // },
   {
-    title: 'わざ一覧',
-    path: '/waza',
-    img: '/icon.png'
-  },
-  {
-    title: 'とくせい一覧',
-    path: '/ability',
-    img: '/icon.png'
-  },
-  {
-    title: 'WebApp',
-    path: '/webapp',
-    img: '/icon.png'
-  },
-  {
-    title: 'ブログ',
-    path: '/blog',
-    img: '/blog.png'
-  },
-  {
-    title: '図鑑カメラ',
-    path: '/camera',
-    img: '/camera.png'
-  },
-  {
-    title: 'pokedex.jsonについて',
-    path: '/pokedexjson',
+    title: 'リーグカードジェネレーター',
+    path: '/webapp/leaguecard_generator',
     img: '/icon.png'
   }
 ]
+
 let breadcrumbs = []
 breadcrumbs.push({
   title: 'HOME',
   href: '/',
+  disabled: false
+})
+breadcrumbs.push({
+  title: 'webapp',
+  href: '/webapp',
   disabled: true
 })
+
 const updateMetadata = inject('updateMetadata') as (title: string) => void
-const metaTitle = ref("Pokedex-Online")
+const metaTitle = ref("webapp")
 updateMetadata(metaTitle.value)
 useHead({
   title: metaTitle,
@@ -79,7 +62,7 @@ useHead({
         :to="props.item.href"
         nuxt
         >
-          HOME
+        {{ props.item.title }}
         </v-breadcrumbs-item>
       </template>
     </v-breadcrumbs>

@@ -24,8 +24,8 @@ const menu = [
     img: '/icon.png'
   },
   {
-    title: 'ブログ',
-    path: '/blog',
+    title: 'チートシート',
+    path: '/cheatsheet',
     img: '/blog.png'
   },
   {

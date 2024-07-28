@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { QueryBuilderParams } from '@nuxt/content/types'
 definePageMeta({
-  title: "blog"
+  title: "cheatsheet"
 })
 // const query: QueryBuilderParams = { path: '/blog' }
 
@@ -12,13 +12,13 @@ breadcrumbs.push({
   disabled: false
 })
 breadcrumbs.push({
-  title: 'ブログ',
-  href: '/blog',
+  title: 'チートシート',
+  href: '/cheatsheet',
   disabled: true
 })
 
 const updateMetadata = inject('updateMetadata') as (title: string) => void
-const metaTitle = ref("blog")
+const metaTitle = ref("cheatsheet")
 updateMetadata(metaTitle.value)
 useHead({
   title: metaTitle,
@@ -56,7 +56,7 @@ useHead({
       </template>
     </v-breadcrumbs>
     <ContentList v-slot="{ list }" :query="{
-      path: '/blog',
+      path: '/cheatsheet',
       only: ['title', 'description', 'category', '_path', '_file', 'date']
     }">
       <v-row>

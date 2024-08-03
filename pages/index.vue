@@ -37,6 +37,11 @@ const menu = [
     title: 'pokedex.jsonについて',
     path: '/pokedexjson',
     img: '/icon.png'
+  },
+  {
+    title: 'リンク',
+    path: '/link',
+    img: '/icon.png'
   }
 ]
 let breadcrumbs = []

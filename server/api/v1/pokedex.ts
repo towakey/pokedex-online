@@ -373,13 +373,24 @@ export default defineEventHandler(async (event) => {
     // console.log(pokedex[appConfig.pokedex_eng2jpn[area]])
     // console.log(area+'=>'+String(id))
     // result = false
-    result = 0
+    result = -1
     pokedex[appConfig.pokedex_eng2jpn[area]].forEach(pokemon => {
       // if(pokemon[id]["globalNo"] == id) result = true
       // if(pokemon.globalNo == id + 1) console.log(pokemon)
-      if(pokemon.globalNo == id + 1){
-        // result = true
-        result = pokemon.no
+      if(area != 'unova_bw' && area != 'unova_b2w2')
+      {
+        if(pokemon.globalNo == id + 1){
+          // result = true
+          result = pokemon.no
+        }
+      }
+      else
+      {
+        // console.log(`id=>${id}`)
+        // console.log(`globalNo=>${pokemon.globalNo}`)
+        if(pokemon.globalNo == id + 1){
+          result = pokemon.no - 1
+        }
       }
     });
   }

@@ -131,7 +131,7 @@ const prevModel = () => {
 // }
 
 const updateMetadata = inject('updateMetadata') as (title: string) => void
-const metaTitle = ref(pokedex.name.jpn+" - "+route.meta.title)
+const metaTitle = ref(pokedex.name.jpn+" - "+route.meta.title+"\n#"+pokedex.name.jpn)
 updateMetadata(metaTitle.value)
 useHead({
   title: metaTitle,
@@ -407,7 +407,7 @@ useHead({
           <NuxtLink
           :to="{path: `/pokedex${item.path}/${existsPokedex[item.area]}`}"
           class="nuxtlink"
-          v-if="existsPokedex[item.area] > 0"
+          v-if="existsPokedex[item.area] > -1"
           >
             <v-card
             elevation-0
@@ -422,7 +422,7 @@ useHead({
           disabled
           variant="outlined"
           style="background-color: #f2f2f2;"
-          v-if="existsPokedex[item.area] == 0"
+          v-if="existsPokedex[item.area] <= -1"
           >
             <v-card-title>{{ item.title }}</v-card-title>
           </v-card>
@@ -580,7 +580,11 @@ useHead({
                         cols="5"><div class="responsive-text">全国図鑑番号</div></v-col>
                         <v-col
                         class="pa-0 ma-0"
-                        cols="7"><div class="responsive-text">No.{{ ('0000' + pokedex.globalNo).slice(-4) }}</div></v-col>
+                        cols="7"><div class="responsive-text">
+                          <NuxtLink class="nuxtlink" :to="{path: `/pokedex/global/${pokedex.globalNo}`}">
+                            No.{{ ('0000' + pokedex.globalNo).slice(-4) }}
+                          </NuxtLink>
+                        </div></v-col>
                       </v-row>
                       <v-row
                       class="pa-0 ma-0"

@@ -13,7 +13,12 @@ const menu = [
     title: 'リーグカードジェネレーター',
     path: '/webapp/leaguecard_generator',
     img: '/icon.png'
-  }
+  },
+  {
+    title: 'タイプチェッカー',
+    path: '/webapp/type_checker',
+    img: '/icon.png'
+  },
 ]
 
 let breadcrumbs = []

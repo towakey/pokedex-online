@@ -2,10 +2,10 @@
 const route = useRoute()
 
 definePageMeta({
-  title: "blog"
+  title: "cheatsheet"
 })
 
-const { data: article } = useAsyncData('blog', () => 
+const { data: article } = useAsyncData('cheatsheet', () => 
   queryContent(useRoute().path).findOne()
 )
 
@@ -41,7 +41,7 @@ onMounted(() => {
 
 // すべての記事を取得し、ソートする
 const { data: allArticles } = await useAsyncData('allArticles', () => 
-  queryContent('/blog')
+  queryContent('/cheatsheet')
     .sort({ date: -1 }) // 日付の降順でソート
     .find()
 )

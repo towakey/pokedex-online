@@ -11,7 +11,7 @@ const sort_type = ref("番号順")
 watch(sort_type, () => {
   if(sort_type.value == "番号順")
   {
-    console.log("番号順")
+    // console.log("番号順")
     pokedex.sort((a, b) => {
       if(Number(a.no) < Number(b.no)) return -1
       if(Number(a.no) > Number(b.no)) return 1
@@ -20,7 +20,7 @@ watch(sort_type, () => {
   }
   else if(sort_type.value == "軽い順")
   {
-    console.log("軽い順")
+    // console.log("軽い順")
     pokedex.sort((a, b) => {
       if(Number(a.status[0].weight) < Number(b.status[0].weight)) return -1
       if(Number(a.status[0].weight) > Number(b.status[0].weight)) return 1
@@ -29,7 +29,7 @@ watch(sort_type, () => {
   }
   else if(sort_type.value == "重い順")
   {
-    console.log("重い順")
+    // console.log("重い順")
     pokedex.sort((a, b) => {
       if(Number(a.status[0].weight) > Number(b.status[0].weight)) return -1
       if(Number(a.status[0].weight) < Number(b.status[0].weight)) return 1
@@ -38,7 +38,7 @@ watch(sort_type, () => {
   }
   else if(sort_type.value == "低い順")
   {
-    console.log("低い順")
+    // console.log("低い順")
     pokedex.sort((a, b) => {
       if(Number(a.status[0].height) < Number(b.status[0].height)) return -1
       if(Number(a.status[0].height) > Number(b.status[0].height)) return 1
@@ -47,7 +47,7 @@ watch(sort_type, () => {
   }
   else if(sort_type.value == "高い順")
   {
-    console.log("高い順")
+    // console.log("高い順")
     pokedex.sort((a, b) => {
       if(Number(a.status[0].height) > Number(b.status[0].height)) return -1
       if(Number(a.status[0].height) < Number(b.status[0].height)) return 1

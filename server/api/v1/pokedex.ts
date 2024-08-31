@@ -8,9 +8,9 @@ export default defineEventHandler(async (event) => {
 
 
   const query: any = getQuery(event)
-  let id: number = Number(query.id)
-  const area: string = String(query.area)
-  const mode: string = String(query.mode)
+  let id: number = typeof query.id === 'string' ? query.id : 0
+  const area: string = typeof query.area === 'string' ? query.area : 'null'
+  const mode: string = typeof query.mode === 'string' ? query.mode : 'null'
 
   let flag = true
 
@@ -24,6 +24,7 @@ export default defineEventHandler(async (event) => {
   let evolve: any
   waza = {}
   evolve = []
+  
   switch(area)
   {
     case "global":
@@ -204,13 +205,14 @@ export default defineEventHandler(async (event) => {
                 })
               }
             })
+            // console.log(status)
           }
           if(global[pokemon["globalNo"] - 1].gigantamax)
           {
             global[pokemon["globalNo"] - 1]["gigantamax"].forEach(normal => {
-              status["name"] = global[pokemon["globalNo"] - 1].name
               if(status.form == normal.form)
               {
+                status["name"] = global[pokemon["globalNo"] - 1].name
                 Object.keys(normal).forEach((key) => {
                   status[key] = normal[key]
                 })
@@ -234,11 +236,11 @@ export default defineEventHandler(async (event) => {
       })
     }
   }else if(mode == 'details'){
+    result = []
     if(flag)
     {
       if(area == 'global')
       {
-        // console.log(area+'=>'+String(id))
         if( 0 <= id && id < global.length)
         {
           result = global[id]
@@ -342,10 +344,9 @@ export default defineEventHandler(async (event) => {
             })
           }
 
+
           if(Object.keys(waza).length > 0){
-            // console.log(Object.keys(waza).length)
             // status["waza"] = waza[id]
-            // console.log(id+1)
             status["waza"] = waza[id+1][status.form]
           }
 
@@ -353,12 +354,10 @@ export default defineEventHandler(async (event) => {
           if(Object.keys(evolve).length > 0){
             if(Object.keys(evolve["進化先"][id+1][status.form]).length > 0){
               status["evolve"] = evolve["進化先"][id+1][status.form]
-              // console.log(Object.keys(status["evolve"]))
               // for(let val in evolve["進化先"][id+1][status.form]){
               for(let val in Object.keys(status["evolve"])){
                 status["evolve"][val]["globalNo"] = pokedex[appConfig.pokedex_eng2jpn[area]][Number(Object.keys(evolve["進化先"][id+1][status.form][val])[0]) - 1]["globalNo"]
                 status["evolve"][val]["name"] = global[status["evolve"][val]["globalNo"]-1]["name"]
-                // console.log(Object.keys(evolve["進化先"][id+1][status.form][val])[0])
               }
             }
           }
@@ -370,13 +369,10 @@ export default defineEventHandler(async (event) => {
       result = false
     }
   }else if(mode == 'exists'){
-    // console.log(pokedex[appConfig.pokedex_eng2jpn[area]])
-    // console.log(area+'=>'+String(id))
     // result = false
     result = -1
     pokedex[appConfig.pokedex_eng2jpn[area]].forEach(pokemon => {
       // if(pokemon[id]["globalNo"] == id) result = true
-      // if(pokemon.globalNo == id + 1) console.log(pokemon)
       if(area != 'unova_bw' && area != 'unova_b2w2')
       {
         if(pokemon.globalNo == id + 1){
@@ -386,13 +382,33 @@ export default defineEventHandler(async (event) => {
       }
       else
       {
-        // console.log(`id=>${id}`)
-        // console.log(`globalNo=>${pokemon.globalNo}`)
         if(pokemon.globalNo == id + 1){
           result = pokemon.no - 1
         }
       }
     });
+  }else if(mode == 'version'){
+    const global_default: any = (await import('~/assets/pokedex/v1/pokedex/pokedex.json')).default
+    const ability_default: any = (await import('~/assets/pokedex/v1/ability/ability.json')).default
+    const type_default: any = (await import('~/assets/pokedex/v1/type/type.json')).default
+
+    result = [
+      {
+        "file": "pokedex.json",
+        "version": global_default.version,
+        "update": global_default.update
+      },
+      {
+        "file": "ability.json",
+        "version": ability_default.version,
+        "update": ability_default.update
+      },
+      {
+        "file": "type.json",
+        "version": type_default.version,
+        "update": type_default.update
+      }
+    ]
   }
   return{
     "query": query,

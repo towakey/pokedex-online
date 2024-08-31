@@ -1,4 +1,52 @@
 export default defineAppConfig({
+  main_menu : [
+    {
+      title: 'ポケモン図鑑',
+      path: '/pokedex',
+      img: '/icon.png'
+    },
+    {
+      title: 'わざ一覧',
+      path: '/waza',
+      img: '/icon.png'
+    },
+    {
+      title: 'とくせい一覧',
+      path: '/ability',
+      img: '/icon.png'
+    },
+    {
+      title: 'WebApp',
+      path: '/webapp',
+      img: '/icon.png'
+    },
+    {
+      title: 'チートシート',
+      path: '/cheatsheet',
+      img: '/blog.png'
+    },
+    {
+      title: '図鑑カメラ',
+      path: '/camera',
+      img: '/camera.png'
+    },
+    {
+      title: 'pokedex.jsonについて',
+      path: '/pokedexjson',
+      img: '/icon.png'
+    },
+    {
+      title: 'リンク',
+      path: '/link',
+      img: '/icon.png'
+    },
+    {
+      title: 'リーフ',
+      path: '/leaf',
+      img: '/icon.png'
+    }
+  ],
+    
   pokedex_eng2jpn: {
     "global": "全国図鑑",
     "kanto": "カントー図鑑",
@@ -166,44 +214,70 @@ export default defineAppConfig({
       area: 'kanto'
     },  
   ],
-  game_ver: [
+  gameVersion: [
     {
-      "region": "赤・緑・青・ピカチュウ",
-      "path": "/kanto"
+      "jpn": "赤・緑・青・ピカチュウ",
+      "eng": "Red_Green_Blue_Yellow",
     },
     {
-      "region": "金・銀・クリスタル",
-      "path": "/johto"
+      "jpn": "金・銀・クリスタル",
+      "eng": "Gold_Silver_Crystal",
     },
     {
-      "region": "ルビー・サファイア・エメラルド",
-      "path": "/hoenn"
+      "jpn": "ルビー・サファイア・エメラルド",
+      "eng": "Ruby_Sapphire_Emerald",
     },
     {
-      "region": "ダイアモンド・パール・プラチナ",
-      "path": "/sinnoh"
+      "jpn": "ダイアモンド・パール・プラチナ",
+      "eng": "Diamond_Pearl_Platinum",
     },
     {
-      "region": "ブラック・ホワイト・ブラック2・ホワイト2",
-      "path": "/unova"
+      "jpn": "ブラック・ホワイト",
+      "eng": "Black_White",
     },
     {
-      "region": "X・Y",
-      "path": "/kalos"
+      "jpn": "ブラック2・ホワイト2",
+      "eng": "Black2_White2",
     },
     {
-      "region": "サン・ムーン・ウルトラサン・ウルトラムーン",
-      "path": "/alola"
+      "jpn": "X・Y",
+      "eng": "X_Y",
     },
     {
-      "region": "ソード・シールド",
-      "path": "/galar"
+      "jpn": "サン・ムーン",
+      "eng": "Sun_Moon",
     },
     {
-      "region": "スカーレット・バイオレット",
-      "path": "/paldea"
+      "jpn": "ウルトラサン・ウルトラムーン",
+      "eng": "UltraSun_UltraMoon",
+    },
+    {
+      "jpn": "ソード・シールド",
+      "eng": "Sword_Shield",
+    },
+    {
+      "jpn": "Legendsアルセウス",
+      "eng": "LegendsArceus",
+    },
+    {
+      "jpn": "スカーレット・バイオレット",
+      "eng": "Scarlet_Violet",
     }
-],
+  ],
+  gameVersionArray: [
+    "Red_Green_Blue_Yellow",
+    "Gold_Silver_Crystal",
+    "Ruby_Sapphire_Emerald",
+    "Diamond_Pearl_Platinum",
+    "Black_White",
+    "Black2_White2",
+    "X_Y",
+    "Sun_Moon",
+    "UltraSun_UltraMoon",
+    "Sword_Shield",
+    "LegendsArceus",
+    "Scarlet_Violet"
+  ],
   region2game: {
     "global": "",
     "kanto": "",

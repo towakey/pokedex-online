@@ -1,49 +1,50 @@
 <script setup lang="ts">
+const appConfig = useAppConfig()
 definePageMeta({
   title: "Pokedex-Online"
 })
-const menu = [
-{
-    title: 'ポケモン図鑑',
-    path: '/pokedex',
-    img: '/icon.png'
-  },
-  {
-    title: 'わざ一覧',
-    path: '/waza',
-    img: '/icon.png'
-  },
-  {
-    title: 'とくせい一覧',
-    path: '/ability',
-    img: '/icon.png'
-  },
-  {
-    title: 'WebApp',
-    path: '/webapp',
-    img: '/icon.png'
-  },
-  {
-    title: 'チートシート',
-    path: '/cheatsheet',
-    img: '/blog.png'
-  },
-  {
-    title: '図鑑カメラ',
-    path: '/camera',
-    img: '/camera.png'
-  },
-  {
-    title: 'pokedex.jsonについて',
-    path: '/pokedexjson',
-    img: '/icon.png'
-  },
-  {
-    title: 'リンク',
-    path: '/link',
-    img: '/icon.png'
-  }
-]
+// const menu = [
+// {
+//     title: 'ポケモン図鑑',
+//     path: '/pokedex',
+//     img: '/icon.png'
+//   },
+//   {
+//     title: 'わざ一覧',
+//     path: '/waza',
+//     img: '/icon.png'
+//   },
+//   {
+//     title: 'とくせい一覧',
+//     path: '/ability',
+//     img: '/icon.png'
+//   },
+//   {
+//     title: 'WebApp',
+//     path: '/webapp',
+//     img: '/icon.png'
+//   },
+//   {
+//     title: 'チートシート',
+//     path: '/cheatsheet',
+//     img: '/blog.png'
+//   },
+//   {
+//     title: '図鑑カメラ',
+//     path: '/camera',
+//     img: '/camera.png'
+//   },
+//   {
+//     title: 'pokedex.jsonについて',
+//     path: '/pokedexjson',
+//     img: '/icon.png'
+//   },
+//   {
+//     title: 'リンク',
+//     path: '/link',
+//     img: '/icon.png'
+//   }
+// ]
 let breadcrumbs = []
 breadcrumbs.push({
   title: 'HOME',
@@ -92,7 +93,7 @@ useHead({
       <v-col
       cols="12"
       sm="6"
-      v-for="item in menu" :key="item.title"
+      v-for="item in appConfig.main_menu" :key="item.title"
       >
         <NuxtLink
         :to="{path: `${item.path}`}"

@@ -12,7 +12,7 @@ const waza = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/waza_list
 
 const shareOptions = [
   { title: 'Twitter', icon: 'mdi-twitter', network: 'twitter' },
-  // { title: 'Mastodon', icon: 'mdi-mastodon', network: 'mastodon' },
+  { title: 'Mastodon', icon: 'mdi-mastodon', network: 'mastodon' },
   // 他のSNSオプションを追加できます
 ];
 

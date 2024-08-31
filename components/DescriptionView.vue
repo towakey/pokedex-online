@@ -7,7 +7,7 @@ const props = defineProps(["description", "title"])
 
 const shareOptions = [
   { title: 'Twitter', icon: 'mdi-twitter', network: 'twitter' },
-  // { title: 'Mastodon', icon: 'mdi-mastodon', network: 'mastodon' },
+  { title: 'Mastodon', icon: 'mdi-mastodon', network: 'mastodon' },
   // 他のSNSオプションを追加できます
 ];
 
@@ -77,8 +77,8 @@ const shareOn = (network, ver) => {
           </v-list>
         </v-menu>
         </v-list-item-title>
-        <v-list-item-subtitle class="wrap-text" v-if="ver !== ''">{{ ver }}</v-list-item-subtitle>
-        <v-list-item-subtitle class="wrap-text" v-else>じょうほう なし</v-list-item-subtitle>
+        <v-list-item-subtitle class="wrap-text" style="color: #000;" v-if="ver !== ''">{{ ver }}</v-list-item-subtitle>
+        <v-list-item-subtitle class="wrap-text" style="color: #000;" v-else>じょうほう なし</v-list-item-subtitle>
       </v-list-item>
     </v-list>
   </v-card>

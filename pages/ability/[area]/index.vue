@@ -12,7 +12,7 @@ const ability = (await import('~/assets/pokedex/v1/ability/ability.json')).abili
 
 const shareOptions = [
   { title: 'Twitter', icon: 'mdi-twitter', network: 'twitter' },
-  // { title: 'Mastodon', icon: 'mdi-mastodon', network: 'mastodon' },
+  { title: 'Mastodon', icon: 'mdi-mastodon', network: 'mastodon' },
   // 他のSNSオプションを追加できます
 ];
 

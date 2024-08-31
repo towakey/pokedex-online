@@ -125,6 +125,8 @@ for(let val in typeList)
         >
           <v-card-item>
             <h3>こうかはばつぐんだ(4倍)</h3>
+            <div v-if="damage4.length === 0" class="no-type">なし</div>
+            <div v-else>
             <div
             v-for="val in damage4"
             :key="val"
@@ -149,8 +151,11 @@ for(let val in typeList)
               <div v-else-if='val.value === "はがね"' style="" class="type_Steel type_icon">{{ val.value }}</div>
               <div v-else-if='val.value === "フェアリー"' style="" class="type_Fairy type_icon">{{ val.value }}</div>
             </div>
+            </div>
 
             <h3>こうかはばつぐんだ(2倍)</h3>
+            <div v-if="damage2.length === 0" class="no-type">なし</div>
+            <div v-else>
             <div
             v-for="val in damage2"
             :key="val"
@@ -175,7 +180,11 @@ for(let val in typeList)
               <div v-else-if='val.value === "はがね"' style="" class="type_Steel type_icon">{{ val.value }}</div>
               <div v-else-if='val.value === "フェアリー"' style="" class="type_Fairy type_icon">{{ val.value }}</div>
             </div>
+            </div>
             <h3>こうかはふつうのようだ</h3>
+
+            <div v-if="damage1.length === 0" class="no-type">なし</div>
+            <div v-else>
             <div
             v-for="val in damage1"
             :key="val"
@@ -200,8 +209,11 @@ for(let val in typeList)
               <div v-else-if='val.value === "はがね"' style="" class="type_Steel type_icon">{{ val.value }}</div>
               <div v-else-if='val.value === "フェアリー"' style="" class="type_Fairy type_icon">{{ val.value }}</div>
             </div>
+            </div>
 
             <h3>こうかはいまひとつのようだ(0.5倍)</h3>
+            <div v-if="damage05.length === 0" class="no-type">なし</div>
+            <div v-else>
             <div
             v-for="val in damage05"
             :key="val"
@@ -226,8 +238,11 @@ for(let val in typeList)
               <div v-else-if='val.value === "はがね"' style="" class="type_Steel type_icon">{{ val.value }}</div>
               <div v-else-if='val.value === "フェアリー"' style="" class="type_Fairy type_icon">{{ val.value }}</div>
             </div>
+            </div>
 
             <h3>こうかはいまひとつのようだ(0.25倍)</h3>
+            <div v-if="damage025.length === 0" class="no-type">なし</div>
+            <div v-else>
             <div
             v-for="val in damage025"
             :key="val"
@@ -252,8 +267,11 @@ for(let val in typeList)
               <div v-else-if='val.value === "はがね"' style="" class="type_Steel type_icon">{{ val.value }}</div>
               <div v-else-if='val.value === "フェアリー"' style="" class="type_Fairy type_icon">{{ val.value }}</div>
             </div>
+            </div>
 
             <h3>こうかはないようだ</h3>
+            <div v-if="damage0.length === 0" class="no-type">なし</div>
+            <div v-else>
             <div
             v-for="val in damage0"
             :key="val"
@@ -277,6 +295,7 @@ for(let val in typeList)
               <div v-else-if='val.value === "あく"' style="" class="type_Dark type_icon">{{ val.value }}</div>
               <div v-else-if='val.value === "はがね"' style="" class="type_Steel type_icon">{{ val.value }}</div>
               <div v-else-if='val.value === "フェアリー"' style="" class="type_Fairy type_icon">{{ val.value }}</div>
+            </div>
             </div>
 
           </v-card-item>

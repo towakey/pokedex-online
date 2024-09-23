@@ -44,6 +44,11 @@ export default defineAppConfig({
       title: 'リーフ',
       path: '/leaf',
       img: '/icon.png'
+    },
+    {
+      title: 'ギャラリー',
+      path: '/gallery',
+      img: '/icon.png'
     }
   ],
     

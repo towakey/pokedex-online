@@ -11,7 +11,7 @@ const selectedImage = ref(null)
 
 const article = {
   images: [
-  {
+    {
       src: '/leaf/1.png'
     },
     {
@@ -23,8 +23,32 @@ const article = {
     {
       src: '/leaf/4.png'
     }
+  ],
+  huramu: [
+    {
+      src: '/leaf/huramu1.png'
+    }
   ]
 }
+
+const episodes = [
+{
+    title: "アイドルの隠れ家にて その1",
+    url: "/leaf/episode/episode1"
+  },
+  {
+    title: "アイドルの隠れ家にて その2",
+    url: "/leaf/episode/episode2"
+  }
+]
+
+// const temoti = {
+//   huramu: [
+//   {
+//       src: '/leaf/huramu1.png'
+//     }
+//   ]
+// }
 
 const openImage = (image) => {
   selectedImage.value = image
@@ -88,13 +112,19 @@ useHead({
     style="background-color: white;"
     >
       <v-card-title>
-        リーフ(仮)
+        リーフ(仮)※
       </v-card-title>
-      <v-card-text>
+      <v-card-subtitle>
         <p>オリキャラを考えています。</p>
-        <p>しっくりくる名前が未だに思いつかないので（仮）をつけています。</p>
+        <p>※しっくりくる名前が未だに思いつかないので（仮）をつけています。</p>
+      </v-card-subtitle>
+      <v-card-text>
+        <p></p>
+        <p>マサラタウン出身。</p>
         <p>背中には野生のポケモンにひっかかれた傷跡が残る。</p>
-        <p>出身地：マサラタウン</p>
+        <p>メガストーンは鍵の持ち手に埋め込み、ネックレスとして首から下げている。</p>
+        <p></p>
+        <p></p>
         <hr>
         <v-slide-group show-arrows>
           <v-slide-group-item v-for="(image, index) in article.images" :key="index">
@@ -109,10 +139,48 @@ useHead({
             ></v-img>
           </v-slide-group-item>
         </v-slide-group>
-        <p>手持ち：ヒトカゲ(色違い)</p>
-        <p>色違いゆえに目立ちやすく他の野生のポケモンに襲われていたところをリーフに助けられる。</p>
-        <p>しかしその際にリーフが野生のポケモンの攻撃で怪我を負い動けなくなったところを渾身のひのこで追い払い、</p>
-        <p>その火を見たジュンサ―さんにともに保護される。</p>
+        <v-card
+        elevation-0
+        variant="outlined"
+        style="background-color: white;"
+        >
+          <v-card-title>フラム / リザードン(色違い)</v-card-title>
+          <v-card-text>
+            <p>色違いゆえに目立ちやすく他の野生のポケモンに襲われていたところをリーフに助けられる。</p>
+            <p>しかしその際にリーフが野生のポケモンの攻撃で怪我を負い動けなくなったところを渾身のひのこで追い払い、</p>
+            <p>その火を見たジュンサ―さんにともに保護される。</p>
+            <v-slide-group show-arrows>
+              <v-slide-group-item v-for="(image, index) in article.huramu" :key="index">
+                <v-img
+                  :src="image.src"
+                  :alt="image.alt"
+                  @click="openImage(image)"
+                  class="clickable-image ma-2"
+                  width="200"
+                  height="200"
+                  cover
+                ></v-img>
+              </v-slide-group-item>
+            </v-slide-group>
+          </v-card-text>
+        </v-card>
+        <div
+        v-for="episode in episodes"
+        :key="episode.title"
+        >
+          <NuxtLink
+          :to="{path: `${episode.url}`}"
+          class="nuxtlink"
+          >
+            <v-card
+            elevation-0
+            variant="outlined"
+            style="background-color: white;"
+            >
+              <v-card-text>{{ episode.title }}</v-card-text>
+            </v-card>
+          </NuxtLink>
+        </div>
       </v-card-text>
     </v-card>
     <v-dialog v-model="dialog" max-width="800px">

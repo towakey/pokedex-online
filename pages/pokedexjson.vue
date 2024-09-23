@@ -1,7 +1,21 @@
 <script setup lang="ts">
+const route = useRoute()
 definePageMeta({
   title: "pokedex.jsonについて"
 })
+
+let breadcrumbs = []
+breadcrumbs.push({
+  title: 'HOME',
+  href: '/',
+  disabled: false
+})
+breadcrumbs.push({
+  title: route.meta.title,
+  href: '/pokedexjson',
+  disabled: true
+})
+
 const updateMetadata = inject('updateMetadata') as (title: string) => void
 const metaTitle = ref("pokedex.jsonについて")
 updateMetadata(metaTitle.value)
@@ -31,6 +45,18 @@ useHead({
     <v-container
     style="background-color: white;"
     >
+      <v-breadcrumbs :items="breadcrumbs">
+        <template v-slot:item="props">
+          <v-breadcrumbs-item
+          exact
+          :disabled="props.item.disabled"
+          :to="props.item.href"
+          nuxt
+          >
+          {{ props.item.title }}
+          </v-breadcrumbs-item>
+        </template>
+      </v-breadcrumbs>
       <ContentDoc />
     </v-container>
     <!-- <v-col v-for="article in list" :key="article._path"

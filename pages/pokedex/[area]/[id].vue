@@ -162,6 +162,128 @@ useHead({
     }
   ]
 })
+
+const onSwipeLeft = () => {
+  // console.log("left")
+  // console.log(`/pokedex/${route.params.area}/${(Number(route.params.id) - 1)}`)
+  // console.log(prev)
+  if(prev != false){
+    navigateTo(`/pokedex/${route.params.area}/${(Number(route.params.id) - 1)}`, {
+      replace: false // trueにすると、履歴に新しいエントリを追加せずに現在のエントリを置き換えます
+    })
+  }
+}
+const onSwipeRight = () => {
+  // console.log("right")
+  // console.log(`/pokedex/${route.params.area}/${(Number(route.params.id) + 1)}`)
+  // console.log(next)
+  if(next != false){
+    navigateTo(`/pokedex/${route.params.area}/${(Number(route.params.id) + 1)}`, {
+      replace: false // trueにすると、履歴に新しいエントリを追加せずに現在のエントリを置き換えます
+    })
+  }
+}
+const onTap = () => {
+  console.log("tap")
+}
+
+const navigate = async (to) => {
+  // console.log(`${to} へ移動します`)
+  
+  // オプション1: useRouterを使用
+  // await router.push(to)
+  
+  // オプション2: navigateToを使用（推奨）
+  await navigateTo(to, {
+    replace: false // trueにすると、履歴に新しいエントリを追加せずに現在のエントリを置き換えます
+  })
+  
+  // console.log('ナビゲーション完了')
+}
+
+const container = ref(null)
+const touchStartX = ref(0)
+const touchStartY = ref(0)
+
+const onTouchStart = (e) => {
+  // console.log('Touch Start:', e.touches[0].clientX, e.touches[0].clientY)
+  touchStartX.value = e.touches[0].clientX
+  touchStartY.value = e.touches[0].clientY
+}
+
+const onTouchEnd = (e) => {
+  const touchEndX = e.changedTouches[0].clientX
+  const touchEndY = e.changedTouches[0].clientY
+  const diffX = touchEndX - touchStartX.value
+  const diffY = touchEndY - touchStartY.value
+
+  // console.log('Touch End:', e.changedTouches[0].clientX, e.changedTouches[0].clientY)
+  
+
+  // 水平方向のスワイプが垂直方向より大きい場合のみナビゲーションを行う
+  if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+    if (diffX > 0) {
+      onSwipeLeft()
+      // navigateToPreviousPage()
+    } else {
+      onSwipeRight()
+      // navigateToNextPage()
+    }
+  }
+}
+// const onTouchMove = (e) => {
+//   console.log('Touch Move:', e.touches[0].clientX, e.touches[0].clientY)
+// }
+
+const navigateToNextPage = () => {
+  // 現在のルートに基づいて次のページを決定
+  const nextRoute = getNextRoute()
+  if (nextRoute) {
+    router.push(nextRoute)
+  }
+}
+
+const navigateToPreviousPage = () => {
+  // 現在のルートに基づいて前のページを決定
+  const previousRoute = getPreviousRoute()
+  if (previousRoute) {
+    router.push(previousRoute)
+  }
+}
+
+const getNextRoute = () => {
+  // ここでルートに基づいて次のページを決定するロジックを実装
+  // 例: return '/next-page'
+}
+
+const getPreviousRoute = () => {
+  // ここでルートに基づいて前のページを決定するロジックを実装
+  // 例: return '/previous-page'
+}
+
+// イベントリスナーを直接追加
+onMounted(() => {
+  const container = document.querySelector('.v-container')
+  if (container) {
+  //   container.addEventListener('touchstart', onTouchStart, { passive: true })
+  //   container.addEventListener('touchmove', onTouchMove, { passive: true })
+  //   container.addEventListener('touchend', onTouchEnd)
+    container.addEventListener('touchstart', onTouchStart, { passive: true, capture: true })
+    container.addEventListener('touchend', onTouchEnd, { capture: true })
+  }
+})
+
+// コンポーネントのアンマウント時にイベントリスナーを削除
+onUnmounted(() => {
+  const container = document.querySelector('.v-container')
+  if (container) {
+    // container.removeEventListener('touchstart', onTouchStart)
+    // container.removeEventListener('touchmove', onTouchMove)
+    // container.removeEventListener('touchend', onTouchEnd)
+    container.removeEventListener('touchstart', onTouchStart, { capture: true })
+    container.removeEventListener('touchend', onTouchEnd, { capture: true })
+  }
+})
 </script>
 <template>
   <div

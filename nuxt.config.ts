@@ -56,6 +56,9 @@ export default defineNuxtConfig({
     "@nuxt/content",
     '@vite-pwa/nuxt',
   ],
+  plugins: [
+    '~/plugins/vue-touch-events.ts'
+  ],
   sourcemap: false,
   vite: {
     vue: {
@@ -116,5 +119,10 @@ export default defineNuxtConfig({
       suppressWarnings: true,
       navigateFallbackAllowlist: [/^\/$/],
       type: 'module',
+    },
+    nitro: {
+      routeRules: {
+        '/api/proxy': { cors: true },
+      },
     },
   }})

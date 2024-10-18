@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
   let ver: any
   let type_list: any
   let waza: any
+  let waza_machine: any
   let evolve: any
   waza = {}
   evolve = []
@@ -114,12 +115,13 @@ export default defineEventHandler(async (event) => {
         waza = {}
       }
       try {
-        // console.log("evolve found")
-
-        // evolve = {}
+        waza_machine = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/waza_machine.json')).default.waza_machine
+      }catch(e){
+        waza_machine = {}
+      }
+      try {
         evolve = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/evolve.json')).default.evolve.paldea
       }catch(e){
-        // console.log("evolve not found")
         evolve = []
       }
       break
@@ -127,11 +129,33 @@ export default defineEventHandler(async (event) => {
       ver = "Scarlet_Violet"
       pokedex = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default.pokedex
       type_list = appConfig.type_list['3']
+      try {
+        waza = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/waza.json')).default.waza.kitakami
+      }catch(e){
+        waza = {}
+      }
+      try {
+        waza_machine = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/waza_machine.json')).default.waza_machine
+      }catch(e){
+        waza_machine = {}
+      }
       break
     case "blueberry":
       ver = "Scarlet_Violet"
       pokedex = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default.pokedex
       type_list = appConfig.type_list['3']
+      try {
+        waza = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/waza.json')).default.waza.blueberry
+      }catch(e){
+        waza = {}
+        console.log(`waza error:${e}`)
+      }
+      try {
+        waza_machine = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/waza_machine.json')).default.waza_machine
+      }catch(e){
+        waza_machine = {}
+        console.log(`machine error:${e}`)
+      }
       break
   }
 
@@ -347,6 +371,16 @@ export default defineEventHandler(async (event) => {
 
           if(Object.keys(waza).length > 0){
             // status["waza"] = waza[id]
+            // console.log(waza[id+1][status.form]["わざマシン"])
+            if(Array.isArray(waza[id+1][status.form]["わざマシン"])){
+              waza[id+1][status.form]["わざマシン"] = waza[id+1][status.form]["わざマシン"].reduce(
+                (acc, key) => {
+                  acc[key] = waza_machine[key]
+                  return acc;
+                },
+                {} as { [key: string]: string }
+              )
+            }
             status["waza"] = waza[id+1][status.form]
           }
 

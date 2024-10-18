@@ -21,12 +21,14 @@ let kihon: any[]
 let omoidashi: any[]
 let shinka: any[]
 let lvup: any[]
+let machine: any[]
 
 // val = []
 kihon = []
 omoidashi = []
 shinka = []
 lvup = []
+machine = []
 
 if('waza' in props.wazaData){
   flag = true
@@ -52,9 +54,17 @@ if('waza' in props.wazaData){
       'name': props.wazaData.waza["進化時"][waza]
     })
   }
+  for(let waza in props.wazaData.waza["わざマシン"])
+  {
+    machine.push({
+      // 'type': props.wazaData.waza["わざマシン"][waza],
+      'type': waza,
+      'name': props.wazaData.waza["わざマシン"][waza]
+    })
+  }
   for(let waza in props.wazaData.waza)
   {
-    if(waza != '' && waza != '思い出し' && waza != '進化時'){
+    if(waza != '' && waza != '思い出し' && waza != '進化時' && waza != 'わざマシン'){
       lvup.push({
         'type': waza,
         'name': props.wazaData.waza[waza][0]
@@ -172,6 +182,29 @@ if('waza' in props.wazaData){
       </v-data-table>
     </v-card>
   </template>
+  <template
+  v-if="machine.length > 0"
+  >
+    <v-card
+    variant="outlined"
+    style="margin-top: 20px;"
+    >
+      <v-data-table
+      :headers="[{title: 'わざマシン', key: 'type', width: '50%'},{title: '覚える技', key: 'name', width: '50%'}]"
+      :items="machine"
+      :items-per-page="100"
+      hide-default-footer
+      >
+        <template v-slot:item="{ item }">
+          <tr>
+            <td>{{ item.type }}</td>
+            <td><NuxtLink class="nuxtlink" :to="{path: `/waza/${props.area}`, hash: `#${item.name}`}">{{ item.name }}</NuxtLink></td>
+          </tr>
+        </template>
+    </v-data-table>
+    </v-card>
+  </template>
+
   <!-- {{ props.wazaData.waza }} -->
   </div>
 </template>

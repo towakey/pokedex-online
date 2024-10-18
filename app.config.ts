@@ -11,6 +11,11 @@ export default defineAppConfig({
       img: '/icon.png'
     },
     {
+      title: 'わざマシン一覧',
+      path: '/waza_machine',
+      img: '/icon.png'
+    },
+    {
       title: 'とくせい一覧',
       path: '/ability',
       img: '/icon.png'
@@ -48,6 +53,11 @@ export default defineAppConfig({
     {
       title: 'ギャラリー',
       path: '/gallery',
+      img: '/icon.png'
+    },
+    {
+      title: '年表',
+      path: '/pokemon_history',
       img: '/icon.png'
     }
   ],

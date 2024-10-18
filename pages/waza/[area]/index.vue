@@ -8,8 +8,12 @@ definePageMeta({
   title: "Pokedex-Online"
 })
 // const ability = (await useFetch('/api/v1/ability?mode=index&area='+route.params.area)).data.value.result
-const waza = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/waza_list.json')).waza_list
-
+let waza:any
+const area = ref()
+if(['paldea', 'kitakami', 'blueberry'].includes(route.params.area)){
+  waza = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/waza_list.json')).waza_list
+  area.value = 'paldea'
+}
 const shareOptions = [
   { title: 'Twitter', icon: 'mdi-twitter', network: 'twitter' },
   { title: 'Mastodon', icon: 'mdi-mastodon', network: 'mastodon' },
@@ -100,7 +104,7 @@ const shareOn = (network, key, desc) => {
       </template>
     </v-breadcrumbs>
     <template
-    v-for="(items, key) in waza[route.params.area]"
+    v-for="(items, key) in waza[area]"
     :key="item"
     >
     <v-card

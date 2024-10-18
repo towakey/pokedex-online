@@ -13,7 +13,7 @@ breadcrumbs.push({
 })
 breadcrumbs.push({
   title: 'わざ一覧',
-  href: '/ability',
+  href: '/waza',
   disabled: true
 })
 const updateMetadata = inject('updateMetadata') as (title: string) => void
@@ -61,7 +61,7 @@ useHead({
       <v-col
       cols="12"
       sm="6"
-      v-if='appConfig.region2game[item.area] != "" && item.path == "/paldea"'
+      v-if='appConfig.region2game[item.area] != "" && (item.path == "/paldea" || item.path == "/kitakami" || item.path == "/blueberry")'
       >
         <NuxtLink
         :to="{path: `/waza${item.path}`}"

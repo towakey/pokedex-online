@@ -39,6 +39,10 @@ const episodes = [
   {
     title: "アイドルの隠れ家にて その2",
     url: "/leaf/episode/episode2"
+  },
+  {
+    title: "底力",
+    url: "/leaf/episode/episode3"
   }
 ]
 

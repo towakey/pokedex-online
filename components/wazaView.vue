@@ -93,6 +93,7 @@ if('waza' in props.wazaData){
 <template>
   <div
   v-if="flag"
+  :id="`waza`"
   >
   <template
   v-if="kihon.length > 0"

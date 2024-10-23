@@ -68,6 +68,7 @@ let chartData = {
 <v-card
 variant="outlined"
 style="margin-top: 20px;background-color: white;"
+:id="`status`"
 >
   <v-card-text>
     <Bar
@@ -78,3 +79,8 @@ style="margin-top: 20px;background-color: white;"
   </v-card-text>
 </v-card>
 </template>
+<style>
+[id] {
+  scroll-margin-top: 80px;
+}
+</style>

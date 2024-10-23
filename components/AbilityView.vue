@@ -10,6 +10,7 @@ const props = defineProps(["pokedex", "area"])
   <v-card
   variant="outlined"
   style="margin-top: 20px;"
+  :id="`ability`"
   >
     <v-card
     elevation="0"

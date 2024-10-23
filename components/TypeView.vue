@@ -73,6 +73,7 @@ for(let val in typeList)
   @click="typeDialog = true"
   style="margin-top: 20px"
   variant="outlined"
+  :id="`type`"
   >
     <v-card-title style="display: flex;padding: 0px;">
       <div style="" v-if='pokedex.type1 === "ノーマル"' class="type_Normal type_view">{{ pokedex.type1 }}</div>

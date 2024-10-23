@@ -8,6 +8,7 @@ const props = defineProps(["description", "title"])
 const shareOptions = [
   { title: 'Twitter', icon: 'mdi-twitter', network: 'twitter' },
   { title: 'Mastodon', icon: 'mdi-mastodon', network: 'mastodon' },
+  { title: 'Bluesky', icon: 'mdi-web', network: 'bluesky' },
   // 他のSNSオプションを追加できます
 ];
 
@@ -31,6 +32,9 @@ const shareOn = (network, ver) => {
         shareUrl = `${instance}/share?text=${text} ${url}`;
       }
       break;
+      case 'bluesky': // Blueskyの処理を追加
+      shareUrl = `https://bsky.app/intent/compose?text=${text}%20${url}`;
+      break;
     // 他のSNSの場合分けをここに追加
   }
   
@@ -44,6 +48,7 @@ const shareOn = (network, ver) => {
   <v-card
   variant="outlined"
   style="margin-top: 20px;"
+  :id="`description`"
   >
     <v-list
     lines="two"

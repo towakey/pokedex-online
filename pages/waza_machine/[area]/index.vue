@@ -36,6 +36,7 @@ if(['paldea', 'kitakami', 'blueberry'].includes(route.params.area)){
 const shareOptions = [
   { title: 'Twitter', icon: 'mdi-twitter', network: 'twitter' },
   { title: 'Mastodon', icon: 'mdi-mastodon', network: 'mastodon' },
+  { title: 'Bluesky', icon: 'mdi-web', network: 'bluesky' },
   // 他のSNSオプションを追加できます
 ];
 
@@ -98,6 +99,9 @@ const shareOn = (network, key, desc) => {
       if (instance) {
         shareUrl = `${instance}/share?text=${text} ${url}`;
       }
+      break;
+      case 'bluesky': // Blueskyの処理を追加
+      shareUrl = `https://bsky.app/intent/compose?text=${text}%20${url}`;
       break;
     // 他のSNSの場合分けをここに追加
   }

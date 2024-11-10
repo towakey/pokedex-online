@@ -84,16 +84,85 @@ useHead({
     }
   ]
 })
+let breadcrumbs = []
+breadcrumbs.push({
+  title: 'HOME',
+  href: '/',
+  disabled: false
+})
+breadcrumbs.push({
+  title: 'チートシート',
+  href: '/cheatsheet',
+  disabled: true
+})
+
 </script>
 <template>
-  <div class="full-height">
-    <v-container class="full-height-container pa-0">
-      <v-row class="fill-height ma-0">
+  <!-- <div class="full-height"> -->
+    <!-- <v-container class="full-height-container pa-0"> -->
+    <v-container class="">
+      <v-breadcrumbs :items="breadcrumbs">
+        <template v-slot:item="props">
+          <v-breadcrumbs-item
+          exact
+          :disabled="props.item.disabled"
+          :to="props.item.href"
+          nuxt
+          >
+          {{ props.item.title }}
+          </v-breadcrumbs-item>
+        </template>
+      </v-breadcrumbs>
+
+      <div style="display: flex; justify-content: space-between;padding: 0px;">
+        <div style="flex: 1; display: flex; justify-content: flex-start;">
+          <v-btn
+            v-if='prevArticle'
+            :to='{path: `${prevArticle._path}`}'
+            style="background-color: white; width: 120px;"
+            variant="outlined"
+            ><<<</v-btn>
+        </div>
+        <div style="flex: 1; display: flex; justify-content: center;">
+          <v-btn
+            :to='{path: `/cheatsheet`}'
+            style="background-color: white; width: 70px;"
+            variant="outlined"
+            >TOP</v-btn>
+        </div>
+        <div style="flex: 1; display: flex; justify-content: flex-end;">
+          <v-btn
+            v-if='nextArticle'
+            :to='{path: `${nextArticle._path}`}'
+            style="background-color: white; width: 120px;"
+            variant="outlined"
+            >>>></v-btn>
+        </div>
+      </div>
+
+      <ContentDoc v-if="article">
+          <template #default="{ doc }">
+            <v-card
+            elevation="0"
+            style="margin-top: 20px;background-color: white;"
+            variant="outlined"
+            >
+              <v-card-title>
+                {{ article.title }}
+              </v-card-title>
+              <v-card-text>
+                <ContentRenderer :value="doc" />
+              </v-card-text>
+            </v-card>
+        </template>
+      </ContentDoc>
+
+      <!-- <v-row class="fill-height ma-0">
         <v-col cols="12" class="pa-4" style="background-color: white;">
           <ContentDoc v-if="article">
-            <template #default="{ doc }">
+            <template #default="{ doc }"> -->
               <!-- 前後のリンクボタン -->
-              <v-row>
+              <!-- <v-row>
                 <v-col v-if="prevArticle">
                   <v-btn
                     :to="prevArticle._path"
@@ -105,7 +174,18 @@ useHead({
                     前の記事
                   </v-btn>
                 </v-col>
-                <v-spacer></v-spacer>
+                <v-spacer>
+                <v-col>
+                  <v-btn
+                    :to='{path: `/cheatsheet`}'
+                    color="primary"
+                    variant="outlined"
+                    size="small"
+                  >
+                    TOP
+                  </v-btn>
+                </v-col>
+                </v-spacer>
                 <v-col v-if="nextArticle" class="text-right">
                   <v-btn
                     :to="nextArticle._path"
@@ -117,9 +197,10 @@ useHead({
                     <v-icon end icon="mdi-chevron-right"></v-icon>
                   </v-btn>
                 </v-col>
-              </v-row>
+              </v-row> -->
 
-              <h1>{{ doc.title }}</h1>
+
+              <!-- <h1>{{ doc.title }}</h1>
               <ContentRenderer :value="doc" />
             </template>
             <template #empty>
@@ -127,9 +208,9 @@ useHead({
             </template>
           </ContentDoc>
         </v-col>
-      </v-row>
+      </v-row> -->
     </v-container>
-  </div>
+  <!-- </div> -->
 </template>
 
 <style scoped>
@@ -158,7 +239,7 @@ useHead({
   top: 5px;
   right: 5px;
   padding: 5px 10px;
-  background-color: #f0f0f0;
+  background-color: #b81111;
   border: none;
   border-radius: 3px;
   cursor: pointer;

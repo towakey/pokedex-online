@@ -284,6 +284,8 @@ onUnmounted(() => {
     container.removeEventListener('touchend', onTouchEnd, { capture: true })
   }
 })
+
+const statusIndex = ref()
 </script>
 <template>
   <div
@@ -576,6 +578,14 @@ onUnmounted(() => {
     </v-dialog>
   </ClientOnly>
   <v-container>
+  <v-row>
+    <v-col
+    cols="12"
+    md="9"
+    >
+
+
+    <v-container>
     <v-breadcrumbs :items="breadcrumbs">
       <template v-slot:item="props">
         <v-breadcrumbs-item
@@ -715,92 +725,6 @@ onUnmounted(() => {
             </v-card>
 
 
-            <!-- <v-card
-            elevation="0"
-            width="100%"
-            height="100%"
-            variant="outlined"
-            style="background-color: white;"
-            >
-              <v-card-title
-              width="auto"
-              class="pa-0"
-              >
-                <v-card
-                @click="nameDialog = true"
-                elevation="0"
-                style="background-color: #f2f2f2;padding: 0px;margin: 0px;"
-                >
-                  <v-card-title
-                  class="pa-2 ma-0"
-                  >
-                    <h2 class="responsive-text">{{ pokedex["status"][index].name.jpn }}</h2>
-                  </v-card-title>
-                </v-card>
-              </v-card-title>
-              <v-card-text>
-                <v-list class="pa-0 ma-0" density="compact">
-                  <v-list-item class="pa-0 ma-0 narrow-list-item" style="">
-                    <v-list-item-title class="pa-0 ma-0">
-                      <v-row class="pa-0 ma-0">
-                        <v-col class="pa-0 ma-0" cols="5"><div class="responsive-text">分類</div></v-col>
-                        <v-col class="pa-0 ma-0" cols="7">
-                          <div class="responsive-text">{{ pokedex["status"][index].classification }}</div>
-                        </v-col>
-                      </v-row>
-                    </v-list-item-title>
-                  </v-list-item>
-                  <v-list-item class="pa-0 narrow-list-item">
-                    <v-list-item-title>
-                      <v-row
-                      class="pa-0 ma-0"
-                      >
-                        <v-col
-                        class="pa-0 ma-0"
-                        cols="5"><div class="responsive-text">図鑑番号</div></v-col>
-                        <v-col
-                        class="pa-0 ma-0"
-                        cols="7"><div class="responsive-text">No.{{ ('0000' + pokedex.no).slice(-4) }}</div></v-col>
-                      </v-row>
-                      <v-row
-                      class="pa-0 ma-0"
-                      >
-                        <v-col
-                        class="pa-0 ma-0"
-                        cols="5"><div class="responsive-text">全国図鑑番号</div></v-col>
-                        <v-col
-                        class="pa-0 ma-0"
-                        cols="7"><div class="responsive-text">
-                          <NuxtLink class="nuxtlink" :to="{path: `/pokedex/global/${pokedex.globalNo}`}">
-                            No.{{ ('0000' + pokedex.globalNo).slice(-4) }}
-                          </NuxtLink>
-                        </div></v-col>
-                      </v-row>
-                      <v-row
-                      class="pa-0 ma-0"
-                      >
-                        <v-col
-                        class="pa-0 ma-0"
-                        cols="5"><div class="responsive-text">たかさ<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M18.5 1.586L22.914 6L21.5 7.414l-2-2v13.172l2-2L22.914 18L18.5 22.414L14.086 18l1.414-1.414l2 2V5.414l-2 2L14.086 6zM2 2h10v20H2zm2 2v16h6V4z"/></svg></div></v-col>
-                        <v-col
-                        class="pa-0 ma-0"
-                        cols="7"><div class="responsive-text">{{ pokedex["status"][0].height }} m</div></v-col>
-                      </v-row>
-                      <v-row
-                      class="pa-0 ma-0"
-                      >
-                        <v-col
-                        class="pa-0 ma-0"
-                        cols="5"><div class="responsive-text">おもさ<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="currentColor" d="M256 46c-45.074 0-82 36.926-82 82c0 25.812 12.123 48.936 30.938 64H128L32 480h448l-96-288h-76.938C325.877 176.936 338 153.812 338 128c0-45.074-36.926-82-82-82m0 36c25.618 0 46 20.382 46 46s-20.382 46-46 46s-46-20.382-46-46s20.382-46 46-46m-82.215 202.95h23.5v33.263l33.873-33.264h27.283l-43.883 43.15l48.4 47.974H233.54l-36.255-35.888v35.888h-23.5zm119.934 21.24c4.76 0 8.952.934 12.573 2.806c3.62 1.872 6.938 4.82 9.95 8.85v-10.13h21.972v61.462c0 10.986-3.48 19.368-10.438 25.146c-6.917 5.82-16.968 8.727-30.152 8.727c-4.272 0-8.4-.325-12.39-.976a77.367 77.367 0 0 1-12.024-2.99v-17.03c3.826 2.198 7.57 3.826 11.23 4.884c3.664 1.098 7.347 1.648 11.05 1.648c7.162 0 12.41-1.566 15.746-4.7c3.337-3.132 5.006-8.035 5.006-14.708v-4.7c-3.01 3.986-6.328 6.916-9.95 8.788c-3.62 1.87-7.813 2.808-12.573 2.808c-8.343 0-15.238-3.275-20.69-9.826c-5.453-6.592-8.18-14.974-8.18-25.146c0-10.214 2.727-18.576 8.18-25.086c5.452-6.55 12.347-9.827 20.69-9.827m8.118 15.746c-4.517 0-8.038 1.67-10.56 5.005c-2.523 3.338-3.784 8.058-3.784 14.162c0 6.266 1.22 11.026 3.662 14.28c2.442 3.215 6.003 4.823 10.682 4.823c4.557 0 8.096-1.67 10.62-5.006c2.522-3.337 3.784-8.036 3.784-14.098c0-6.104-1.262-10.824-3.785-14.16c-2.523-3.337-6.062-5.006-10.62-5.006z"/></svg></div></v-col>
-                        <v-col
-                        class="pa-0 ma-0"
-                        cols="7"><div class="responsive-text">{{ pokedex["status"][0].weight }} kg</div></v-col>
-                      </v-row>
-                    </v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-card-text>
-            </v-card> -->
           </v-col>
           <!-- <v-col
           lg6
@@ -854,7 +778,7 @@ onUnmounted(() => {
     height="auto"
     >
       <v-carousel-item
-        v-for="(item, index) in pokedex.status" :key="index"
+        v-for="(item, index) in pokedex.status" :key="index" refs="statusIndex"
       >
         <TypeView :pokedex="pokedex.status[index]" :area="route.params.area" />
         <StatusChart :statusData="pokedex.status[index]" />
@@ -865,7 +789,93 @@ onUnmounted(() => {
       </v-carousel-item>
     </v-carousel>
   </v-container>
-  </div>
+  </v-col>
+  <v-col
+  cols="12"
+  md="3"
+  v-if="$vuetify.display.lgAndUp"
+  >
+  <v-card
+  elevation="0"
+  style="margin-top: 20px;background-color: white;"
+  variant="outlined"
+  class="menu-card"
+  >
+    <v-card-title>
+    </v-card-title>
+    <v-card-text>
+      <v-list>
+        <NuxtLink
+        :to="{hash: `#type`}"
+        class="nuxtlink"
+        >
+          <v-list-item>
+            <v-list-item-title>タイプ</v-list-item-title>
+          </v-list-item>
+        </NuxtLink>
+        <NuxtLink
+        :to="{hash: `#status`}"
+        class="nuxtlink"
+        >
+          <v-list-item>
+            <v-list-item-title>ステータス</v-list-item-title>
+          </v-list-item>
+        </NuxtLink>
+
+        <div
+        v-if="'ability1' in pokedex.status[0]"
+        >
+          <NuxtLink
+          :to="{hash: `#ability`}"
+          class="nuxtlink"
+          >
+            <v-list-item>
+              <v-list-item-title>とくせい</v-list-item-title>
+            </v-list-item>
+          </NuxtLink>
+        </div>
+        <NuxtLink
+        :to="{hash: `#description`}"
+        class="nuxtlink"
+        >
+          <v-list-item>
+            <v-list-item-title>図鑑説明</v-list-item-title>
+          </v-list-item>
+        </NuxtLink>
+        <div
+        v-if="'waza' in pokedex.status[0]"
+        >
+          <NuxtLink
+          :to="{hash: `#waza`}"
+          class="nuxtlink"
+          >
+            <v-list-item>
+              <v-list-item-title>覚える技</v-list-item-title>
+            </v-list-item>
+          </NuxtLink>
+        </div>
+        <div
+        v-if="Array.isArray(pokedex.status[0].evolve)"
+        >
+          <NuxtLink
+          :to="{hash: `#evolve`}"
+          class="nuxtlink"
+          >
+            <v-list-item>
+              <v-list-item-title>進化先</v-list-item-title>
+            </v-list-item>
+          </NuxtLink>
+        </div>
+      </v-list>
+    </v-card-text>
+  </v-card>
+  </v-col>
+  
+
+  </v-row>
+  </v-container>
+
+</div>
 </template>
 <style scoped>
 .responsive-text-name {
@@ -882,6 +892,10 @@ onUnmounted(() => {
 .narrow-list-item .v-list-item__title {
   padding: 0px;
   margin: 0px;
+}
+.menu-card {
+  position: sticky;
+  top: 100px; /* 上からの距離を調整 */  
 }
 </style>
 

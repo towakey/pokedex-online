@@ -21,6 +21,21 @@ export default defineAppConfig({
       img: '/icon.png'
     },
     {
+      title: '図鑑カメラ',
+      path: '/camera',
+      img: '/camera.png'
+    },
+    {
+      title: '年表',
+      path: '/pokemon_history',
+      img: '/icon.png'
+    },
+    {
+      title: '検索',
+      path: '/search',
+      img: '/icon.png'
+    },
+    {
       title: 'WebApp',
       path: '/webapp',
       img: '/icon.png'
@@ -29,11 +44,6 @@ export default defineAppConfig({
       title: 'チートシート',
       path: '/cheatsheet',
       img: '/blog.png'
-    },
-    {
-      title: '図鑑カメラ',
-      path: '/camera',
-      img: '/camera.png'
     },
     {
       title: 'pokedex.jsonについて',
@@ -53,11 +63,6 @@ export default defineAppConfig({
     {
       title: 'ギャラリー',
       path: '/gallery',
-      img: '/icon.png'
-    },
-    {
-      title: '年表',
-      path: '/pokemon_history',
       img: '/icon.png'
     }
   ],

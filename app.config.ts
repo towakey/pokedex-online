@@ -64,7 +64,12 @@ export default defineAppConfig({
       title: 'ギャラリー',
       path: '/gallery',
       img: '/icon.png'
-    }
+    },
+    {
+      title: 'ポケモン用語の基礎知識',
+      path: '/word',
+      img: '/blog.png'
+    },
   ],
     
   pokedex_eng2jpn: {

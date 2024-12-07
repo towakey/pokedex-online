@@ -5,6 +5,7 @@ const url = ref('https://kyosserver.sakura.ne.jp/api/pokedex.php')
 const result = ref(null)
 const selectedGames = ref<string[]>([])
 const pokemonData = ref(null)
+const isLoading = ref(false)
 
 const fetchPokemonByTags = async () => {
   try {
@@ -27,9 +28,14 @@ const toggleGame = async (game: string) => {
   } else {
     selectedGames.value.splice(index, 1)
   }
-  
+  pokemonData.value = null
   if (selectedGames.value.length > 0) {
-    await fetchPokemonByTags()
+    isLoading.value = true
+    try {
+      await fetchPokemonByTags()
+    } finally {
+      isLoading.value = false
+    }
   } else {
     pokemonData.value = null
   }
@@ -98,11 +104,19 @@ useHead({
     }
   ]
 })
-
-
 </script>
 <template>
   <v-container>
+    <v-overlay
+      :model-value="isLoading"
+      class="align-center justify-center"
+    >
+      <v-progress-circular
+        color="primary"
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
 <!--
     <v-row>
       <v-col cols="12">
@@ -117,7 +131,11 @@ useHead({
 -->
     <v-row v-if="result">
       <v-col cols="12">
-        <v-card>
+        <v-card
+        elevation="0"
+        variant="outlined"
+        style="background-color: white;"
+        >
           <v-card-title>タグ</v-card-title>
           <v-card-text>
             <v-row>
@@ -142,9 +160,6 @@ useHead({
     </v-row>
     <v-row v-if="pokemonData">
       <v-col cols="12">
-        <v-card>
-          <v-card-title></v-card-title>
-          <v-card-text>
             <v-row>
               <v-col
                 cols="12"
@@ -184,8 +199,6 @@ useHead({
                 </NuxtLink>
               </v-col>
             </v-row>
-          </v-card-text>
-        </v-card>
       </v-col>
     </v-row>
   </v-container>

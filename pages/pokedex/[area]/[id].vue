@@ -265,9 +265,6 @@ const getPreviousRoute = () => {
 onMounted(() => {
   const container = document.querySelector('.v-container')
   if (container) {
-  //   container.addEventListener('touchstart', onTouchStart, { passive: true })
-  //   container.addEventListener('touchmove', onTouchMove, { passive: true })
-  //   container.addEventListener('touchend', onTouchEnd)
     container.addEventListener('touchstart', onTouchStart, { passive: true, capture: true })
     container.addEventListener('touchend', onTouchEnd, { capture: true })
   }
@@ -277,9 +274,6 @@ onMounted(() => {
 onUnmounted(() => {
   const container = document.querySelector('.v-container')
   if (container) {
-    // container.removeEventListener('touchstart', onTouchStart)
-    // container.removeEventListener('touchmove', onTouchMove)
-    // container.removeEventListener('touchend', onTouchEnd)
     container.removeEventListener('touchstart', onTouchStart, { capture: true })
     container.removeEventListener('touchend', onTouchEnd, { capture: true })
   }
@@ -356,33 +350,6 @@ const statusIndex = ref()
         </div>
       </div>
 
-      <!-- <v-card
-      elevation="0"
-      style="background-color: #f2f2f2;"
-      >
-        <v-card-actions>
-          <v-btn
-          style="background-color: white;width: 130px;"
-          v-if='prev'
-          :to='{path: `/pokedex/${route.params.area}/${prev.no}`}'
-          >{{ prev.name.jpn }}</v-btn>
-          <v-spacer />
-          <v-btn
-          style="background-color: white;width: 130px;"
-          :to='{path: `/pokedex/${route.params.area}`}'
-          >TOP</v-btn>
-          <v-spacer />
-          <v-btn
-          style="background-color: white;width: 130px;"
-          v-if='next'
-          :to='{path: `/pokedex/${route.params.area}/${next.no}`}'
-          >{{ next.name.jpn }}</v-btn>
-        </v-card-actions>
-      </v-card> -->
-      <!-- <v-carousel :show-arrows="false" hide-delimiters v-model="model" height="auto">
-        <v-carousel-item
-          v-for="(item, index) in pokedex.status" :key="index"
-        > -->
           <v-row
           style="margin-top: 10px;"
           >
@@ -404,19 +371,6 @@ const statusIndex = ref()
                 </v-card-title>
               </v-card>
 
-              <!-- <v-card
-              elevation="0"
-              width="100%"
-              variant="outlined"
-              style="background-color: white;"
-              >
-                <v-card-title
-                width="auto"
-                class=""
-                >
-                  <div class="responsive-text">　　図鑑番号 No.{{ ('0000' + pokedex.no).slice(-4) }}</div>
-                </v-card-title>
-              </v-card> -->
               <v-card
               elevation="0"
               width="100%"
@@ -431,58 +385,6 @@ const statusIndex = ref()
                 </v-card-title>
               </v-card>
 
-            <!-- <v-card
-            elevation="0"
-            width="100%"
-            height="100%"
-            variant="outlined"
-            style="background-color: white;"
-            >
-              <v-card-title
-              width="auto"
-              class="pa-0"
-              >
-                <v-card
-                @click="nameDialog = true"
-                elevation="0"
-                style="background-color: #f2f2f2;padding: 0px;margin: 0px;"
-                >
-                  <v-card-title
-                  class="pa-2 ma-0"
-                  >
-                    <h2 class="responsive-text">{{ pokedex["status"][0].name.jpn }}</h2>
-                  </v-card-title>
-                </v-card>
-              </v-card-title>
-              <v-card-text>
-                <v-list class="pa-0 ma-0" density="compact">
-                  <v-list-item class="pa-0 narrow-list-item">
-                    <v-list-item-title>
-                      <v-row
-                      class="pa-0 ma-0"
-                      >
-                        <v-col
-                        class="pa-0 ma-0"
-                        cols="5"><div class="responsive-text">図鑑番号</div></v-col>
-                        <v-col
-                        class="pa-0 ma-0"
-                        cols="7"><div class="responsive-text">No.{{ ('0000' + pokedex.no).slice(-4) }}</div></v-col>
-                      </v-row>
-                      <v-row
-                      class="pa-0 ma-0"
-                      >
-                        <v-col
-                        class="pa-0 ma-0"
-                        cols="5"><div class="responsive-text">全国図鑑番号</div></v-col>
-                        <v-col
-                        class="pa-0 ma-0"
-                        cols="7"><div class="responsive-text">No.{{ ('0000' + pokedex.globalNo).slice(-4) }}</div></v-col>
-                      </v-row>
-                    </v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-card-text>
-            </v-card> -->
             </v-col>
             <v-col
             cols="5"

@@ -425,6 +425,24 @@ export default defineEventHandler(async (event) => {
     const global_default: any = (await import('~/assets/pokedex/v1/pokedex/pokedex.json')).default
     const ability_default: any = (await import('~/assets/pokedex/v1/ability/ability.json')).default
     const type_default: any = (await import('~/assets/pokedex/v1/type/type.json')).default
+    const kanto_default: any = (await import('~/assets/pokedex/v1/pokedex/Red_Green_Blue_Yellow/Red_Green_Blue_Yellow.json')).default
+    const johto_default: any = (await import('~/assets/pokedex/v1/pokedex/Gold_Silver_Crystal/Gold_Silver_Crystal.json')).default
+    const hoenn_default: any = (await import('~/assets/pokedex/v1/pokedex/Ruby_Sapphire_Emerald/Ruby_Sapphire_Emerald.json')).default
+    const sinnoh_default: any = (await import('~/assets/pokedex/v1/pokedex/Diamond_Pearl_Platinum/Diamond_Pearl_Platinum.json')).default
+    const unova_bw_default: any = (await import('~/assets/pokedex/v1/pokedex/Black_White/Black_White.json')).default
+    const unova_b2w2_default: any = (await import('~/assets/pokedex/v1/pokedex/Black2_White2/Black2_White2.json')).default
+    const central_kalos_default: any = (await import('~/assets/pokedex/v1/pokedex/X_Y/X_Y.json')).default
+    const coast_kalos_default: any = (await import('~/assets/pokedex/v1/pokedex/X_Y/X_Y.json')).default
+    const mountain_kalos_default: any = (await import('~/assets/pokedex/v1/pokedex/X_Y/X_Y.json')).default
+    const alola_sm_default: any = (await import('~/assets/pokedex/v1/pokedex/Sun_Moon/Sun_Moon.json')).default
+    const alola_usum_default: any = (await import('~/assets/pokedex/v1/pokedex/UltraSun_UltraMoon/UltraSun_UltraMoon.json')).default
+    const galar_default: any = (await import('~/assets/pokedex/v1/pokedex/Sword_Shield/Sword_Shield.json')).default
+    const island_default: any = (await import('~/assets/pokedex/v1/pokedex/Sword_Shield/Sword_Shield.json')).default
+    const isle_of_armor_default: any = (await import('~/assets/pokedex/v1/pokedex/Sword_Shield/Sword_Shield.json')).default
+    const hisui_default: any = (await import('~/assets/pokedex/v1/pokedex/LegendsArceus/LegendsArceus.json')).default
+    const paldea_default: any = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default
+    const kitakami_default: any = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default
+    const blueberry_default: any = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default
 
     result = [
       {
@@ -441,6 +459,96 @@ export default defineEventHandler(async (event) => {
         "file": "type.json",
         "version": type_default.version,
         "update": type_default.update
+      },
+      {
+        "file": "Red_Green_Blue_Yellow.json",
+        "version": kanto_default.version,
+        "update": kanto_default.update
+      },
+      {
+        "file": "Gold_Silver_Crystal.json",
+        "version": johto_default.version,
+        "update": johto_default.update
+      },
+      {
+        "file": "Ruby_Sapphire_Emerald.json",
+        "version": hoenn_default.version,
+        "update": hoenn_default.update
+      },
+      {
+        "file": "Diamond_Pearl_Platinum.json",
+        "version": sinnoh_default.version,
+        "update": sinnoh_default.update
+      },
+      {
+        "file": "Black_White.json",
+        "version": unova_bw_default.version,
+        "update": unova_bw_default.update
+      },
+      {
+        "file": "Black2_White2.json",
+        "version": unova_b2w2_default.version,
+        "update": unova_b2w2_default.update
+      },
+      {
+        "file": "X_Y.json",
+        "version": central_kalos_default.version,
+        "update": central_kalos_default.update
+      },
+      {
+        "file": "X_Y.json",
+        "version": coast_kalos_default.version,
+        "update": coast_kalos_default.update
+      },
+      {
+        "file": "X_Y.json",
+        "version": mountain_kalos_default.version,
+        "update": mountain_kalos_default.update
+      },
+      {
+        "file": "Sun_Moon.json",
+        "version": alola_sm_default.version,
+        "update": alola_sm_default.update
+      },
+      {
+        "file": "UltraSun_UltraMoon.json",
+        "version": alola_usum_default.version,
+        "update": alola_usum_default.update
+      },
+      {
+        "file": "Sword_Shield.json",
+        "version": galar_default.version,
+        "update": galar_default.update
+      },
+      {
+        "file": "Sword_Shield.json",
+        "version": island_default.version,
+        "update": island_default.update
+      },
+      {
+        "file": "Sword_Shield.json",
+        "version": isle_of_armor_default.version,
+        "update": isle_of_armor_default.update
+      },
+      {
+        "file": "LegendsArceus.json",
+        "version": hisui_default.version,
+        "update": hisui_default.update
+      },
+      {
+        "file": "Scarlet_Violet.json",
+        "version": paldea_default.version,
+        "update": paldea_default.update
+      },
+      {
+        "file": "Scarlet_Violet.json",
+        "version": kitakami_default.version,
+        "update": kitakami_default.update
+      },
+      {
+        "file": "Scarlet_Violet.json",
+        "version": blueberry_default.version,
+        "update": blueberry_default.update
       }
     ]
   }

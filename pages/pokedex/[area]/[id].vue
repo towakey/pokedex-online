@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const config = useRuntimeConfig()
 const appConfig = useAppConfig()
 const route = useRoute()
 route.meta.title = appConfig.pokedex_eng2jpn[route.params.area]
@@ -695,7 +696,7 @@ const statusIndex = ref()
           >
             <v-card-text>
               <template>
-                <AdUnit ad-slot="" />
+                <AdUnit :ad-slot="config.public.adSlot" />
               </template>
             </v-card-text>
           </v-card>    
@@ -781,7 +782,7 @@ const statusIndex = ref()
         </v-card-text>
         <v-card-text>
           <template>
-            <AdUnit ad-slot="" />
+            <AdUnit :ad-slot="config.public.adSlot" />
           </template>
         </v-card-text>
       </v-card>
@@ -817,4 +818,3 @@ const statusIndex = ref()
   z-index: 1;
 }
 </style>
-

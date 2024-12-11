@@ -28,7 +28,8 @@ export default defineNuxtConfig({
     public: {
       siteUrl: process.env.SITE_URL || 'https://pokedex-online.jp',
       googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
-      googleAdsenseId: process.env.GOOGLE_ADSENSE_ID || ''
+      googleAdsenseId: process.env.GOOGLE_ADSENSE_ID || '',
+      adSlot: process.env.AD_SLOT || ''
     },
     apiProxyUrl: process.env.API_PROXY_URL || ''
   },

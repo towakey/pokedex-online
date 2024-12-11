@@ -14,13 +14,21 @@ export default defineNuxtConfig({
           type: 'image/png',
           href: '/icon.png',
         }
+      ],
+      script: [
+        {
+          src: `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.GOOGLE_ADSENSE_ID || ''}`,
+          async: true,
+          crossorigin: 'anonymous'
+        }
       ]
     }
   },
   runtimeConfig: {
     public: {
       siteUrl: process.env.SITE_URL || 'https://pokedex-online.jp',
-      googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || ''
+      googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
+      googleAdsenseId: process.env.GOOGLE_ADSENSE_ID || ''
     },
     apiProxyUrl: process.env.API_PROXY_URL || ''
   },

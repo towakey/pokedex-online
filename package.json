@@ -13,6 +13,7 @@
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@nuxt/content": "^2.12.0",
+    "@nuxtjs/google-adsense": "^3.0.0",
     "@teachablemachine/image": "^0.8.5",
     "@tensorflow/tfjs": "^4.18.0",
     "chart.js": "^4.4.1",

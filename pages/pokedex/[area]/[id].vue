@@ -695,9 +695,11 @@ const statusIndex = ref()
           variant="outlined"
           >
             <v-card-text>
-              <template>
-                <AdUnit :ad-slot="config.public.adSlot" />
-              </template>
+              <adsbygoogle
+                :ad-slot="config.public.adSlot"
+                :ad-format="'auto'"
+                :full-width-responsive="true"
+              />
             </v-card-text>
           </v-card>    
         </v-carousel-item>
@@ -781,9 +783,11 @@ const statusIndex = ref()
           </v-list>
         </v-card-text>
         <v-card-text>
-          <template>
-            <AdUnit :ad-slot="config.public.adSlot" />
-          </template>
+          <adsbygoogle
+            :ad-slot="config.public.adSlot"
+            :ad-format="'auto'"
+            :full-width-responsive="true"
+          />
         </v-card-text>
       </v-card>
     </v-col>

@@ -57,6 +57,7 @@ export default defineNuxtConfig({
     },
   },
   modules: [
+    '@nuxtjs/google-adsense',
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) => {
         // @ts-expect-error
@@ -67,6 +68,11 @@ export default defineNuxtConfig({
     "@nuxt/content",
     '@vite-pwa/nuxt',
   ],
+  googleAdsense: {
+    id: process.env.GOOGLE_ADSENSE_ID || '',
+    test: false,
+    onPageLoad: true
+  },
   plugins: [
     '~/plugins/vue-touch-events.ts'
   ],

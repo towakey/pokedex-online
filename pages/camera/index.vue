@@ -53,6 +53,18 @@ const labelList = ref<{
 const facingMode = ref('environment')
 const cameraFlag = ref(true)
 
+const breadcrumbs = ref([
+  {
+    title: 'Home',
+    disabled: false,
+    to: '/',
+  },
+  {
+    title: '図鑑カメラ',
+    disabled: true,
+  },
+])
+
 const init = (async () => {
   flag.value = 1
   const modelURL = url + "model.json"
@@ -141,164 +153,97 @@ const facingChange = async () => {
 }
 </script>
 <template>
-  <v-container
-  style="background-color: white;"
-  >
-    <v-card
-    variant="text"
-    >
-      <v-card-title>
-        <!-- <v-btn
-        block
-        @click="init()"
-        v-if="flag == 0"
-        variant="outlined"
-        >カメラ起動</v-btn>
-        <div
-        class="mx-auto text-center"
-        v-if="flag == 1"
+  <v-container>
+    <v-breadcrumbs :items="breadcrumbs">
+      <template v-slot:item="props">
+        <v-breadcrumbs-item
+          :to="props.item.to"
+          :disabled="props.item.disabled"
         >
-          <p>Loading...</p>
-          <v-progress-circular
-          :size="50"
-          color="primary"
-          indeterminate
-          ></v-progress-circular>
-        </div> -->
-      </v-card-title>
-      <v-card-text>
-        <h3
-        v-if="flag == 0"
-        >カメラを起動し、映した対象がどのポケモンに近いかを表示します。</h3>
-        <div id="webcam-container"></div>
-        <div
-        v-if="flag == 2"
-        >
-          <!-- <v-btn
-          block
-          @click="facingChange()"
-          >カメラ切り替え</v-btn> -->
-          <!-- <div id="label-container"></div> -->
-          <!-- <v-list
-          :items="labelList"
-          item-title="name"
-          ></v-list> -->
-          <v-list
-          v-if="labelList.length > 0"
-          >
-            <!-- <v-list-item v-for="item in labelList.slice(0, 3)" :key="item.name">
-              <v-list-item-title>
-                <NuxtLink
-                :to="{path: `/pokedex/global/${item.id}`}"
-                class="link-decoration"
-                >
-                  {{ item.name }}
-                </NuxtLink>
-              </v-list-item-title>
-            </v-list-item> -->
-            <v-list-item
-            variant="tonal"
-            >
-              <NuxtLink
-              :to="{path: `/pokedex/global/${labelList[0].id}`}"
-              class="link-decoration"
-              >
-                <v-list-item-title>
-                    {{ labelList[0].name }}
-                </v-list-item-title>
-              </NuxtLink>
-            </v-list-item>
-            <v-list-item
-            variant="tonal"
-            >
-              <NuxtLink
-              :to="{path: `/pokedex/global/${labelList[1].id}`}"
-              class="link-decoration"
-              >
-                <v-list-item-title>
-                    {{ labelList[1].name }}
-                </v-list-item-title>
-              </NuxtLink>
-            </v-list-item>
-            <v-list-item
-            variant="tonal"
-            >
-              <NuxtLink
-              :to="{path: `/pokedex/global/${labelList[2].id}`}"
-              class="link-decoration"
-              >
-                <v-list-item-title>
-                    {{ labelList[2].name }}
-                </v-list-item-title>
-              </NuxtLink>
-            </v-list-item>
-          </v-list>
-        </div>
-      </v-card-text>
-      <v-card-actions>
-        <!-- <v-btn
-        v-if="cameraFlag"
-        @click="facingChange()"
-        block
-        >
-        切り替え
-        </v-btn> -->
-        <v-btn
-        block
-        @click="init()"
-        v-if="flag == 0"
-        variant="outlined"
-        >カメラ起動</v-btn>
-        <div
-        class="mx-auto text-center"
-        v-if="flag == 1"
-        >
-          <p>Loading...</p>
-          <v-progress-circular
-          :size="50"
-          color="primary"
-          indeterminate
-          ></v-progress-circular>
-        </div>
+          {{ props.item.title }}
+        </v-breadcrumbs-item>
+      </template>
+    </v-breadcrumbs>
 
-      </v-card-actions>
-    </v-card>
-    <v-card
-    variant="text"
-    v-if="flag == 2"
-    >
-      <v-card-title>
-        <v-btn
-        block
-        variant="text"
-        @click="learnListFlag = !learnListFlag"
-        >対応しているポケモン</v-btn>
-      </v-card-title>
-      <v-expand-transition>
-        <v-list v-if="learnListFlag">
-          <v-list-item
-          v-for="learn in learnList"
-          :key = "learn"
-          >
-            <v-list-item-title>
-              {{ appConfig.name2id[learn.slice(0, 1).toUpperCase()+learn.slice(1)].name }}
-            </v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-expand-transition>
-      <v-card-actions>
-      </v-card-actions>
-    </v-card>
+    <v-row>
+      <v-col cols="12">
+        <v-card
+          class="mb-4"
+          variant="outlined"
+        >
+          <v-card-title class="text-h6">
+            図鑑カメラ
+          </v-card-title>
+          <v-card-text>
+            <h3 v-if="flag == 0" class="mb-4">
+              カメラを起動し、映した対象がどのポケモンに近いかを表示します。
+            </h3>
+            <div id="webcam-container" class="mb-4"></div>
+            <div v-if="flag == 2">
+              <v-list v-if="labelList.length > 0" class="mb-4">
+                <v-list-item
+                  v-for="(item, index) in labelList.slice(0, 3)"
+                  :key="index"
+                  :to="{path: `/pokedex/global/${item.id}`}"
+                  variant="tonal"
+                  class="mb-2"
+                >
+                  <v-list-item-title>
+                    {{ item.name }}
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </div>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn
+              block
+              color="primary"
+              @click="init()"
+              v-if="flag == 0"
+              variant="outlined"
+            >
+              カメラ起動
+            </v-btn>
+            <div
+              class="mx-auto text-center py-4"
+              v-if="flag == 1"
+            >
+              <p class="mb-2">Loading...</p>
+              <v-progress-circular
+                :size="50"
+                color="primary"
+                indeterminate
+              ></v-progress-circular>
+            </div>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
+
 <style scoped>
 #webcam-container {
   display: grid;
   place-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 #webcam-container canvas {
   display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
 
+.v-list-item {
+  transition: background-color 0.2s;
+}
+
+.v-list-item:hover {
+  background-color: rgba(var(--v-theme-primary), 0.1);
+}
 </style>

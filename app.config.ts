@@ -26,13 +26,23 @@ export default defineAppConfig({
       img: '/camera.png'
     },
     {
-      title: '年表',
-      path: '/pokemon_history',
+      title: '検索',
+      path: '/search',
       img: '/icon.png'
     },
     {
-      title: '検索',
-      path: '/search',
+      title: 'pokedex.jsonについて',
+      path: '/pokedexjson',
+      img: '/icon.png'
+    },
+    {
+      title: 'ポケモン用語の基礎知識',
+      path: '/word',
+      img: '/blog.png'
+    },
+    {
+      title: '年表',
+      path: '/pokemon_history',
       img: '/icon.png'
     },
     {
@@ -44,11 +54,6 @@ export default defineAppConfig({
       title: 'チートシート',
       path: '/cheatsheet',
       img: '/blog.png'
-    },
-    {
-      title: 'pokedex.jsonについて',
-      path: '/pokedexjson',
-      img: '/icon.png'
     },
     {
       title: 'リンク',
@@ -64,11 +69,6 @@ export default defineAppConfig({
       title: 'ギャラリー',
       path: '/gallery',
       img: '/icon.png'
-    },
-    {
-      title: 'ポケモン用語の基礎知識',
-      path: '/word',
-      img: '/blog.png'
     },
   ],
     

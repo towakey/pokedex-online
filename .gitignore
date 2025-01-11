@@ -130,7 +130,9 @@ dist
 .pnp.*
 
 # assets
-assets/pokedex
+assets/v1
 
 #.output
 .output
+
+transfer.txt

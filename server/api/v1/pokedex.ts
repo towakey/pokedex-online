@@ -1,10 +1,10 @@
 export default defineEventHandler(async (event) => {
   const appConfig = useAppConfig()
-  const global: any = (await import('~/assets/pokedex/v1/pokedex/pokedex.json')).default.pokedex
+  const global: any = (await import('~/assets/v1/pokedex/pokedex/pokedex.json')).default.pokedex
 
-  const ability: any = (await import('~/assets/pokedex/v1/ability/ability.json')).default.ability
+  const ability: any = (await import('~/assets/v1/pokedex/ability/ability.json')).default.ability
   
-  const type_json: any = (await import('~/assets/pokedex/v1/type/type.json')).default.type
+  const type_json: any = (await import('~/assets/v1/pokedex/type/type.json')).default.type
 
 
   const query: any = getQuery(event)
@@ -32,126 +32,126 @@ export default defineEventHandler(async (event) => {
       break
     case "kanto":
       ver = "Red_Green_Blue_Yellow"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/Red_Green_Blue_Yellow/Red_Green_Blue_Yellow.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/Red_Green_Blue_Yellow/Red_Green_Blue_Yellow.json')).default.pokedex
       type_list = appConfig.type_list['1']
       break
     case "johto":
       ver = "Gold_Silver_Crystal"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/Gold_Silver_Crystal/Gold_Silver_Crystal.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/Gold_Silver_Crystal/Gold_Silver_Crystal.json')).default.pokedex
       type_list = appConfig.type_list['2']
       break
     case "hoenn":
       ver = "Ruby_Sapphire_Emerald"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/Ruby_Sapphire_Emerald/Ruby_Sapphire_Emerald.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/Ruby_Sapphire_Emerald/Ruby_Sapphire_Emerald.json')).default.pokedex
       type_list = appConfig.type_list['2']
       break
     case "sinnoh":
       ver = "Diamond_Pearl_Platinum"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/Diamond_Pearl_Platinum/Diamond_Pearl_Platinum.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/Diamond_Pearl_Platinum/Diamond_Pearl_Platinum.json')).default.pokedex
       type_list = appConfig.type_list['2']
       break
     case "unova_bw":
       ver = "Black_White"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/Black_White/Black_White.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/Black_White/Black_White.json')).default.pokedex
       type_list = appConfig.type_list['2']
       break
     case "unova_b2w2":
       ver = "Black2_White2"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/Black2_White2/Black2_White2.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/Black2_White2/Black2_White2.json')).default.pokedex
       type_list = appConfig.type_list['2']
       break
     case "central_kalos":
       ver = "X_Y"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/X_Y/X_Y.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/X_Y/X_Y.json')).default.pokedex
       type_list = appConfig.type_list['3']
       break
     case "coast_kalos":
       ver = "X_Y"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/X_Y/X_Y.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/X_Y/X_Y.json')).default.pokedex
       type_list = appConfig.type_list['3']
       break
     case "mountain_kalos":
       ver = "X_Y"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/X_Y/X_Y.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/X_Y/X_Y.json')).default.pokedex
       type_list = appConfig.type_list['3']
       break
     case "alola_sm":
       ver = "Sun_Moon"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/Sun_Moon/Sun_Moon.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/Sun_Moon/Sun_Moon.json')).default.pokedex
       type_list = appConfig.type_list['3']
       break
     case "alola_usum":
       ver = "UltraSun_UltraMoon"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/UltraSun_UltraMoon/UltraSun_UltraMoon.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/UltraSun_UltraMoon/UltraSun_UltraMoon.json')).default.pokedex
       type_list = appConfig.type_list['3']
       break
     case "galar":
       ver = "Sword_Shield"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/Sword_Shield/Sword_Shield.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/Sword_Shield/Sword_Shield.json')).default.pokedex
       type_list = appConfig.type_list['3']
       break
     case "crown_tundra":
       ver = "Sword_Shield"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/Sword_Shield/Sword_Shield.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/Sword_Shield/Sword_Shield.json')).default.pokedex
       type_list = appConfig.type_list['3']
       break
     case "isle_of_armor":
       ver = "Sword_Shield"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/Sword_Shield/Sword_Shield.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/Sword_Shield/Sword_Shield.json')).default.pokedex
       type_list = appConfig.type_list['3']
       break
     case "hisui":
       ver = "LegendsArceus"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/LegendsArceus/LegendsArceus.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/LegendsArceus/LegendsArceus.json')).default.pokedex
       type_list = appConfig.type_list['3']
       break
     case "paldea":
       ver = "Scarlet_Violet"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default.pokedex
       type_list = appConfig.type_list['3']
       try {
-        waza = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/waza.json')).default.waza.paldea
+        waza = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/waza.json')).default.waza.paldea
       }catch(e){
         waza = {}
       }
       try {
-        waza_machine = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/waza_machine.json')).default.waza_machine
+        waza_machine = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/waza_machine.json')).default.waza_machine
       }catch(e){
         waza_machine = {}
       }
       try {
-        evolve = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/evolve.json')).default.evolve.paldea
+        evolve = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/evolve.json')).default.evolve.paldea
       }catch(e){
         evolve = []
       }
       break
     case "kitakami":
       ver = "Scarlet_Violet"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default.pokedex
       type_list = appConfig.type_list['3']
       try {
-        waza = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/waza.json')).default.waza.kitakami
+        waza = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/waza.json')).default.waza.kitakami
       }catch(e){
         waza = {}
       }
       try {
-        waza_machine = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/waza_machine.json')).default.waza_machine
+        waza_machine = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/waza_machine.json')).default.waza_machine
       }catch(e){
         waza_machine = {}
       }
       break
     case "blueberry":
       ver = "Scarlet_Violet"
-      pokedex = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default.pokedex
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default.pokedex
       type_list = appConfig.type_list['3']
       try {
-        waza = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/waza.json')).default.waza.blueberry
+        waza = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/waza.json')).default.waza.blueberry
       }catch(e){
         waza = {}
         console.log(`waza error:${e}`)
       }
       try {
-        waza_machine = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/waza_machine.json')).default.waza_machine
+        waza_machine = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/waza_machine.json')).default.waza_machine
       }catch(e){
         waza_machine = {}
         console.log(`machine error:${e}`)
@@ -229,7 +229,6 @@ export default defineEventHandler(async (event) => {
                 })
               }
             })
-            // console.log(status)
           }
           if(global[pokemon["globalNo"] - 1].gigantamax)
           {
@@ -271,14 +270,6 @@ export default defineEventHandler(async (event) => {
           result["no"] = id+1
           result["globalNo"] = id+1
         }
-        // result["status"] = []
-        // result["status"].push(
-        //   {
-        //     "name": pokemon["name"]
-        //     "classification": 
-        //   }
-        // )
-  
       }
       else
       {
@@ -422,27 +413,27 @@ export default defineEventHandler(async (event) => {
       }
     });
   }else if(mode == 'version'){
-    const global_default: any = (await import('~/assets/pokedex/v1/pokedex/pokedex.json')).default
-    const ability_default: any = (await import('~/assets/pokedex/v1/ability/ability.json')).default
-    const type_default: any = (await import('~/assets/pokedex/v1/type/type.json')).default
-    const kanto_default: any = (await import('~/assets/pokedex/v1/pokedex/Red_Green_Blue_Yellow/Red_Green_Blue_Yellow.json')).default
-    const johto_default: any = (await import('~/assets/pokedex/v1/pokedex/Gold_Silver_Crystal/Gold_Silver_Crystal.json')).default
-    const hoenn_default: any = (await import('~/assets/pokedex/v1/pokedex/Ruby_Sapphire_Emerald/Ruby_Sapphire_Emerald.json')).default
-    const sinnoh_default: any = (await import('~/assets/pokedex/v1/pokedex/Diamond_Pearl_Platinum/Diamond_Pearl_Platinum.json')).default
-    const unova_bw_default: any = (await import('~/assets/pokedex/v1/pokedex/Black_White/Black_White.json')).default
-    const unova_b2w2_default: any = (await import('~/assets/pokedex/v1/pokedex/Black2_White2/Black2_White2.json')).default
-    const central_kalos_default: any = (await import('~/assets/pokedex/v1/pokedex/X_Y/X_Y.json')).default
-    const coast_kalos_default: any = (await import('~/assets/pokedex/v1/pokedex/X_Y/X_Y.json')).default
-    const mountain_kalos_default: any = (await import('~/assets/pokedex/v1/pokedex/X_Y/X_Y.json')).default
-    const alola_sm_default: any = (await import('~/assets/pokedex/v1/pokedex/Sun_Moon/Sun_Moon.json')).default
-    const alola_usum_default: any = (await import('~/assets/pokedex/v1/pokedex/UltraSun_UltraMoon/UltraSun_UltraMoon.json')).default
-    const galar_default: any = (await import('~/assets/pokedex/v1/pokedex/Sword_Shield/Sword_Shield.json')).default
-    const island_default: any = (await import('~/assets/pokedex/v1/pokedex/Sword_Shield/Sword_Shield.json')).default
-    const isle_of_armor_default: any = (await import('~/assets/pokedex/v1/pokedex/Sword_Shield/Sword_Shield.json')).default
-    const hisui_default: any = (await import('~/assets/pokedex/v1/pokedex/LegendsArceus/LegendsArceus.json')).default
-    const paldea_default: any = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default
-    const kitakami_default: any = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default
-    const blueberry_default: any = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default
+    const global_default: any = (await import('~/assets/v1/pokedex/pokedex/pokedex.json')).default
+    const ability_default: any = (await import('~/assets/v1/pokedex/ability/ability.json')).default
+    const type_default: any = (await import('~/assets/v1/pokedex/type/type.json')).default
+    const kanto_default: any = (await import('~/assets/v1/pokedex/pokedex/Red_Green_Blue_Yellow/Red_Green_Blue_Yellow.json')).default
+    const johto_default: any = (await import('~/assets/v1/pokedex/pokedex/Gold_Silver_Crystal/Gold_Silver_Crystal.json')).default
+    const hoenn_default: any = (await import('~/assets/v1/pokedex/pokedex/Ruby_Sapphire_Emerald/Ruby_Sapphire_Emerald.json')).default
+    const sinnoh_default: any = (await import('~/assets/v1/pokedex/pokedex/Diamond_Pearl_Platinum/Diamond_Pearl_Platinum.json')).default
+    const unova_bw_default: any = (await import('~/assets/v1/pokedex/pokedex/Black_White/Black_White.json')).default
+    const unova_b2w2_default: any = (await import('~/assets/v1/pokedex/pokedex/Black2_White2/Black2_White2.json')).default
+    const central_kalos_default: any = (await import('~/assets/v1/pokedex/pokedex/X_Y/X_Y.json')).default
+    const coast_kalos_default: any = (await import('~/assets/v1/pokedex/pokedex/X_Y/X_Y.json')).default
+    const mountain_kalos_default: any = (await import('~/assets/v1/pokedex/pokedex/X_Y/X_Y.json')).default
+    const alola_sm_default: any = (await import('~/assets/v1/pokedex/pokedex/Sun_Moon/Sun_Moon.json')).default
+    const alola_usum_default: any = (await import('~/assets/v1/pokedex/pokedex/UltraSun_UltraMoon/UltraSun_UltraMoon.json')).default
+    const galar_default: any = (await import('~/assets/v1/pokedex/pokedex/Sword_Shield/Sword_Shield.json')).default
+    const island_default: any = (await import('~/assets/v1/pokedex/pokedex/Sword_Shield/Sword_Shield.json')).default
+    const isle_of_armor_default: any = (await import('~/assets/v1/pokedex/pokedex/Sword_Shield/Sword_Shield.json')).default
+    const hisui_default: any = (await import('~/assets/v1/pokedex/pokedex/LegendsArceus/LegendsArceus.json')).default
+    const paldea_default: any = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default
+    const kitakami_default: any = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default
+    const blueberry_default: any = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/Scarlet_Violet.json')).default
 
     result = [
       {

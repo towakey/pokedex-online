@@ -8,7 +8,7 @@ definePageMeta({
   title: "Pokedex-Online"
 })
 // const ability = (await useFetch('/api/v1/ability?mode=index&area='+route.params.area)).data.value.result
-const ability = (await import('~/assets/pokedex/v1/ability/ability.json')).ability
+const ability = (await import('~/assets/v1/pokedex/ability/ability.json')).ability
 
 const shareOptions = [
   { title: 'Twitter', icon: 'mdi-twitter', network: 'twitter' },

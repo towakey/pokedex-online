@@ -69,7 +69,6 @@ useHead({
         >
           <v-card-title>{{ item.file }}</v-card-title>
           <v-card-text>
-            <p>version: {{ item.version }}</p>
             <p>update: {{ item.update }}</p>
           </v-card-text>
         </v-card>

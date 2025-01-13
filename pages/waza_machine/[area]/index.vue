@@ -13,8 +13,8 @@ let waza_machine:any
 let waza_machine_row:any
 const area = ref()
 if(['paldea', 'kitakami', 'blueberry'].includes(route.params.area)){
-  waza = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/waza_list.json')).waza_list
-  waza_machine_row = (await import('~/assets/pokedex/v1/pokedex/Scarlet_Violet/waza_machine.json')).waza_machine
+  waza = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/waza_list.json')).waza_list
+  waza_machine_row = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/waza_machine.json')).waza_machine
   waza_machine = {}
   area.value = 'paldea'
   for (const key in waza_machine_row) {

@@ -3,7 +3,7 @@ const appConfig = useAppConfig()
 const route = useRoute()
 route.meta.title = 'タイプチェッカー'
 
-const typeData = (await import('~/assets/pokedex/v1/type/type.json')).type
+const typeData = (await import('~/assets/v1/pokedex/type/type.json')).type
 
 
 const selectedGameVersion = ref(appConfig.gameVersion[appConfig.gameVersion.length-1].eng)

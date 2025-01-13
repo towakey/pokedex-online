@@ -2,7 +2,7 @@ export default defineEventHandler(async (event) => {
   // const appConfig = useAppConfig()
   // const global: any = (await import('~/assets/pokedex/v1/pokedex/pokedex.json')).default.pokedex
 
-  const ability: any = (await import('~/assets/pokedex/v1/ability/ability.json')).default.ability
+  const ability: any = (await import('~/assets/v1/pokedex/ability/ability.json')).default.ability
   
 
   const query: any = getQuery(event)

@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   ssr: true,
   prerender: true,
   devtools: { enabled: true },
+
   app: {
     head: {
       title: 'Pokedex-Online',
@@ -24,6 +25,7 @@ export default defineNuxtConfig({
       ]
     }
   },
+
   runtimeConfig: {
     public: {
       siteUrl: process.env.SITE_URL || 'https://pokedex-online.jp',
@@ -33,13 +35,17 @@ export default defineNuxtConfig({
     },
     apiProxyUrl: process.env.API_PROXY_URL || ''
   },
+
   bridge: {
     meta: true
   },
+
   build: {
     transpile: ['vuetify'],
   },
+
   css: ["@/assets/styles/common.scss"],
+
   content: {
     highlight: {
       theme: 'github-dark-dimmed',
@@ -56,6 +62,7 @@ export default defineNuxtConfig({
       },
     },
   },
+
   modules: [
     '@nuxtjs/google-adsense',
     (_options, nuxt) => {
@@ -68,15 +75,19 @@ export default defineNuxtConfig({
     "@nuxt/content",
     '@vite-pwa/nuxt',
   ],
+
   googleAdsense: {
     id: process.env.GOOGLE_ADSENSE_ID || '',
     test: false,
     onPageLoad: true
   },
+
   plugins: [
     '~/plugins/vue-touch-events.ts'
   ],
+
   sourcemap: false,
+
   vite: {
     vue: {
       template: {
@@ -91,6 +102,7 @@ export default defineNuxtConfig({
     //   },
     // },
   },
+
   pwa: {
     registerType: 'autoUpdate',
     manifest: {
@@ -123,7 +135,8 @@ export default defineNuxtConfig({
     },
     workbox: {
       globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
-      navigateFallback: '/'
+      navigateFallback: '/',
+      maximumFileSizeToCacheInBytes: 4 * 1024 * 1024, // 4MB
     },
     client: {
       installPrompt: true,
@@ -142,4 +155,7 @@ export default defineNuxtConfig({
         '/api/proxy': { cors: true },
       },
     },
-  }})
+  },
+
+  compatibilityDate: '2025-01-14'
+})

@@ -38,28 +38,28 @@ let giga = 1
 let mugen = 1
 if(route.params.area !== 'global'){
   for(pokedex_status in pokedex.status){
-    if(pokedex.status[pokedex_status].form == 'メガシンカ'){
+    if(pokedex.status[pokedex_status].mega_evolution.includes('メガ')){
       pokedex.status[pokedex_status]["src"]='/img/'+('0000' + pokedex.globalNo).slice( -4 ) + '-mega' + mega + ".png"
       mega++
-    }else if(pokedex.status[pokedex_status].form.includes('キョダイマックス')){
+    }else if(pokedex.status[pokedex_status].gigantamax.includes('キョダイマックス')){
       pokedex.status[pokedex_status]["src"]='/img/'+('0000' + pokedex.globalNo).slice( -4 ) + '-gigantmax' + giga + ".png"
       giga++
-    }else if(pokedex.status[pokedex_status].form.includes('ムゲンダイマックス')){
+    }else if(pokedex.status[pokedex_status].gigantamax.includes('ムゲンダイマックス')){
       pokedex.status[pokedex_status]["src"]='/img/'+('0000' + pokedex.globalNo).slice( -4 ) + '-mugen' + mugen + ".png"
       mugen++
-    }else if(pokedex.status[pokedex_status].form.includes('アローラのすがた')){
+    }else if(pokedex.status[pokedex_status].region.includes('アローラのすがた')){
       region_name = 'alora'
       pokedex.status[pokedex_status]["src"]='/img/'+('0000' + pokedex.globalNo).slice( -4 ) + '-' + region_name + alora + ".png"
       alora++
-    }else if(pokedex.status[pokedex_status].form.includes('ガラルのすがた')){
+    }else if(pokedex.status[pokedex_status].region.includes('ガラルのすがた')){
       region_name = 'galar'
       pokedex.status[pokedex_status]["src"]='/img/'+('0000' + pokedex.globalNo).slice( -4 ) + '-' + region_name + galar + ".png"
       galar++
-    }else if(pokedex.status[pokedex_status].form.includes('ヒスイのすがた')){
+    }else if(pokedex.status[pokedex_status].region.includes('ヒスイのすがた')){
       region_name = 'hisui'
       pokedex.status[pokedex_status]["src"]='/img/'+('0000' + pokedex.globalNo).slice( -4 ) + '-' + region_name + hisui + ".png"
       hisui++
-    }else if(pokedex.status[pokedex_status].form.includes('パルデアのすがた')){
+    }else if(pokedex.status[pokedex_status].region.includes('パルデアのすがた')){
       region_name = 'paldea'
       pokedex.status[pokedex_status]["src"]='/img/'+('0000' + pokedex.globalNo).slice( -4 ) + '-' + region_name + paldea + ".png"
       paldea++

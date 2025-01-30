@@ -21,17 +21,30 @@ const props = defineProps({
 })
 
 const adClient = computed(() => config.public.googleAdsenseId)
+const adInitialized = ref(false)
 
 onMounted(() => {
-  // DOMが完全に描画された後に広告を初期化
-  nextTick(() => {
-    try {
-      // @ts-ignore
-      (window.adsbygoogle = window.adsbygoogle || []).push({})
-    } catch (error) {
-      console.error('AdSense error:', error)
-    }
-  })
+  // コンポーネントがマウントされた時に一度だけ初期化
+  if (!adInitialized.value) {
+    nextTick(() => {
+      try {
+        // 広告スロットが既に初期化されているかチェック
+        const adContainer = document.querySelector(`[data-ad-slot="${props.adSlot}"]`)
+        if (adContainer && !adContainer.hasAttribute('data-ad-status')) {
+          // @ts-ignore
+          (window.adsbygoogle = window.adsbygoogle || []).push({})
+          adInitialized.value = true
+        }
+      } catch (error) {
+        console.error('AdSense initialization error:', error)
+      }
+    })
+  }
+})
+
+// コンポーネントのクリーンアップ
+onUnmounted(() => {
+  adInitialized.value = false
 })
 </script>
 

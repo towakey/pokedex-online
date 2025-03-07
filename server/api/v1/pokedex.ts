@@ -325,11 +325,19 @@ export default defineEventHandler(async (event) => {
           }
 
           global[result["globalNo"] - 1]["form"].forEach((normal: any) => {
-            status["name"] = global[result["globalNo"] - 1].name
             Object.keys(normal).forEach((key: any) => {
               if(status.form == normal.form && status.region == normal.region && status.mega_evolution == normal.mega_evolution && status.gigantamax == normal.gigantamax)
               {
                 status[key] = normal[key]
+                if(normal.hasOwnProperty("name"))
+                  {
+                    status["name"] = normal.name
+                  }
+                  else
+                  {
+                    status["name"] = global[result["globalNo"] - 1].name
+                  }
+                  console.log(status["name"])
               }
             })
           })

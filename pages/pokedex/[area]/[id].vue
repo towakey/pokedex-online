@@ -22,7 +22,7 @@ let pdx
 // appConfig.pokedex_list.filter(item => item.title !== '全国図鑑').forEach(async pokedex => {
 for(pdx in appConfig.pokedex_list.filter(item => !item.area.includes('global'))){
   // for(pdx in appConfig.pokedex_list){
-  const {data, pending, error, refresh} = (await useFetch('/api/v1/pokedex?mode=exists&area='+appConfig.pokedex_list[Number(pdx)+1].area+'&id='+String(route.params.id)))
+  const {data, error, refresh} = (await useFetch('/api/v1/pokedex?mode=exists&area='+appConfig.pokedex_list[Number(pdx)+1].area+'&id='+String(route.params.id)))
   existsPokedex[appConfig.pokedex_list[Number(pdx)+1].area] = data.value.result
 }
 
@@ -269,10 +269,57 @@ onMounted(() => {
     container.addEventListener('touchstart', onTouchStart, { passive: true, capture: true })
     container.addEventListener('touchend', onTouchEnd, { capture: true })
   }
+  
+  // Check for hash in URL and set the carousel to the corresponding item
+  if (window.location.hash) {
+    // 少し遅延させてVueのレンダリングが完了した後に実行
+    setTimeout(() => {
+      const hash = decodeURIComponent(window.location.hash.substring(1))
+      console.log('Hash found:', hash)
+      
+      // 各ステータスを調べて、名前やフォームが一致するものを探す
+      for (let i = 0; i < pokedex.status.length; i++) {
+        const status = pokedex.status[i]
+        
+        // メガシンカの場合
+        if (status.mega_evolution && status.mega_evolution.includes('メガ') && hash.includes('メガ')) {
+          console.log('メガシンカ found at index:', i)
+          model.value = i
+          break
+        }
+        
+        // 名前が一致する場合
+        if (status.name && status.name.jpn === hash) {
+          console.log('Name match found at index:', i)
+          model.value = i
+          break
+        }
+        
+        // フォームが一致する場合
+        if (status.form === hash) {
+          console.log('Form match found at index:', i)
+          model.value = i
+          break
+        }
+        
+        // ギガンタマックスの場合
+        if (status.gigantamax && status.gigantamax.includes(hash)) {
+          console.log('Gigantamax match found at index:', i)
+          model.value = i
+          break
+        }
+        
+        // 地域フォームの場合
+        if (status.region && status.region.includes(hash)) {
+          console.log('Region match found at index:', i)
+          model.value = i
+          break
+        }
+      }
+    }, 100) // 100ms遅延
+  }
 })
-
-// コンポーネントのアンマウント時にイベントリスナーを削除
-onUnmounted(() => {
+onBeforeUnmount(() => {
   const container = document.querySelector('.v-container')
   if (container) {
     container.removeEventListener('touchstart', onTouchStart, { capture: true })
@@ -382,7 +429,7 @@ const statusIndex = ref()
                 width="auto"
                 class=""
                 >
-                  <div class="responsive-text">全国図鑑番号 No.{{ ('0000' + pokedex.globalNo).slice(-4) }}</div>
+                  <div class="responsive-text">全国図鑑番号 No.{{ ('0000' + pokedex.globalNo).slice( -4 ) }}</div>
                 </v-card-title>
               </v-card>
 
@@ -667,7 +714,14 @@ const statusIndex = ref()
           @click="prevModel()"
           >＜</v-btn>
           <v-spacer />
-          <h2>{{ pokedex.status[model].form }}</h2>
+          <h2>{{ 
+            pokedex.status[model].mega_evolution ? pokedex.status[model].mega_evolution : 
+            pokedex.status[model].gigantamax ? pokedex.status[model].gigantamax : 
+            pokedex.status[model].region && pokedex.status[model].form ? `${pokedex.status[model].region} ${pokedex.status[model].form}` : 
+            pokedex.status[model].region ? pokedex.status[model].region : 
+            pokedex.status[model].form ? pokedex.status[model].form : 
+            pokedex.status[model].name?.jpn || ''
+          }}</h2>
           <v-spacer />
           <v-btn
           @click="nextModel()"

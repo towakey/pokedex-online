@@ -6,7 +6,26 @@ route.meta.title = appConfig.pokedex_view_eng2jpn[route.params.area]
 definePageMeta({
   title: "Pokedex-Online"
 })
-const pokedex = (await useFetch('/api/v1/pokedex?mode=index&area='+route.params.area)).data.value.result
+
+// ポケモンデータの型を定義
+interface Pokemon {
+  no: string;
+  id?: string;  // グローバルエリアで使用
+  globalNo: string;  // 画像表示用のグローバル図鑑No
+  name: string | { jpn: string };  // グローバルエリアではstring、その他ではオブジェクト
+  status: Array<{
+    weight: string;
+    height: string;
+    name?: { jpn: string };  // 地域別エリアで使用
+  }>;
+}
+
+const fetchedPokedex = (await useFetch<{result: Pokemon[]}>('/api/v1/pokedex?mode=index&area='+route.params.area)).data.value.result
+// 図鑑番号が空のポケモンを除外
+const pokedex = route.params.area === 'global' 
+  ? fetchedPokedex 
+  : fetchedPokedex.filter(pokemon => pokemon.no && pokemon.no !== "")
+
 const sort_type = ref("番号順")
 watch(sort_type, () => {
   if(sort_type.value == "番号順")

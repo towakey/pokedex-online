@@ -210,9 +210,10 @@ export default defineEventHandler(async (event) => {
       result = pokedex[appConfig.pokedex_eng2jpn[area]]
       result.forEach((pokemon: any) => {
         pokemon["status"].forEach((status: any) => {
+          status["name"] = global[pokemon["globalNo"] - 1].name
           global[pokemon["globalNo"] - 1]["form"].forEach((normal: any) => {
             if(status.form == normal.form && status.region == normal.region && status.mega_evolution == normal.mega_evolution && status.gigantamax == normal.gigantamax)
-              {
+            {
               status["name"] = global[pokemon["globalNo"] - 1].name
               Object.keys(normal).forEach((key) => {
                 status[key] = normal[key]
@@ -326,6 +327,7 @@ export default defineEventHandler(async (event) => {
 
           global[result["globalNo"] - 1]["form"].forEach((normal: any) => {
             Object.keys(normal).forEach((key: any) => {
+              status["name"] = global[result["globalNo"] - 1].name
               if(status.form == normal.form && status.region == normal.region && status.mega_evolution == normal.mega_evolution && status.gigantamax == normal.gigantamax)
               {
                 status[key] = normal[key]
@@ -337,7 +339,6 @@ export default defineEventHandler(async (event) => {
                   {
                     status["name"] = global[result["globalNo"] - 1].name
                   }
-                  console.log(status["name"])
               }
             })
           })

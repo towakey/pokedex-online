@@ -35,11 +35,11 @@ export default defineAppConfig({
       path: '/pokedexjson',
       img: '/icon.png'
     },
-    {
-      title: 'ポケモン用語の基礎知識',
-      path: '/word',
-      img: '/blog.png'
-    },
+    // {
+    //   title: 'ポケモン用語の基礎知識',
+    //   path: '/word',
+    //   img: '/blog.png'
+    // },
     {
       title: '年表',
       path: '/pokemon_history',
@@ -305,8 +305,8 @@ export default defineAppConfig({
   ],
   region2game: {
     "global": "",
-    "kanto": "",
-    "johto": "",
+    "kanto": "Red_Green_Blue_Yellow",
+    "johto": "Gold_Silver_Crystal",
     "hoenn": "Ruby_Sapphire_Emerald",
     "sinnoh": "Diamond_Pearl_Platinum",
     "unova_bw": "Black_White",
@@ -319,7 +319,7 @@ export default defineAppConfig({
     "galar": "Sword_Shield",
     "isle_of_armor": "Sword_Shield",
     "crown_tundra": "Sword_Shield",
-    "hisui": "",
+    "hisui": "LegendsArceus",
     "paldea": "Scarlet_Violet",
     "kitakami": "Scarlet_Violet",
     "blueberry": "Scarlet_Violet",

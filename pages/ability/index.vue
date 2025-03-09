@@ -61,7 +61,7 @@ useHead({
       <v-col
       cols="12"
       sm="6"
-      v-if='appConfig.region2game[item.area] != ""'
+      v-if='appConfig.region2game[item.area] != "" && (item.area !== "kanto" && item.area !== "johto" && item.area !== "hisui")'
       >
         <NuxtLink
         :to="{path: `/ability${item.path}`}"

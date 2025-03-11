@@ -1,10 +1,5 @@
 export default defineEventHandler(async (event) => {
   const appConfig = useAppConfig()
-  const global: any = (await import('~/assets/v1/pokedex/pokedex/pokedex.json')).default.pokedex
-
-  const ability: any = (await import('~/assets/v1/pokedex/ability/ability.json')).default.ability
-  
-  const type_json: any = (await import('~/assets/v1/pokedex/type/type.json')).default.type
 
 
   const query: any = getQuery(event)
@@ -12,20 +7,20 @@ export default defineEventHandler(async (event) => {
   const area: string = typeof query.area === 'string' ? query.area : 'null'
   const mode: string = typeof query.mode === 'string' ? query.mode : 'null'
 
-  let flag = true
+  let flag: boolean = true
 
-
-  let type: []
+  let type: any = []
 
   let pokedex: any
-  let ver: any
+  let ver: string = ''
   let type_list: any
-  let waza: any
+  let waza: any = {}
   let waza_machine: any
-  let evolve: any
-  waza = {}
-  evolve = []
+  let evolve: any = []
   
+  const global: any = (await import('~/assets/v1/pokedex/pokedex/pokedex.json')).default.pokedex
+  const ability: any = (await import('~/assets/v1/pokedex/ability/ability.json')).default.ability
+  const type_json: any = (await import('~/assets/v1/pokedex/type/type.json')).default.type
   switch(area)
   {
     case "global":
@@ -220,51 +215,6 @@ export default defineEventHandler(async (event) => {
               })
             }
           })
-          // global[pokemon["globalNo"] - 1][""].forEach(normal => {
-          //   if(status.form == normal.form)
-          //   {
-          //     status["name"] = global[pokemon["globalNo"] - 1].name
-          //     Object.keys(normal).forEach((key) => {
-          //       status[key] = normal[key]
-          //     })
-          //   }
-          // })
-          // if(global[pokemon["globalNo"] - 1].mega_evolution)
-          // {
-          //   global[pokemon["globalNo"] - 1]["mega_evolution"].forEach(normal => {
-          //     if(status.form == normal.name.jpn)
-          //     {
-          //       Object.keys(normal).forEach((key) => {
-          //         status[key] = normal[key]
-          //       })
-          //     }
-          //   })
-          // }
-          // // if(global[pokemon["globalNo"] - 1].gigantamax)
-          // // {
-          // //   global[pokemon["globalNo"] - 1]["gigantamax"].forEach(normal => {
-          // //     if(status.form == normal.form)
-          // //     {
-          // //       status["name"] = global[pokemon["globalNo"] - 1].name
-          // //       Object.keys(normal).forEach((key) => {
-          // //         status[key] = normal[key]
-          // //       })
-          // //     }
-          // //   })
-          // // }
-          // if(global[pokemon["globalNo"] - 1].region_form)
-          // {
-          //   global[pokemon["globalNo"] - 1]["region_form"].forEach(normal => {
-          //     status["name"] = global[pokemon["globalNo"] - 1].name
-          //     if(status.form == normal.form)
-          //     {
-          //       Object.keys(normal).forEach((key) => {
-          //         status[key] = normal[key]
-          //       })
-          //     }
-          //   })
-          // }
-  
         })
       })
     }
@@ -274,122 +224,96 @@ export default defineEventHandler(async (event) => {
     {
       if(area == 'global')
       {
+        let arr: any = []
+        let name: string = ''
         if( 0 <= id && id < global.length)
         {
-          result = global[id]
-          result["no"] = id+1
-          result["globalNo"] = id+1
+          // result = global[id]
+          // result["no"] = id+1
+          // result["globalNo"] = id+1
+          global[id]["form"].forEach((normal: any) => {
+            if(normal.name !== undefined) {
+              name = normal.name
+            } else {
+              name = global[id].name
+            }
+            arr.push({
+              "no": id+1,
+              "globalNo": id+1,
+              "form": normal.form,
+              "region": normal.region,
+              "mega_evolution": normal.mega_evolution,
+              "gigantamax": normal.gigantamax,
+              "name": name,
+              "classification": normal.classification,
+              "height": normal.height,
+              "weight": normal.weight
+            })
+          })
+          result = arr
         }
       }
       else
       {
-        result = pokedex[appConfig.pokedex_eng2jpn[area]][id]
-        result["name"] = global[result["globalNo"] - 1]["name"]
+        let arr: any = []
 
-        result["status"].forEach((status: any) => {
-          status["type_compatibility"] = {}
+        let name: string = ''
+        let classification: string = ''
+        let height: string = ''
+        let weight: string = ''
+        let ability1_description = ''
+        let ability2_description = ''
+        let dream_ability_description = ''
+        let waza_array: any = {}
+        let evolve_array: any = {}
+
+        pokedex[appConfig.pokedex_eng2jpn[area]][id]["status"].forEach((status: any) => {
+          name = global[pokedex[appConfig.pokedex_eng2jpn[area]][id]["globalNo"] - 1].name
+          global[pokedex[appConfig.pokedex_eng2jpn[area]][id]["globalNo"] - 1].form.forEach((normal: any) => {
+            normal = JSON.parse(JSON.stringify(normal))
+            if(status.form == normal.form && status.region == normal.region && status.mega_evolution == normal.mega_evolution && status.gigantamax == normal.gigantamax)
+            {
+              if(normal.name !== undefined) {
+                name = normal.name
+              } else {
+                name = global[pokedex[appConfig.pokedex_eng2jpn[area]][id]["globalNo"] - 1].name
+              }
+              classification = normal.classification
+              height = normal.height
+              weight = normal.weight
+            }
+          })
+          if(ver == 'Red_Green_Blue_Yellow' || ver == 'Gold_Silver_Crystal' || ver == 'LegendsArceus')
+          {
+            // ver = ''
+            // console.log(ability[status["ability1"]][ver])
+          }
+          else
+          {
+            ability1_description = ability[status["ability1"]][ver]
+            if(status["ability2"] && status["ability2"] != '')
+            {
+              ability2_description = ability[status["ability2"]][ver]
+            }
+            if(status["dream_ability"] && status["dream_ability"] != '')
+            {
+              dream_ability_description = ability[status["dream_ability"]][ver]
+            }
+          }
+          let type_compatibility: any = {}
           type_list.forEach((val: any) => {
             if(status["type2"] == "")
             {
-              status["type_compatibility"][val] = String(Number(type[val][status["type1"]]))
+              type_compatibility[val] = String(Number(type[val][status["type1"]]))
             }
             else
             {
-              status["type_compatibility"][val] = String(Number(type[val][status["type1"]]) * Number(type[val][status["type2"]]))
+              type_compatibility[val] = String(Number(type[val][status["type1"]]) * Number(type[val][status["type2"]]))
             }
           })
-          if(status["ability1"] != "")
-          {
-            status["ability1_description"] = ability[status["ability1"]][ver]
-          }
-          else
-          {
-            status["ability1_description"] = ""
-          }
-
-          if(status["ability2"] != "")
-          {
-            status["ability2_description"] = ability[status["ability2"]][ver]
-          }
-          else
-          {
-            status["ability2_description"] = ""
-          }
-
-          if(status["dream_ability"] != "")
-          {
-            status["dream_ability_description"] = ability[status["dream_ability"]][ver]
-          }
-          else
-          {
-            status["dream_ability_description"] = ""
-          }
-
-          global[result["globalNo"] - 1]["form"].forEach((normal: any) => {
-            Object.keys(normal).forEach((key: any) => {
-              status["name"] = global[result["globalNo"] - 1].name
-              if(status.form == normal.form && status.region == normal.region && status.mega_evolution == normal.mega_evolution && status.gigantamax == normal.gigantamax)
-              {
-                status[key] = normal[key]
-                if(normal.hasOwnProperty("name"))
-                  {
-                    status["name"] = normal.name
-                  }
-                  else
-                  {
-                    status["name"] = global[result["globalNo"] - 1].name
-                  }
-              }
-            })
-          })
-          // global[result["globalNo"] - 1][""].forEach(normal => {
-          //   if(status.form == normal.form)
-          //   {
-          //     status["name"] = global[result["globalNo"] - 1].name
-          //     Object.keys(normal).forEach((key) => {
-          //       status[key] = normal[key]
-          //     })
-          //   }
-          // })
-          // if(global[result["globalNo"] - 1].mega_evolution)
-          // {
-          //   global[result["globalNo"] - 1]["mega_evolution"].forEach(normal => {
-          //     if(status.form == normal.name.jpn)
-          //     {
-          //       Object.keys(normal).forEach((key) => {
-          //         status[key] = normal[key]
-          //       })
-          //     }
-          //   })
-          // }
-          // if(global[result["globalNo"] - 1].gigantamax)
-          // {
-          //   global[result["globalNo"] - 1]["gigantamax"].forEach(normal => {
-          //     if(status.form == normal.form)
-          //     {
-          //       Object.keys(normal).forEach((key) => {
-          //         status[key] = normal[key]
-          //       })
-          //     }
-          //   })
-          // }
-          // if(global[result["globalNo"] - 1].region_form)
-          // {
-          //   global[result["globalNo"] - 1]["region_form"].forEach(normal => {
-          //     status["name"] = global[result["globalNo"] - 1].name
-          //     if(status.form == normal.form)
-          //     {
-          //       Object.keys(normal).forEach((key) => {
-          //         status[key] = normal[key]
-          //       })
-          //     }
-          //   })
-          // }
 
           if(Object.keys(waza).length > 0 && waza[id+1] !== undefined){
-          // if(Object.keys(waza).length > 0){
             if(waza[id+1][status.form] !== undefined){
-              // console.log("status.form")
               if(Array.isArray(waza[id+1][status.form]["わざマシン"])) {
                 waza[id+1][status.form]["わざマシン"] = waza[id+1][status.form]["わざマシン"].reduce(
                   (acc: any, key: any) => {
@@ -399,10 +323,10 @@ export default defineEventHandler(async (event) => {
                   {} as { [key: string]: string }
                 )
               }
-              status["waza"] = waza[id+1][status.form]
+              // waza_array[status.form] = waza[id+1][status.form]
+              waza_array = waza[id+1][status.form]
             }
             if(waza[id+1][status.region] !== undefined){
-              // console.log("status.region")
               if(Array.isArray(waza[id+1][status.region]["わざマシン"])) {
                 waza[id+1][status.region]["わざマシン"] = waza[id+1][status.region]["わざマシン"].reduce(
                   (acc: any, key: any) => {
@@ -412,24 +336,154 @@ export default defineEventHandler(async (event) => {
                   {} as { [key: string]: string }
                 )
               }
-              status["waza"] = waza[id+1][status.region]
+              // waza_array[status.region] = waza[id+1][status.region]
+              waza_array = waza[id+1][status.region]
             }
           }
-          // status["evolve"] = {}
           if(Object.keys(evolve).length > 0 && evolve["進化先"] && evolve["進化先"][id+1] !== undefined){
-            if(status.form && evolve["進化先"][id+1][status.form] && Object.keys(evolve["進化先"][id+1][status.form]).length > 0){
-              console.log(evolve["進化先"][id+1][status.form])
-              status["evolve"] = evolve["進化先"][id+1][status.form]
+            if(evolve["進化先"][id+1][status.form] && Object.keys(evolve["進化先"][id+1][status.form]).length > 0){
+              evolve_array = evolve["進化先"][id+1][status.form]
               // Object.keys()は配列を返すので、for...inではなくforEachを使用
-              Object.keys(status["evolve"]).forEach(val => {
+              Object.keys(evolve_array).forEach(val => {
                   if(evolve["進化先"][id+1][status.form][val] && Object.keys(evolve["進化先"][id+1][status.form][val]).length > 0) {
-                      status["evolve"][val]["globalNo"] = pokedex[appConfig.pokedex_eng2jpn[area]][Number(Object.keys(evolve["進化先"][id+1][status.form][val])[0]) - 1]["globalNo"]
-                      status["evolve"][val]["name"] = global[status["evolve"][val]["globalNo"]-1]["name"]
+                      evolve_array[val]["globalNo"] = pokedex[appConfig.pokedex_eng2jpn[area]][Number(Object.keys(evolve["進化先"][id+1][status.form][val])[0]) - 1]["globalNo"]
+                      evolve_array[val]["name"] = global[evolve_array[val]["globalNo"]-1]["name"]
                   }
               })
             }
           }
+          arr.push({
+            "no": pokedex[appConfig.pokedex_eng2jpn[area]][id]["no"],
+            "globalNo": pokedex[appConfig.pokedex_eng2jpn[area]][id]["globalNo"],
+            "classification": classification,
+            "height": height,
+            "weight": weight,
+            "form": status["form"],
+            "region": status["region"],
+            "mega_evolution": status["mega_evolution"],
+            "gigantamax": status["gigantamax"],
+            "name": name,
+            "type1": status["type1"],
+            "type2": status["type2"],
+            "type_compatibility": type_compatibility,
+            "hp": status["hp"],
+            "attack": status["attack"],
+            "defense": status["defense"],
+            "special_attack": status["special_attack"],
+            "special_defense": status["special_defense"],
+            "speed": status["speed"],
+            "ability1": status["ability1"],
+            "ability1_description": ability1_description,
+            "ability2": status["ability2"],
+            "ability2_description": ability2_description,
+            "dream_ability": status["dream_ability"],
+            "dream_ability_description": dream_ability_description,
+            "description": status["description"],
+            "waza": waza_array,
+            "evolve": evolve_array
+          })
+          result = arr
         })
+        // result = pokedex[appConfig.pokedex_eng2jpn[area]][id]
+        // result["name"] = global[result["globalNo"] - 1]["name"]
+
+        // result["status"].forEach((status: any) => {
+        //   status["type_compatibility"] = {}
+        //   type_list.forEach((val: any) => {
+        //     if(status["type2"] == "")
+        //     {
+        //       status["type_compatibility"][val] = String(Number(type[val][status["type1"]]))
+        //     }
+        //     else
+        //     {
+        //       status["type_compatibility"][val] = String(Number(type[val][status["type1"]]) * Number(type[val][status["type2"]]))
+        //     }
+        //   })
+        //   if(status["ability1"] != "")
+        //   {
+        //     status["ability1_description"] = ability[status["ability1"]][ver]
+        //   }
+        //   else
+        //   {
+        //     status["ability1_description"] = ""
+        //   }
+
+        //   if(status["ability2"] != "")
+        //   {
+        //     status["ability2_description"] = ability[status["ability2"]][ver]
+        //   }
+        //   else
+        //   {
+        //     status["ability2_description"] = ""
+        //   }
+
+        //   if(status["dream_ability"] != "")
+        //   {
+        //     status["dream_ability_description"] = ability[status["dream_ability"]][ver]
+        //   }
+        //   else
+        //   {
+        //     status["dream_ability_description"] = ""
+        //   }
+
+        //   global[result["globalNo"] - 1]["form"].forEach((normal: any) => {
+        //     Object.keys(normal).forEach((key: any) => {
+        //       status["name"] = global[result["globalNo"] - 1].name
+        //       if(status.form == normal.form && status.region == normal.region && status.mega_evolution == normal.mega_evolution && status.gigantamax == normal.gigantamax)
+        //       {
+        //         status[key] = normal[key]
+        //         if(normal.hasOwnProperty("name"))
+        //           {
+        //             status["name"] = normal.name
+        //           }
+        //           else
+        //           {
+        //             status["name"] = global[result["globalNo"] - 1].name
+        //           }
+        //       }
+        //     })
+        //   })
+
+        //   if(Object.keys(waza).length > 0 && waza[id+1] !== undefined){
+        //     if(waza[id+1][status.form] !== undefined){
+        //       if(Array.isArray(waza[id+1][status.form]["わざマシン"])) {
+        //         waza[id+1][status.form]["わざマシン"] = waza[id+1][status.form]["わざマシン"].reduce(
+        //           (acc: any, key: any) => {
+        //             acc[key] = waza_machine[key]
+        //             return acc;
+        //           },
+        //           {} as { [key: string]: string }
+        //         )
+        //       }
+        //       status["waza"] = waza[id+1][status.form]
+        //     }
+        //     if(waza[id+1][status.region] !== undefined){
+        //       if(Array.isArray(waza[id+1][status.region]["わざマシン"])) {
+        //         waza[id+1][status.region]["わざマシン"] = waza[id+1][status.region]["わざマシン"].reduce(
+        //           (acc: any, key: any) => {
+        //             acc[key] = waza_machine[key]
+        //             return acc;
+        //           },
+        //           {} as { [key: string]: string }
+        //         )
+        //       }
+        //       status["waza"] = waza[id+1][status.region]
+        //     }
+        //   }
+        //   if(Object.keys(evolve).length > 0 && evolve["進化先"] && evolve["進化先"][id+1] !== undefined){
+        //     if(status.form && evolve["進化先"][id+1][status.form] && Object.keys(evolve["進化先"][id+1][status.form]).length > 0){
+        //       console.log(evolve["進化先"][id+1][status.form])
+        //       status["evolve"] = evolve["進化先"][id+1][status.form]
+        //       // Object.keys()は配列を返すので、for...inではなくforEachを使用
+        //       Object.keys(status["evolve"]).forEach(val => {
+        //           if(evolve["進化先"][id+1][status.form][val] && Object.keys(evolve["進化先"][id+1][status.form][val]).length > 0) {
+        //               status["evolve"][val]["globalNo"] = pokedex[appConfig.pokedex_eng2jpn[area]][Number(Object.keys(evolve["進化先"][id+1][status.form][val])[0]) - 1]["globalNo"]
+        //               status["evolve"][val]["name"] = global[status["evolve"][val]["globalNo"]-1]["name"]
+        //           }
+        //       })
+        //     }
+        //   }
+        // })
       }
     }
     else
@@ -437,14 +491,11 @@ export default defineEventHandler(async (event) => {
       result = false
     }
   }else if(mode == 'exists'){
-    // result = false
     result = -1
     pokedex[appConfig.pokedex_eng2jpn[area]].forEach((pokemon: any) => {
-      // if(pokemon[id]["globalNo"] == id) result = true
       if(area != 'unova_bw' && area != 'unova_b2w2')
       {
         if(pokemon.globalNo == id + 1){
-          // result = true
           result = pokemon.no
         }
       }

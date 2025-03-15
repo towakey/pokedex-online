@@ -1,3 +1,5 @@
+import { isNumber } from 'chart.js/helpers'
+
 export default defineEventHandler(async (event) => {
   const appConfig = useAppConfig()
 
@@ -312,7 +314,9 @@ export default defineEventHandler(async (event) => {
             }
           })
 
+          // わざ
           if(Object.keys(waza).length > 0 && waza[id+1] !== undefined){
+            // 通常フォルム
             if(waza[id+1][status.form] !== undefined){
               if(Array.isArray(waza[id+1][status.form]["わざマシン"])) {
                 waza[id+1][status.form]["わざマシン"] = waza[id+1][status.form]["わざマシン"].reduce(
@@ -323,9 +327,26 @@ export default defineEventHandler(async (event) => {
                   {} as { [key: string]: string }
                 )
               }
-              // waza_array[status.form] = waza[id+1][status.form]
-              waza_array = waza[id+1][status.form]
+              
+              // lvupキーを初期化
+              waza_array = {}
+              waza_array["lvup"] = {}
+              
+              // 数字のキーを持つわざをlvupの下に移動
+              Object.entries(waza[id+1][status.form]).forEach(([key, value]) => {
+                if(key === "") {
+                  // 空の文字列キーの場合は直接waza_arrayに格納
+                  waza_array[""] = value
+                } else if(!isNaN(Number(key))) {
+                  // 数字のキーの場合はlvupの下に格納
+                  waza_array["lvup"][key] = value
+                } else if(key !== "lvup") {
+                  // その他のキー（わざマシンなど）も保持
+                  waza_array[key] = value
+                }
+              })
             }
+            // リージョンフォーム
             if(waza[id+1][status.region] !== undefined){
               if(Array.isArray(waza[id+1][status.region]["わざマシン"])) {
                 waza[id+1][status.region]["わざマシン"] = waza[id+1][status.region]["わざマシン"].reduce(
@@ -336,22 +357,39 @@ export default defineEventHandler(async (event) => {
                   {} as { [key: string]: string }
                 )
               }
-              // waza_array[status.region] = waza[id+1][status.region]
-              waza_array = waza[id+1][status.region]
+              // lvupキーを初期化
+              let waza_region_array: any = {}
+              waza_region_array["lvup"] = {}
+              // 数字のキーを持つわざをlvupの下に移動
+              Object.entries(waza[id+1][status.region]).forEach(([key, value]) => {
+                if(key === "") {
+                  // 空の文字列キーの場合は直接waza_arrayに格納
+                  waza_region_array[""] = value
+                } else if(!isNaN(Number(key))) {
+                  // 数字のキーの場合はlvupの下に格納
+                  waza_region_array["lvup"][key] = value
+                } else if(key !== "lvup") {
+                  // その他のキー（わざマシンなど）も保持
+                  waza_region_array[key] = value
+                }
+              })
+              waza_array = waza_region_array
             }
           }
+
+          // 進化
           if(Object.keys(evolve).length > 0 && evolve["進化先"] && evolve["進化先"][id+1] !== undefined){
-            if(evolve["進化先"][id+1][status.form] && Object.keys(evolve["進化先"][id+1][status.form]).length > 0){
+            if(status.form && evolve["進化先"][id+1][status.form] && Object.keys(evolve["進化先"][id+1][status.form]).length > 0){
               evolve_array = evolve["進化先"][id+1][status.form]
-              // Object.keys()は配列を返すので、for...inではなくforEachを使用
               Object.keys(evolve_array).forEach(val => {
-                  if(evolve["進化先"][id+1][status.form][val] && Object.keys(evolve["進化先"][id+1][status.form][val]).length > 0) {
-                      evolve_array[val]["globalNo"] = pokedex[appConfig.pokedex_eng2jpn[area]][Number(Object.keys(evolve["進化先"][id+1][status.form][val])[0]) - 1]["globalNo"]
-                      evolve_array[val]["name"] = global[evolve_array[val]["globalNo"]-1]["name"]
-                  }
+                if(evolve["進化先"][id+1][status.form][val] && Object.keys(evolve["進化先"][id+1][status.form][val]).length > 0) {
+                  evolve_array[val]["globalNo"] = pokedex[appConfig.pokedex_eng2jpn[area]][Number(Object.keys(evolve["進化先"][id+1][status.form][val])[0]) - 1]["globalNo"]
+                  evolve_array[val]["name"] = global[evolve_array[val]["globalNo"]-1]["name"]
+                }
               })
             }
           }
+
           arr.push({
             "no": pokedex[appConfig.pokedex_eng2jpn[area]][id]["no"],
             "globalNo": pokedex[appConfig.pokedex_eng2jpn[area]][id]["globalNo"],

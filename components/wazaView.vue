@@ -62,15 +62,21 @@ if('waza' in props.wazaData){
       'name': props.wazaData.waza["わざマシン"][waza]
     })
   }
-  for(let waza in props.wazaData.waza)
+  for(let waza in props.wazaData.waza["lvup"])
   {
-    if(waza != '' && waza != '思い出し' && waza != '進化時' && waza != 'わざマシン'){
-      lvup.push({
-        'type': waza,
-        'name': props.wazaData.waza[waza][0]
-      })
-    }
+    lvup.push({
+      'type': waza,
+      'name': props.wazaData.waza["lvup"][waza].join(', ')
+    })
   }
+  // {
+  //   if(waza != '' && waza != '思い出し' && waza != '進化時' && waza != 'わざマシン'){
+  //     lvup.push({
+  //       'type': waza,
+  //       'name': props.wazaData.waza[waza][0]
+  //     })
+  //   }
+  // }
   // console.log(lvup)
   // lvup.sort((a, b) => {
   //   if(a.type < b.type)

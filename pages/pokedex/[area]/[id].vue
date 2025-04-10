@@ -1,4 +1,63 @@
 <script setup lang="ts">
+// ポケモン詳細データの型定義
+interface PokemonStatus {
+  no: number;
+  globalNo: number;
+  classification: string;
+  height: string;
+  weight: string;
+  form: string;
+  region: string;
+  mega_evolution: string;
+  gigantamax: string;
+  name: {
+    jpn: string;
+    eng: string;
+    [key: string]: string;
+  };
+  type1: string;
+  type2: string;
+  type_compatibility: { [key: string]: string };
+  hp: string;
+  attack: string;
+  defense: string;
+  special_attack: string;
+  special_defense: string;
+  speed: string;
+  ability1: string;
+  ability1_description: string;
+  ability2: string;
+  ability2_description: string;
+  dream_ability: string;
+  dream_ability_description: string;
+  description: string;
+  waza: {
+    lvup?: { [key: string]: string };
+    "わざマシン"?: { [key: string]: string };
+    [key: string]: any;
+  };
+  evolve: any;
+  src?: string;
+}
+
+interface PokedexResponse {
+  query: {
+    id: string;
+    area: string;
+    mode: string;
+  };
+  result: PokemonStatus[];
+}
+
+interface ExistsResponse {
+  query: {
+    id: string;
+    area: string;
+    mode: string;
+  };
+  result: boolean;
+}
+
 const config = useRuntimeConfig()
 const appConfig = useAppConfig()
 const route = useRoute()
@@ -11,18 +70,18 @@ let model = ref(0)
 // const pokedex = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+route.params.id)).data.value.result
 // const prev = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) - 1))).data.value.result
 // const next = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) + 1))).data.value.result
-const pokedex = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+route.params.id)).data.value
-const prev = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) - 1))).data.value
-const next = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) + 1))).data.value
+const pokedex = (await useFetch<PokedexResponse>('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+route.params.id)).data.value
+const prev = (await useFetch<PokedexResponse>('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) - 1))).data.value
+const next = (await useFetch<PokedexResponse>('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) + 1))).data.value
 const src = "/img/" + ('0000' + pokedex.result[0].globalNo).slice( -4 ) + ".png"
 
 // console.log(pokedex)
 // console.log(prev)
 // console.log(next)
-let existsPokedex : any = {}
+let existsPokedex : { [key: string]: ExistsResponse } = {}
 let pdx
 for(pdx in appConfig.pokedex_list.filter(item => !item.area.includes('global'))){
-  const {data, error, refresh} = (await useFetch('/api/v1/pokedex?mode=exists&area='+appConfig.pokedex_list[Number(pdx)+1].area+'&id='+String(route.params.id)))
+  const {data, error, refresh} = (await useFetch<ExistsResponse>('/api/v1/pokedex?mode=exists&area='+appConfig.pokedex_list[Number(pdx)+1].area+'&id='+String(route.params.id)))
   existsPokedex[appConfig.pokedex_list[Number(pdx)+1].area] = data.value
 }
 

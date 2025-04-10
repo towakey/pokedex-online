@@ -11,34 +11,105 @@ definePageMeta({
 let waza:any
 let waza_machine:any
 let waza_machine_row:any
-const area = ref()
-if(['paldea', 'kitakami', 'blueberry'].includes(route.params.area)){
-  waza = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/waza_list.json')).waza_list
-  waza_machine_row = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/waza_machine.json')).waza_machine
+
+// route.params.areaを安全に文字列として扱う
+const areaParam = Array.isArray(route.params.area) ? route.params.area[0] : route.params.area;
+
+// 地方名からゲームバージョンへのマッピングを取得
+type RegionKey = keyof typeof appConfig.region2game;
+const gameVersion = (areaParam as RegionKey in appConfig.region2game) 
+  ? appConfig.region2game[areaParam as RegionKey] 
+  : areaParam;
+
+let area = gameVersion;
+
+// パルデア地方関連のサブエリアの処理
+if(['paldea', 'kitakami', 'blueberry'].includes(areaParam)){
+  area = 'Scarlet_Violet'
+}
+
+try {
+  // Import the files directly based on the game version
+  if (area === 'Scarlet_Violet') {
+    waza = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/waza_list.json')).waza_list
+    waza_machine_row = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/waza_machine.json')).waza_machine
+  } else if (area === 'Sword_Shield') {
+    waza = (await import('~/assets/v1/pokedex/pokedex/Sword_Shield/waza_list.json')).waza_list
+    waza_machine_row = (await import('~/assets/v1/pokedex/pokedex/Sword_Shield/waza_machine.json')).waza_machine
+  // } else if (area === 'LegendsArceus') {
+  //   waza = (await import('~/assets/v1/pokedex/pokedex/LegendsArceus/waza_list.json')).waza_list
+  //   waza_machine_row = (await import('~/assets/v1/pokedex/pokedex/LegendsArceus/waza_machine.json')).waza_machine
+  } else if (area === 'UltraSun_UltraMoon') {
+    waza = (await import('~/assets/v1/pokedex/pokedex/UltraSun_UltraMoon/waza_list.json')).waza_list
+    waza_machine_row = (await import('~/assets/v1/pokedex/pokedex/UltraSun_UltraMoon/waza_machine.json')).waza_machine
+  } else if (area === 'Sun_Moon') {
+    waza = (await import('~/assets/v1/pokedex/pokedex/Sun_Moon/waza_list.json')).waza_list
+    waza_machine_row = (await import('~/assets/v1/pokedex/pokedex/Sun_Moon/waza_machine.json')).waza_machine
+  } else if (area === 'X_Y') {
+    waza = (await import('~/assets/v1/pokedex/pokedex/X_Y/waza_list.json')).waza_list
+    waza_machine_row = (await import('~/assets/v1/pokedex/pokedex/X_Y/waza_machine.json')).waza_machine
+  } else if (area === 'Black2_White2') {
+    waza = (await import('~/assets/v1/pokedex/pokedex/Black2_White2/waza_list.json')).waza_list
+    waza_machine_row = (await import('~/assets/v1/pokedex/pokedex/Black2_White2/waza_machine.json')).waza_machine
+  } else if (area === 'Black_White') {
+    waza = (await import('~/assets/v1/pokedex/pokedex/Black_White/waza_list.json')).waza_list
+    waza_machine_row = (await import('~/assets/v1/pokedex/pokedex/Black_White/waza_machine.json')).waza_machine
+  } else if (area === 'Diamond_Pearl_Platinum') {
+    waza = (await import('~/assets/v1/pokedex/pokedex/Diamond_Pearl_Platinum/waza_list.json')).waza_list
+    waza_machine_row = (await import('~/assets/v1/pokedex/pokedex/Diamond_Pearl_Platinum/waza_machine.json')).waza_machine
+  } else if (area === 'Ruby_Sapphire_Emerald') {
+    waza = (await import('~/assets/v1/pokedex/pokedex/Ruby_Sapphire_Emerald/waza_list.json')).waza_list
+    waza_machine_row = (await import('~/assets/v1/pokedex/pokedex/Ruby_Sapphire_Emerald/waza_machine.json')).waza_machine
+  } else if (area === 'Gold_Silver_Crystal') {
+    waza = (await import('~/assets/v1/pokedex/pokedex/Gold_Silver_Crystal/waza_list.json')).waza_list
+    waza_machine_row = (await import('~/assets/v1/pokedex/pokedex/Gold_Silver_Crystal/waza_machine.json')).waza_machine
+  } else if (area === 'Red_Green_Blue_Yellow') {
+    waza = (await import('~/assets/v1/pokedex/pokedex/Red_Green_Blue_Yellow/waza_list.json')).waza_list
+    waza_machine_row = (await import('~/assets/v1/pokedex/pokedex/Red_Green_Blue_Yellow/waza_machine.json')).waza_machine
+  } else {
+    console.error(`No waza data available for game version: ${area}`)
+    waza = { [area]: {} }
+    waza_machine_row = {}
+  }
+
   waza_machine = {}
-  area.value = 'paldea'
+  
   for (const key in waza_machine_row) {
-    // if (waza_machine_row.hasOwnProperty(key)) {  //hasOwnPropertyを使って、自身で定義されたプロパティだけを処理
-  //     waza_machine[waza_machine_row[key]] = "test"; // waza_machine_rowの値をキーとして使用
-    // }
     waza_machine[key] = {
       "name": waza_machine_row[key],
-      "type": waza[area.value][waza_machine_row[key]]["type"],
-      "category": waza[area.value][waza_machine_row[key]]["category"],
-      "power": waza[area.value][waza_machine_row[key]]["power"],
-      "accuracy": waza[area.value][waza_machine_row[key]]["accuracy"],
-      "pp": waza[area.value][waza_machine_row[key]]["pp"],
-      "description": waza[area.value][waza_machine_row[key]]["description"]
+      "type": waza[area]?.[waza_machine_row[key]]?.["type"] || '',
+      "category": waza[area]?.[waza_machine_row[key]]?.["category"] || '',
+      "power": waza[area]?.[waza_machine_row[key]]?.["power"] || '',
+      "accuracy": waza[area]?.[waza_machine_row[key]]?.["accuracy"] || '',
+      "pp": waza[area]?.[waza_machine_row[key]]?.["pp"] || '',
+      "description": waza[area]?.[waza_machine_row[key]]?.["description"] || ''
     }
   }
-  // waza_machine = waza_machine_row
+} catch (error) {
+  console.error(`Error loading waza data for ${area}:`, error)
+  waza = { [area]: {} }
+  waza_machine = {}
 }
+
 const shareOptions = [
   { title: 'Twitter', icon: 'mdi-twitter', network: 'twitter' },
   { title: 'Mastodon', icon: 'mdi-mastodon', network: 'mastodon' },
   { title: 'Bluesky', icon: 'mdi-web', network: 'bluesky' },
   // 他のSNSオプションを追加できます
 ];
+
+// ゲームバージョンの型をappConfig.game_eng2jpnのキーとして扱えるように型を定義
+type GameVersion = keyof typeof appConfig.game_eng2jpn;
+
+// ゲームバージョン名を表示用に変換
+const gameVersionTitle = (() => {
+  // 有効なゲームバージョンならその日本語名を返す
+  if (area in appConfig.game_eng2jpn) {
+    return appConfig.game_eng2jpn[area as GameVersion];
+  }
+  // 無効な場合はデフォルト値を返す
+  return 'わざマシン一覧';
+})();
 
 let breadcrumbs = []
 breadcrumbs.push({
@@ -52,8 +123,8 @@ breadcrumbs.push({
   disabled: false
 })
 breadcrumbs.push({
-  title: appConfig.region_eng2jpn[route.params.area],
-  href: '/waza_machine/'+route.params.area,
+  title: gameVersionTitle,
+  href: '/waza_machine/'+area,
   disabled: true
 })
 const metaTitle = ref("わざマシン一覧")

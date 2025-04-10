@@ -9,10 +9,21 @@ definePageMeta({
 })
 // const ability = (await useFetch('/api/v1/ability?mode=index&area='+route.params.area)).data.value.result
 let waza:any
-const area = ref()
-if(['paldea', 'kitakami', 'blueberry'].includes(route.params.area)){
+// route.params.areaを安全に文字列として扱う
+const areaParam = Array.isArray(route.params.area) ? route.params.area[0] : route.params.area;
+
+// 型定義
+type RegionKey = keyof typeof appConfig.region2game;
+type RegionEngJpnKey = keyof typeof appConfig.region_eng2jpn;
+
+// 型安全なアクセス
+const gameVersion = (areaParam as RegionKey in appConfig.region2game) ? 
+  appConfig.region2game[areaParam as RegionKey] : '';
+const area = ref(gameVersion);
+
+if(['paldea', 'kitakami', 'blueberry'].includes(areaParam)){
   waza = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/waza_list.json')).waza_list
-  area.value = 'paldea'
+  area.value = 'Scarlet_Violet'
 }
 const shareOptions = [
   { title: 'Twitter', icon: 'mdi-twitter', network: 'twitter' },
@@ -32,9 +43,14 @@ breadcrumbs.push({
   href: '/waza',
   disabled: false
 })
+
+// 型安全な参照
+const regionTitle = (areaParam as RegionEngJpnKey in appConfig.region_eng2jpn) ? 
+  appConfig.region_eng2jpn[areaParam as RegionEngJpnKey] : 'わざ一覧';
+
 breadcrumbs.push({
-  title: appConfig.region_eng2jpn[route.params.area],
-  href: '/waza/'+route.params.area,
+  title: regionTitle,
+  href: '/waza/'+ areaParam,
   disabled: true
 })
 const metaTitle = ref("わざ一覧")
@@ -61,7 +77,7 @@ useHead({
   ]
 })
 
-const shareOn = (network, key, desc) => {
+const shareOn = (network: string, key: string, desc: string): void => {
   const urlObject = new URL(`${config.public.siteUrl}${route.fullPath}`)
   // const currentUrl = `${config.public.siteUrl}${route.fullPath.slice(0, -1)}#${key}`
   urlObject.hash = ''
@@ -92,6 +108,15 @@ const shareOn = (network, key, desc) => {
   }
 };
 
+// アクセス用の計算プロパティを作成
+const wazaData = computed(() => {
+  // 存在チェック
+  if (waza && waza[area.value]) {
+    return waza[area.value];
+  }
+  return {};
+});
+
 </script>
 <template>
   <v-container>
@@ -108,13 +133,13 @@ const shareOn = (network, key, desc) => {
       </template>
     </v-breadcrumbs>
     <template
-    v-for="(items, key) in waza[area]"
-    :key="item"
+    v-for="(items, key, idx) in wazaData"
+    :key="String(idx)"
     >
     <v-card
     elevation-0
     variant="outlined"
-    style="background-color: white; margin-top: 20px;"
+    :style="{ backgroundColor: 'white', marginTop: '20px' }"
     :id="key"
     >
       <v-card-title>

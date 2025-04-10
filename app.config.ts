@@ -237,7 +237,13 @@ export default defineAppConfig({
       path: '/kanto',
       content: '図鑑総数 151匹',
       area: 'kanto'
-    },  
+    },
+    // {
+    //   title: 'メガシンカ',
+    //   path: '/mega_evolution',
+    //   content: '',
+    //   area: 'mega_evolution'
+    // },
   ],
   gameVersion: [
     {
@@ -323,6 +329,20 @@ export default defineAppConfig({
     "paldea": "Scarlet_Violet",
     "kitakami": "Scarlet_Violet",
     "blueberry": "Scarlet_Violet",
+  },
+  game_eng2jpn: {
+    "Red_Green_Blue_Yellow": "赤・緑・青・ピカチュウ",
+    "Gold_Silver_Crystal": "金・銀・クリスタル",
+    "Ruby_Sapphire_Emerald": "ルビー・サファイア・エメラルド",
+    "Diamond_Pearl_Platinum": "ダイアモンド・パール・プラチナ",
+    "Black_White": "ブラック・ホワイト",
+    "Black2_White2": "ブラック2・ホワイト2",
+    "X_Y": "X・Y",
+    "Sun_Moon": "サン・ムーン",
+    "UltraSun_UltraMoon": "ウルトラサン・ウルトラムーン",
+    "Sword_Shield": "ソード・シールド",
+    "LegendsArceus": "Legendsアルセウス",
+    "Scarlet_Violet": "スカーレット・バイオレット"
   },
   region_eng2jpn: {
     "global": "",

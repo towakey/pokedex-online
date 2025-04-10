@@ -39,6 +39,31 @@ useHead({
     }
   ]
 })
+
+// ゲームバージョンの型をキーとして使用できるよう定義
+type GameVersion = keyof typeof appConfig.game_eng2jpn;
+
+// ゲームバージョンごとのリスト作成（重複なし）
+const uniqueGameList = computed(() => {
+  const result: { gameVersion: GameVersion; area: string }[] = []
+  const seen = new Set<string>()
+  
+  for (const item of appConfig.pokedex_list) {
+    const gameVersion = appConfig.region2game[item.area]
+    
+    // ゲームバージョンが存在し、まだ表示されていない場合、かつヒスイ地方やメガシンカではない場合
+    if (gameVersion && !seen.has(gameVersion) && item.path !== "/hisui" && item.path !== "/mega_evolution") {
+      seen.add(gameVersion)
+      // ゲームバージョンと対応する地方の情報を保存
+      result.push({
+        gameVersion: gameVersion as GameVersion,
+        area: item.area
+      })
+    }
+  }
+  
+  return result
+})
 </script>
 <template>
   <v-container>
@@ -56,15 +81,14 @@ useHead({
     </v-breadcrumbs>
     <v-row>
       <template
-      v-for="(item, index) in appConfig.pokedex_list" :key="index"
+      v-for="(item, index) in uniqueGameList" :key="index"
       >
       <v-col
       cols="12"
       sm="6"
-      v-if='appConfig.region2game[item.area] != "" && (item.path == "/paldea" || item.path == "/kitakami" || item.path == "/blueberry")'
       >
         <NuxtLink
-        :to="{path: `/waza_machine${item.path}`}"
+        :to="{path: `/waza_machine/${item.gameVersion}`}"
         class="nuxtlink"
         >
           <v-card
@@ -72,7 +96,7 @@ useHead({
           variant="outlined"
           style="background-color: white;"
           >
-            <v-card-title>{{ appConfig.region_eng2jpn[item.area] }}</v-card-title>
+            <v-card-title>{{ appConfig.game_eng2jpn[item.gameVersion] }}</v-card-title>
           </v-card>
         </NuxtLink>
       </v-col>

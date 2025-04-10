@@ -8,10 +8,13 @@ definePageMeta({
 })
 let nameDialog = ref(false)
 let model = ref(0)
-const pokedex = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+route.params.id)).data.value.result
-const prev = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) - 1))).data.value.result
-const next = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) + 1))).data.value.result
-const src = "/img/" + ('0000' + pokedex[0].globalNo).slice( -4 ) + ".png"
+// const pokedex = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+route.params.id)).data.value.result
+// const prev = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) - 1))).data.value.result
+// const next = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) + 1))).data.value.result
+const pokedex = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+route.params.id)).data.value
+const prev = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) - 1))).data.value
+const next = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) + 1))).data.value
+const src = "/img/" + ('0000' + pokedex.result[0].globalNo).slice( -4 ) + ".png"
 
 // console.log(pokedex)
 // console.log(prev)
@@ -20,7 +23,7 @@ let existsPokedex : any = {}
 let pdx
 for(pdx in appConfig.pokedex_list.filter(item => !item.area.includes('global'))){
   const {data, error, refresh} = (await useFetch('/api/v1/pokedex?mode=exists&area='+appConfig.pokedex_list[Number(pdx)+1].area+'&id='+String(route.params.id)))
-  existsPokedex[appConfig.pokedex_list[Number(pdx)+1].area] = data.value.result
+  existsPokedex[appConfig.pokedex_list[Number(pdx)+1].area] = data.value
 }
 
 let pokedex_status
@@ -34,43 +37,44 @@ let mega = 1
 let giga = 1
 let mugen = 1
 if(route.params.area !== 'global'){
-  for(pokedex_status in pokedex){
-    if(pokedex[pokedex_status].mega_evolution.includes('メガ')){
-      pokedex[pokedex_status]["src"]='/img/'+('0000' + pokedex[pokedex_status].globalNo).slice( -4 ) + '-mega' + mega + ".png"
+  for(pokedex_status in pokedex.result){
+    if(pokedex.result[pokedex_status].mega_evolution.includes('メガ')){
+      pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + '-mega' + mega + ".png"
       mega++
-    }else if(pokedex[pokedex_status].gigantamax.includes('キョダイマックス')){
-      pokedex[pokedex_status]["src"]='/img/'+('0000' + pokedex[pokedex_status].globalNo).slice( -4 ) + '-gigantmax' + giga + ".png"
+    }else if(pokedex.result[pokedex_status].gigantamax.includes('キョダイマックス')){
+      pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + '-gigantmax' + giga + ".png"
       giga++
-    }else if(pokedex[pokedex_status].gigantamax.includes('ムゲンダイマックス')){
-      pokedex[pokedex_status]["src"]='/img/'+('0000' + pokedex[pokedex_status].globalNo).slice( -4 ) + '-mugen' + mugen + ".png"
+    }else if(pokedex.result[pokedex_status].gigantamax.includes('ムゲンダイマックス')){
+      pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + '-mugen' + mugen + ".png"
       mugen++
-    }else if(pokedex[pokedex_status].region.includes('アローラのすがた')){
+    }else if(pokedex.result[pokedex_status].region.includes('アローラのすがた')){
       region_name = 'alora'
-      pokedex[pokedex_status]["src"]='/img/'+('0000' + pokedex[pokedex_status].globalNo).slice( -4 ) + '-' + region_name + alora + ".png"
+      pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + '-' + region_name + alora + ".png"
       alora++
-    }else if(pokedex[pokedex_status].region.includes('ガラルのすがた')){
+    }else if(pokedex.result[pokedex_status].region.includes('ガラルのすがた')){
       region_name = 'galar'
-      pokedex[pokedex_status]["src"]='/img/'+('0000' + pokedex[pokedex_status].globalNo).slice( -4 ) + '-' + region_name + galar + ".png"
+      pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + '-' + region_name + galar + ".png"
       galar++
-    }else if(pokedex[pokedex_status].region.includes('ヒスイのすがた')){
+    }else if(pokedex.result[pokedex_status].region.includes('ヒスイのすがた')){
       region_name = 'hisui'
-      pokedex[pokedex_status]["src"]='/img/'+('0000' + pokedex[pokedex_status].globalNo).slice( -4 ) + '-' + region_name + hisui + ".png"
+      pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + '-' + region_name + hisui + ".png"
       hisui++
-    }else if(pokedex[pokedex_status].region.includes('パルデアのすがた')){
+    }else if(pokedex.result[pokedex_status].region.includes('パルデアのすがた')){
       region_name = 'paldea'
-      pokedex[pokedex_status]["src"]='/img/'+('0000' + pokedex[pokedex_status].globalNo).slice( -4 ) + '-' + region_name + paldea + ".png"
+      pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + '-' + region_name + paldea + ".png"
       paldea++
     }else{
       if(normal == 0){
-        pokedex[pokedex_status]["src"]='/img/'+('0000' + pokedex[pokedex_status].globalNo).slice( -4 ) + ".png"
+        pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + ".png"
       }else{
-        pokedex[pokedex_status]["src"]='/img/'+('0000' + pokedex[pokedex_status].globalNo).slice( -4 ) + '-' + normal + ".png"
+        pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + '-' + normal + ".png"
       }
       normal++
     }
   }
 }
-const metaImage = ref("https://pokedex-online.jp/img/" + ('0000' + pokedex[0].globalNo).slice( -4 ) + ".png")
+
+const metaImage = ref("https://pokedex-online.jp/img/" + ('0000' + pokedex.result[0].globalNo).slice( -4 ) + ".png")
 let breadcrumbs = []
 breadcrumbs.push({
   title: 'HOME',
@@ -91,14 +95,14 @@ Object.keys(route.params).forEach((val) => {
     })
   }else if(val === 'id'){
     breadcrumbs.push({
-      title: pokedex[0].name.jpn,
+      title: pokedex.result[0].name.jpn,
       href: '/pokedex/'+route.params['area']+'/'+route.params['id'],
       disabled: true
     })
   }
 })
 const nextModel = () => {
-  if((pokedex.length - 1) <= model.value)
+  if((pokedex.result.length - 1) <= model.value)
   {
     model.value = 0
   }
@@ -110,7 +114,7 @@ const nextModel = () => {
 const prevModel = () => {
   if(model.value == 0)
   {
-    model.value = pokedex.length - 1
+    model.value = pokedex.result.length - 1
   }
   else
   {
@@ -118,7 +122,7 @@ const prevModel = () => {
   }
 }
 const updateMetadata = inject('updateMetadata') as (title: string) => void
-const metaTitle = ref(pokedex[0].name.jpn+" - "+route.meta.title+"\n#"+pokedex[0].name.jpn)
+const metaTitle = ref(pokedex.result[0].name.jpn+" - "+route.meta.title+"\n#"+pokedex.result[0].name.jpn)
 updateMetadata(metaTitle.value)
 useHead({
   title: metaTitle,
@@ -251,11 +255,11 @@ onMounted(() => {
     // 少し遅延させてVueのレンダリングが完了した後に実行
     setTimeout(() => {
       const hash = decodeURIComponent(window.location.hash.substring(1))
-      console.log('Hash found:', hash)
+      // console.log('Hash found:', hash)
       
       // 各ステータスを調べて、名前やフォームが一致するものを探す
-      for (let i = 0; i < pokedex.length; i++) {
-        const status = pokedex[i]
+      for (let i = 0; i < pokedex.result.length; i++) {
+        const status = pokedex.result[i]
         
         // メガシンカの場合
         if (status.mega_evolution && status.mega_evolution.includes('メガ') && hash.includes('メガ')) {
@@ -315,11 +319,11 @@ const statusIndex = ref()
       <v-container>
         <v-card>
           <v-card-title>
-            {{ pokedex[0].name.jpn }}
+            {{ pokedex.result[0].name.jpn }}
           </v-card-title>
           <v-card-text>
             <v-row
-            v-for='(name, key) in pokedex[0].name'
+            v-for='(name, key) in pokedex.result[0].name'
             :key='name'
             >
               <v-col>
@@ -350,11 +354,11 @@ const statusIndex = ref()
       <div style="display: flex; justify-content: space-between;padding: 0px;">
         <div style="flex: 1; display: flex; justify-content: flex-start;">
           <v-btn
-            v-if='prev && prev.length > 0'
-            :to='{path: `/pokedex/${route.params.area}/${prev[0].no}`}'
+            v-if='prev.result && prev.result.length > 0'
+            :to='{path: `/pokedex/${route.params.area}/${prev.result[0].no}`}'
             style="background-color: white; width: 120px;"
             variant="outlined"
-            >{{ prev[0].name.jpn }}</v-btn>
+            >{{ prev.result[0].name.jpn }}</v-btn>
         </div>
         <div style="flex: 1; display: flex; justify-content: center;">
           <v-btn
@@ -365,11 +369,11 @@ const statusIndex = ref()
         </div>
         <div style="flex: 1; display: flex; justify-content: flex-end;">
           <v-btn
-            v-if='next && next.length > 0'
-            :to='{path: `/pokedex/${route.params.area}/${next[0].no}`}'
+            v-if='next.result && next.result.length > 0'
+            :to='{path: `/pokedex/${route.params.area}/${next.result[0].no}`}'
             style="background-color: white; width: 120px;"
             variant="outlined"
-            >{{ next[0].name.jpn }}</v-btn>
+            >{{ next.result[0].name.jpn }}</v-btn>
         </div>
       </div>
 
@@ -390,7 +394,7 @@ const statusIndex = ref()
                 width="auto"
                 class=""
                 >
-                  <h2 class="responsive-text-name">{{ pokedex[0].name.jpn }}</h2>
+                  <h2 class="responsive-text-name">{{ pokedex.result[0].name.jpn }}</h2>
                 </v-card-title>
               </v-card>
 
@@ -404,7 +408,7 @@ const statusIndex = ref()
                 width="auto"
                 class=""
                 >
-                  <div class="responsive-text">全国図鑑番号 No.{{ ('0000' + pokedex[0].globalNo).slice( -4 ) }}</div>
+                  <div class="responsive-text">全国図鑑番号 No.{{ ('0000' + pokedex.result[0].globalNo).slice( -4 ) }}</div>
                 </v-card-title>
               </v-card>
 
@@ -428,7 +432,7 @@ const statusIndex = ref()
           </v-row>
       <v-carousel :show-arrows="false" hide-delimiters v-model="model" height="auto">
         <v-carousel-item
-          v-for="(item, index) in pokedex" :key="index"
+          v-for="(item, index) in pokedex.result" :key="index"
         >
         </v-carousel-item>
       </v-carousel>
@@ -441,9 +445,9 @@ const statusIndex = ref()
         v-for="item in appConfig.pokedex_list.filter(item => item.title !== '全国図鑑')" :key="item.title"
         >
           <NuxtLink
-          :to="{path: `/pokedex${item.path}/${existsPokedex[item.area]}`}"
+          :to="{path: `/pokedex${item.path}/${existsPokedex[item.area].result}`}"
           class="nuxtlink"
-          v-if="existsPokedex[item.area] > -1"
+          v-if="existsPokedex[item.area].result > -1"
           >
             <v-card
             elevation-0
@@ -458,7 +462,7 @@ const statusIndex = ref()
           disabled
           variant="outlined"
           style="background-color: #f2f2f2;"
-          v-if="existsPokedex[item.area] <= -1"
+          v-if="existsPokedex[item.area].result <= -1"
           >
             <v-card-title>{{ item.title }}</v-card-title>
           </v-card>
@@ -481,11 +485,11 @@ const statusIndex = ref()
       <v-container>
         <v-card>
           <v-card-title>
-            {{ pokedex[model].name.jpn }}
+            {{ pokedex.result[model].name.jpn }}
           </v-card-title>
           <v-card-text>
             <v-row
-            v-for='(name, key) in pokedex[model].name'
+            v-for='(name, key) in pokedex.result[model].name'
             :key='name'
             >
               <v-col>
@@ -522,11 +526,11 @@ const statusIndex = ref()
       <div style="display: flex; justify-content: space-between;padding: 0px;">
         <div style="flex: 1; display: flex; justify-content: flex-start;">
           <v-btn
-            v-if='prev && prev.length > 0'
-            :to='{path: `/pokedex/${route.params.area}/${prev[0].no}`}'
+            v-if='prev.result && prev.result.length > 0'
+            :to='{path: `/pokedex/${route.params.area}/${prev.result[0].no}`}'
             style="background-color: white; width: 120px;"
             variant="outlined"
-            >{{ prev[0].name.jpn }}</v-btn>
+            >{{ prev.result[0].name.jpn }}</v-btn>
         </div>
         <div style="flex: 1; display: flex; justify-content: center;">
           <v-btn
@@ -537,11 +541,11 @@ const statusIndex = ref()
         </div>
         <div style="flex: 1; display: flex; justify-content: flex-end;">
           <v-btn
-            v-if='next && next.length > 0'
-            :to='{path: `/pokedex/${route.params.area}/${next[0].no}`}'
+            v-if='next.result && next.result.length > 0'
+            :to='{path: `/pokedex/${route.params.area}/${next.result[0].no}`}'
             style="background-color: white; width: 120px;"
             variant="outlined"
-            >{{ next[0].name.jpn }}</v-btn>
+            >{{ next.result[0].name.jpn }}</v-btn>
         </div>
       </div>
       <v-carousel
@@ -552,7 +556,7 @@ const statusIndex = ref()
       style="margin-top: 20px;"
       >
         <v-carousel-item
-          v-for="(item, index) in pokedex" :key="index"
+          v-for="(item, index) in pokedex.result" :key="index"
         >
           <v-row>
             <v-col
@@ -569,7 +573,7 @@ const statusIndex = ref()
                 width="auto"
                 class=""
                 >
-                  <h2 class="responsive-text-name">{{ pokedex[model].name.jpn }}</h2>
+                  <h2 class="responsive-text-name">{{ pokedex.result[model].name.jpn }}</h2>
                 </v-card-title>
               </v-card>
               <v-card
@@ -582,7 +586,7 @@ const statusIndex = ref()
                 width="auto"
                 class=""
                 >
-                  <div class="responsive-text">分類　　　　　{{ pokedex[model].classification }}</div>
+                  <div class="responsive-text">分類　　　　　{{ pokedex.result[model].classification }}</div>
                 </v-card-title>
               </v-card>
               <v-card
@@ -595,7 +599,7 @@ const statusIndex = ref()
                 width="auto"
                 class=""
                 >
-                  <div class="responsive-text">図鑑番号　　　No.{{ ('0000' + pokedex[model].no).slice(-4) }}</div>
+                  <div class="responsive-text">図鑑番号　　　No.{{ ('0000' + pokedex.result[model].no).slice(-4) }}</div>
                 </v-card-title>
               </v-card>
               <v-card
@@ -608,8 +612,8 @@ const statusIndex = ref()
                 width="auto"
                 class=""
                 >
-                  <NuxtLink class="nuxtlink" :to="{path: `/pokedex/global/${pokedex[model].globalNo}`}">
-                  <div class="responsive-text">全国図鑑番号　No.{{ ('0000' + pokedex[model].globalNo).slice(-4) }}</div>
+                  <NuxtLink class="nuxtlink" :to="{path: `/pokedex/global/${pokedex.result[model].globalNo}`}">
+                  <div class="responsive-text">全国図鑑番号　No.{{ ('0000' + pokedex.result[model].globalNo).slice(-4) }}</div>
                   </NuxtLink>
                 </v-card-title>
               </v-card>
@@ -623,7 +627,7 @@ const statusIndex = ref()
                 width="auto"
                 class=""
                 >
-                  <div class="responsive-text">たかさ<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M18.5 1.586L22.914 6L21.5 7.414l-2-2v13.172l2-2L22.914 18L18.5 22.414L14.086 18l1.414-1.414l2 2V5.414l-2 2L14.086 6zM2 2h10v20H2zm2 2v16h6V4z"/></svg>　　　{{ pokedex[model].height }} m</div>
+                  <div class="responsive-text">たかさ<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M18.5 1.586L22.914 6L21.5 7.414l-2-2v13.172l2-2L22.914 18L18.5 22.414L14.086 18l1.414-1.414l2 2V5.414l-2 2L14.086 6zM2 2h10v20H2zm2 2v16h6V4z"/></svg>　　　{{ pokedex.result[model].height }} m</div>
                 </v-card-title>
               </v-card>
               <v-card
@@ -636,7 +640,7 @@ const statusIndex = ref()
                 width="auto"
                 class=""
                 >
-                  <div class="responsive-text">おもさ<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="currentColor" d="M256 46c-45.074 0-82 36.926-82 82c0 25.812 12.123 48.936 30.938 64H128L32 480h448l-96-288h-76.938C325.877 176.936 338 153.812 338 128c0-45.074-36.926-82-82-82m0 36c25.618 0 46 20.382 46 46s-20.382 46-46 46s-46-20.382-46-46s20.382-46 46-46m-82.215 202.95h23.5v33.263l33.873-33.264h27.283l-43.883 43.15l48.4 47.974H233.54l-36.255-35.888v35.888h-23.5zm119.934 21.24c4.76 0 8.952.934 12.573 2.806c3.62 1.872 6.938 4.82 9.95 8.85v-10.13h21.972v61.462c0 10.986-3.48 19.368-10.438 25.146c-6.917 5.82-16.968 8.727-30.152 8.727c-4.272 0-8.4-.325-12.39-.976a77.367 77.367 0 0 1-12.024-2.99v-17.03c3.826 2.198 7.57 3.826 11.23 4.884c3.664 1.098 7.347 1.648 11.05 1.648c7.162 0 12.41-1.566 15.746-4.7c3.337-3.132 5.006-8.035 5.006-14.708v-4.7c-3.01 3.986-6.328 6.916-9.95 8.788c-3.62 1.87-7.813 2.808-12.573 2.808c-8.343 0-15.238-3.275-20.69-9.826c-5.453-6.592-8.18-14.974-8.18-25.146c0-10.214 2.727-18.576 8.18-25.086c5.452-6.55 12.347-9.827 20.69-9.827m8.118 15.746c-4.517 0-8.038 1.67-10.56 5.005c-2.523 3.338-3.784 8.058-3.784 14.162c0 6.266 1.22 11.026 3.662 14.28c2.442 3.215 6.003 4.823 10.682 4.823c4.557 0 8.096-1.67 10.62-5.006c2.522-3.337 3.784-8.036 3.784-14.098c0-6.104-1.262-10.824-3.785-14.16c-2.523-3.337-6.062-5.006-10.62-5.006z"/></svg>　　　{{ pokedex[model].weight }} kg</div>
+                  <div class="responsive-text">おもさ<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="currentColor" d="M256 46c-45.074 0-82 36.926-82 82c0 25.812 12.123 48.936 30.938 64H128L32 480h448l-96-288h-76.938C325.877 176.936 338 153.812 338 128c0-45.074-36.926-82-82-82m0 36c25.618 0 46 20.382 46 46s-20.382 46-46 46s-46-20.382-46-46s20.382-46 46-46m-82.215 202.95h23.5v33.263l33.873-33.264h27.283l-43.883 43.15l48.4 47.974H233.54l-36.255-35.888v35.888h-23.5zm119.934 21.24c4.76 0 8.952.934 12.573 2.806c3.62 1.872 6.938 4.82 9.95 8.85v-10.13h21.972v61.462c0 10.986-3.48 19.368-10.438 25.146c-6.917 5.82-16.968 8.727-30.152 8.727c-4.272 0-8.4-.325-12.39-.976a77.367 77.367 0 0 1-12.024-2.99v-17.03c3.826 2.198 7.57 3.826 11.23 4.884c3.664 1.098 7.347 1.648 11.05 1.648c7.162 0 12.41-1.566 15.746-4.7c3.337-3.132 5.006-8.035 5.006-14.708v-4.7c-3.01 3.986-6.328 6.916-9.95 8.788c-3.62 1.87-7.813 2.808-12.573 2.808c-8.343 0-15.238-3.275-20.69-9.826c-5.453-6.592-8.18-14.974-8.18-25.146c0-10.214 2.727-18.576 8.18-25.086c5.452-6.55 12.347-9.827 20.69-9.827m8.118 15.746c-4.517 0-8.038 1.67-10.56 5.005c-2.523 3.338-3.784 8.058-3.784 14.162c0 6.266 1.22 11.026 3.662 14.28c2.442 3.215 6.003 4.823 10.682 4.823c4.557 0 8.096-1.67 10.62-5.006c2.522-3.337 3.784-8.036 3.784-14.098c0-6.104-1.262-10.824-3.785-14.16c-2.523-3.337-6.062-5.006-10.62-5.006z"/></svg>　　　{{ pokedex.result[model].weight }} kg</div>
                 </v-card-title>
               </v-card>
             </v-col>
@@ -652,7 +656,7 @@ const statusIndex = ref()
               width="100%"
               height="100%"
               :aspect-ratio="1/1"
-              :src="`${pokedex[model].src}`"
+              :src="`${pokedex.result[model].src}`"
               ></v-img>
               </v-card>
             </v-col>
@@ -660,7 +664,7 @@ const statusIndex = ref()
         </v-carousel-item>
       </v-carousel>
       <v-card
-      v-if="pokedex.length > 1"
+      v-if="pokedex.result.length > 1"
       elevation="0"
       style="margin-top: 20px;background-color: white;"
       variant="outlined"
@@ -671,13 +675,13 @@ const statusIndex = ref()
           >＜</v-btn>
           <v-spacer />
           <h2>{{ 
-            pokedex[model].gigantamax && pokedex[model].form ? `${pokedex[model].gigantamax} ${pokedex[model].form}` : 
-            pokedex[model].region && pokedex[model].form ? `${pokedex[model].region} ${pokedex[model].form}` : 
-            pokedex[model].mega_evolution ? pokedex[model].mega_evolution : 
-            pokedex[model].gigantamax ? pokedex[model].gigantamax : 
-            pokedex[model].region ? pokedex[model].region : 
-            pokedex[model].form ? pokedex[model].form : 
-            pokedex[model].name?.jpn || ''
+            pokedex.result[model].gigantamax && pokedex.result[model].form ? `${pokedex.result[model].gigantamax} ${pokedex.result[model].form}` : 
+            pokedex.result[model].region && pokedex.result[model].form ? `${pokedex.result[model].region} ${pokedex.result[model].form}` : 
+            pokedex.result[model].mega_evolution ? pokedex.result[model].mega_evolution : 
+            pokedex.result[model].gigantamax ? pokedex.result[model].gigantamax : 
+            pokedex.result[model].region ? pokedex.result[model].region : 
+            pokedex.result[model].form ? pokedex.result[model].form : 
+            pokedex.result[model].name?.jpn || ''
           }}</h2>
           <v-spacer />
           <v-btn
@@ -692,14 +696,14 @@ const statusIndex = ref()
       height="auto"
       >
         <v-carousel-item
-          v-for="(item, index) in pokedex" :key="index" refs="statusIndex"
+          v-for="(item, index) in pokedex.result" :key="index" refs="statusIndex"
         >
-          <TypeView :pokedex="pokedex[model]" :area="route.params.area" />
-          <StatusChart :statusData="pokedex[model]" />
-          <AbilityView :pokedex="pokedex[model]" :area="route.params.area" />
-          <DescriptionView :description="pokedex[model].description" :title="metaTitle" />
-          <wazaView :wazaData="pokedex[model]" :area="route.params.area" />
-          <evolveView :evolveData="pokedex[model]" :area="route.params.area" />
+          <TypeView :pokedex="pokedex.result[model]" :area="route.params.area" />
+          <StatusChart :statusData="pokedex.result[model]" />
+          <AbilityView :pokedex="pokedex.result[model]" :area="route.params.area" />
+          <DescriptionView :description="pokedex.result[model].description" :title="metaTitle" />
+          <wazaView :wazaData="pokedex.result[model]" :area="route.params.area" />
+          <evolveView :evolveData="pokedex.result[model]" :area="route.params.area" />
           <v-card
           elevation="0"
           style="margin-top: 20px;background-color: white;"
@@ -748,7 +752,7 @@ const statusIndex = ref()
             </NuxtLink>
 
             <div
-            v-if="'ability1' in pokedex[0]"
+            v-if="'ability1' in pokedex.result[0]"
             >
               <NuxtLink
               :to="{hash: `#ability`}"
@@ -768,7 +772,7 @@ const statusIndex = ref()
               </v-list-item>
             </NuxtLink>
             <div
-            v-if="'waza' in pokedex[0]"
+            v-if="'waza' in pokedex.result[0]"
             >
               <NuxtLink
               :to="{hash: `#waza`}"
@@ -780,7 +784,7 @@ const statusIndex = ref()
               </NuxtLink>
             </div>
             <div
-            v-if="Array.isArray(pokedex[0].evolve)"
+            v-if="Array.isArray(pokedex.result[0].evolve)"
             >
               <NuxtLink
               :to="{hash: `#evolve`}"

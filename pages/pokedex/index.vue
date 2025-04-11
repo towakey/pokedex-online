@@ -67,9 +67,14 @@ useHead({
           <v-card
           elevation-0
           variant="outlined"
-          style="background-color: white;"
+          style="background-color: white; width: 100%;"
           >
             <v-card-title>{{ item.title }}</v-card-title>
+            <v-card-text style="min-height: 24px; display: block; width: 100%;">
+              <div style="min-width: 150px;">
+                {{ appConfig.game_eng2jpn[appConfig.region2game[item.area]] || '\u00A0\u00A0\u00A0\u00A0\u00A0' }}
+              </div>
+            </v-card-text>
           </v-card>
         </NuxtLink>
       </v-col>

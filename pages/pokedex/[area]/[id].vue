@@ -67,9 +67,6 @@ definePageMeta({
 })
 let nameDialog = ref(false)
 let model = ref(0)
-// const pokedex = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+route.params.id)).data.value.result
-// const prev = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) - 1))).data.value.result
-// const next = (await useFetch('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) + 1))).data.value.result
 const pokedex = (await useFetch<PokedexResponse>('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+route.params.id)).data.value
 const prev = (await useFetch<PokedexResponse>('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) - 1))).data.value
 const next = (await useFetch<PokedexResponse>('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) + 1))).data.value
@@ -567,7 +564,7 @@ const statusIndex = ref()
   <v-row>
     <v-col
     cols="12"
-    md="9"
+    md="12"
     >
     <v-container>
       <v-breadcrumbs :items="breadcrumbs">
@@ -763,24 +760,45 @@ const statusIndex = ref()
           <DescriptionView :description="pokedex.result[model].description" :title="metaTitle" />
           <wazaView :wazaData="pokedex.result[model]" :area="route.params.area" />
           <evolveView :evolveData="pokedex.result[model]" :area="route.params.area" />
-          <v-card
-          elevation="0"
-          style="margin-top: 20px;background-color: white;"
-          variant="outlined"
+          <v-row
+          style="margin-top: 20px;"
           >
-            <v-card-text>
-              <adsbygoogle
-                :ad-slot="config.public.adSlot"
-                :ad-format="'auto'"
-                :full-width-responsive="true"
-              />
-            </v-card-text>
-          </v-card>    
+            <v-col cols="12" md="6">
+              <v-card
+                elevation="0"
+                style="background-color: white;"
+                variant="outlined"
+              >
+                <v-card-text>
+                  <adsbygoogle
+                    :ad-slot="config.public.adSlot"
+                    :ad-format="'auto'"
+                    :full-width-responsive="true"
+                  />
+                </v-card-text>
+              </v-card>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-card
+                elevation="0"
+                style="background-color: white;"
+                variant="outlined"
+              >
+                <v-card-text>
+                  <adsbygoogle
+                    :ad-slot="config.public.adSlot"
+                    :ad-format="'auto'"
+                    :full-width-responsive="true"
+                  />
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
         </v-carousel-item>
       </v-carousel>
     </v-container>
     </v-col>
-    <v-col
+    <!-- <v-col
     cols="12"
     md="3"
     v-if="$vuetify.display.lgAndUp"
@@ -864,7 +882,7 @@ const statusIndex = ref()
           />
         </v-card-text>
       </v-card>
-    </v-col>
+    </v-col> -->
   </v-row>
 </v-container>
 </div>

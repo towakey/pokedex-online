@@ -454,6 +454,98 @@ export default defineAppConfig({
       "フェアリー",
     ]
   },
+  type: {
+    "ノーマル": {
+      "jpn": "ノーマル",
+      "eng": "Normal",
+      "color": "#d9d9d9"
+    },
+    "ほのお": {
+      "jpn": "ほのお",
+      "eng": "Fire",
+      "color": "#f56515"
+    },
+    "みず": {
+      "jpn": "みず",
+      "eng": "Water",
+      "color": "#0078d7"
+    },
+    "でんき": {
+      "jpn": "でんき",
+      "eng": "Electric",
+      "color": "#f5c842"
+    },
+    "くさ": {
+      "jpn": "くさ",
+      "eng": "Grass",
+      "color": "#228b22"
+    },
+    "こおり": {
+      "jpn": "こおり",
+      "eng": "Ice",
+      "color": "#98f5ff"
+    },
+    "かくとう": {
+      "jpn": "かくとう",
+      "eng": "Fighting",
+      "color": "#f59966"
+    },
+    "どく": {
+      "jpn": "どく",
+      "eng": "Poison",
+      "color": "#9866f5"
+    },
+    "じめん": {
+      "jpn": "じめん",
+      "eng": "Ground",
+      "color": "#d2b48c"
+    },
+    "ひこう": {
+      "jpn": "ひこう",
+      "eng": "Flying",
+      "color": "#2282d0"
+    },
+    "エスパー": {
+      "jpn": "エスパー",
+      "eng": "Psychic",
+      "color": "#f56515"
+    },
+    "むし": {
+      "jpn": "むし",
+      "eng": "Bug",
+      "color": "#228b22"
+    },
+    "いわ": {
+      "jpn": "いわ",
+      "eng": "Rock",
+      "color": "#989898"
+    },
+    "ゴースト": {
+      "jpn": "ゴースト",
+      "eng": "Ghost",
+      "color": "#705898"
+    },
+    "ドラゴン": {
+      "jpn": "ドラゴン",
+      "eng": "Dragon",
+      "color": "#7038F8"
+    },
+    "あく": {
+      "jpn": "あく",
+      "eng": "Dark",
+      "color": "#705848"
+    },
+    "はがね": {
+      "jpn": "はがね",
+      "eng": "Steel",
+      "color": "#989898"
+    },
+    "フェアリー": {
+      "jpn": "フェアリー",
+      "eng": "Fairy",
+      "color": "#f56515"
+    }
+  },
   name2id: {
     "Bulbasaur": { "id": "001", "name": "フシギダネ" },
     "Ivysaur": { "id": "002", "name": "フシギソウ" },

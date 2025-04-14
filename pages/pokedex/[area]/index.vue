@@ -190,20 +190,39 @@ useHead({
           style="background-color: white;"
           >
             <div
-            class="d-flex flex-no-wrap justify-space-between"
-            style="float: left;"
+            class="d-flex flex-no-wrap justify-space-between w-100"
             >
 
               <v-avatar
                 class="ms-2"
                 size="100"
-                style="/*background-color: aqua;*/"
                 >
                   <v-img :src='`${"/img/" + ("0000"+pokemon.globalNo).slice(-4)+".png"}`'></v-img>
               </v-avatar>
 
-              <v-card-title>
-                No.{{ ("0000"+pokemon.no).slice(-4) }}<br>{{ pokemon.status[0].name.jpn }}
+              <v-card-title
+              class="pa-0 w-100"
+              >
+                <v-row
+                class="ma-0"
+                >
+                  <v-col
+                  cols="5"
+                  style="min-width: 120px; max-width: 300px;"
+                  >
+                    <div class="text-truncate">No.{{ ("0000"+pokemon.no).slice(-4) }}</div>
+                    <div class="text-truncate">{{ pokemon.status[0].name.jpn }}</div>
+                  </v-col>
+                  <v-col 
+                  cols=""
+                  class="text-left d-flex"
+                  >
+                    <div class="d-flex flex-column">
+                      <typeIcon v-if="pokemon.status[0].type1" :type="pokemon.status[0].type1" />
+                      <typeIcon v-if="pokemon.status[0].type2" :type="pokemon.status[0].type2" />
+                    </div>
+                  </v-col>
+                </v-row>
               </v-card-title>
             </div>
           </v-card>

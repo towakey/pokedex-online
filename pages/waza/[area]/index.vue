@@ -181,6 +181,9 @@ const wazaData = computed(() => {
         :items="[items]"
         hide-default-footer
         >
+        <template #item.type="{ item }">
+          <typeIcon v-if="item.type" :type="item.type" />
+        </template>
         </v-data-table>
       </v-card-text>
     </v-card>

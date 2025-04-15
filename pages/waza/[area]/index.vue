@@ -117,6 +117,18 @@ const wazaData = computed(() => {
   return {};
 });
 
+function getCategoryColor(category: string) {
+  switch (category) {
+    case '物理':
+      return 'blue';
+    case '特殊':
+      return 'red';
+    case '変化':
+      return 'green';
+    default:
+      return 'gray';
+  }
+}
 </script>
 <template>
   <v-container>
@@ -171,18 +183,51 @@ const wazaData = computed(() => {
       <v-card-text>
         <h4>{{ items.description }}</h4>
         <v-data-table
+        density="compact"
         :headers="[
-          {title: 'タイプ', key: 'type', width: '20%'},
-          {title: '分類', key: 'category', width: '20%'},
-          {title: 'いりょく', key: 'power', width: '20%'},
-          {title: 'めいちゅう', key: 'accuracy', width: '20%'},
-          {title: 'PP', key: 'pp', width: '20%'}
+          {title: 'タイプ', key: 'type', width: '15%', align: 'center'},
+          {title: '分類', key: 'category', width: '15%', align: 'center'},
+          {title: 'いりょく', key: 'power', width: '15%', align: 'center'},
+          {title: 'めいちゅう', key: 'accuracy', width: '15%', align: 'center'},
+          {title: 'PP', key: 'pp', width: '15%', align: 'center'},
         ]"
         :items="[items]"
+        class="move-table"
+        :class="`${items.type}-move-table`"
         hide-default-footer
+        hover
         >
         <template #item.type="{ item }">
-          <typeIcon v-if="item.type" :type="item.type" />
+          <div class="d-flex justify-center">
+            <typeIcon v-if="item.type" :type="item.type" />
+          </div>
+        </template>
+        <template #item.category="{ item }">
+          <v-chip
+            size="small"
+            :color="getCategoryColor(item.category)"
+            :class="['category-chip', 'text-subtitle-2', 'font-weight-medium']"
+          >
+            {{ item.category }}
+          </v-chip>
+        </template>
+        <template #item.power="{ item }">
+          <span :class="item.power === '—' ? 'text-disabled' : 'text-primary'">
+            {{ item.power }}
+          </span>
+        </template>
+        <template #item.accuracy="{ item }">
+          <span :class="item.accuracy === '—' ? 'text-disabled' : 'text-primary'">
+            {{ item.accuracy }}
+          </span>
+        </template>
+        <template #item.pp="{ item }">
+          <v-badge
+            :content="item.pp"
+            color="primary"
+            inline
+            text-color="white"
+          ></v-badge>
         </template>
         </v-data-table>
       </v-card-text>
@@ -200,5 +245,27 @@ const wazaData = computed(() => {
   position: absolute;
   top: 8px;
   right: 8px;
+}
+
+.move-table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.move-table :deep(th) {
+  background-color: #f5f5f5 !important;
+  color: #424242 !important;
+  font-weight: bold !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+.move-table :deep(tr:hover) {
+  background-color: #f9f9f9 !important;
+}
+
+.category-chip {
+  min-width: 70px;
+  justify-content: center;
 }
 </style>

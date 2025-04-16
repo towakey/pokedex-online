@@ -57,7 +57,7 @@ const shareOn = (network, ver) => {
         v-for="(ver, index) in description" :key="index"
       >
         <v-list-item-title>
-          {{ appConfig.ver_eng2jpn[index] }}
+          <h3>{{ appConfig.ver_eng2jpn[index] }}
           <v-menu>
           <template v-slot:activator="{ props }">
             <v-btn
@@ -81,8 +81,9 @@ const shareOn = (network, ver) => {
             </v-list-item>
           </v-list>
         </v-menu>
+        </h3>
         </v-list-item-title>
-        <v-list-item-subtitle class="wrap-text" style="color: #000;" v-if="ver !== ''">{{ ver }}</v-list-item-subtitle>
+        <v-list-item-subtitle class="wrap-text" style="color: #000;" v-if="ver !== ''"><p>{{ ver }}</p></v-list-item-subtitle>
         <v-list-item-subtitle class="wrap-text" style="color: #000;" v-else>じょうほう なし</v-list-item-subtitle>
       </v-list-item>
     </v-list>

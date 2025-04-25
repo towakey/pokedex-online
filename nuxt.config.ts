@@ -72,8 +72,9 @@ export default defineNuxtConfig({
       })
     },
     //...
-    "@nuxt/content",
+    '@nuxt/content',
     '@vite-pwa/nuxt',
+    '@nuxt/image'
   ],
 
   googleAdsense: {
@@ -136,7 +137,7 @@ export default defineNuxtConfig({
     workbox: {
       globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
       navigateFallback: '/',
-      maximumFileSizeToCacheInBytes: 4 * 1024 * 1024, // 4MB
+      maximumFileSizeToCacheInBytes: 8 * 1024 * 1024, // 8MB
     },
     client: {
       installPrompt: true,

@@ -17,6 +17,8 @@ interface Pokemon {
     weight: string;
     height: string;
     name?: { jpn: string };  // 地域別エリアで使用
+    type1?: string;
+    type2?: string;
   }>;
 }
 
@@ -25,6 +27,51 @@ const fetchedPokedex = (await useFetch<{result: Pokemon[]}>('/api/v1/pokedex?mod
 const pokedex = route.params.area === 'global' 
   ? fetchedPokedex 
   : fetchedPokedex.filter(pokemon => pokemon.no && pokemon.no !== "")
+
+// 検索モーダル関連の状態
+const searchModalOpen = ref(false)
+const searchText = ref('')
+const selectedTypes = ref<string[]>([])
+
+// 全ポケモンタイプを取得
+const allTypes = Object.keys(appConfig.type)
+
+// タイプ選択の切り替え
+function toggleType(type: string) {
+  const index = selectedTypes.value.indexOf(type)
+  if (index === -1) {
+    selectedTypes.value.push(type)
+  } else {
+    selectedTypes.value.splice(index, 1)
+  }
+}
+
+// タイプの色の定義
+const typeColors: Record<string, string> = {
+  'ノーマル': '#dcdcdc',  // ノーマル
+  'ほのお': '#ff0000',  // ほのお
+  'みず': '#0000ff',  // みず
+  'でんき': '#f5c842',  // でんき
+  'くさ': '#008000',  // くさ
+  'こおり': '#00bfff',  // こおり
+  'かくとう': '#ff8c00',  // かくとう
+  'どく': '#8b008b',  // どく
+  'じめん': '#d2691e',  // じめん
+  'ひこう': '#1e90ff',  // ひこう
+  'エスパー': '#ff1493',  // エスパー
+  'むし': '#32cd32',  // むし
+  'いわ': '#8b4513',  // いわ
+  'ゴースト': '#6a5acd',  // ゴースト
+  'ドラゴン': '#4169e1',  // ドラゴン
+  'あく': '#4b0082',  // あく
+  'はがね': '#b0c4de',  // はがね
+  'フェアリー': '#ee82ee'  // フェアリー
+}
+
+// タイプに応じた色を取得する関数
+function getTypeColor(type: string): string {
+  return typeColors[type] || '#dcdcdc'
+}
 
 const sort_type = ref("番号順")
 watch(sort_type, () => {
@@ -75,20 +122,57 @@ watch(sort_type, () => {
   }
 })
 const pokelist = computed(() => {
-  if(searchTerm.value === null)
-  {
-    return pokedex
-  }
-  else
+  // 基本の検索テキストフィルタリング
+  let filteredList = pokedex
+  
+  // 通常の検索ボックスからの検索
+  if(searchTerm.value !== null && searchTerm.value !== undefined)
   {
     if(route.params.area == 'global'){
-      return pokedex.filter(item => String(item.name.jpn).match(searchTerm.value) || String(item.id).match(searchTerm.value))
+      filteredList = filteredList.filter(item => {
+        const name = typeof item.name === 'string' ? item.name : item.name.jpn
+        return String(name).match(searchTerm.value) || String(item.id).match(searchTerm.value)
+      })
     }
     else
     {
-      return pokedex.filter(item => item.status.some(value => value.name.jpn.match(searchTerm.value)) || String(item.no).match(searchTerm.value))
+      filteredList = filteredList.filter(item => 
+        item.status.some(value => value.name.jpn.match(searchTerm.value)) || 
+        String(item.no).match(searchTerm.value))
     }
   }
+  
+  // モーダル内での検索テキストフィルタリング
+  if (searchText.value) {
+    const searchRegex = new RegExp(searchText.value, 'i')
+    filteredList = filteredList.filter(pokemon => {
+      // 番号で検索
+      if (pokemon.no && searchRegex.test(pokemon.no)) return true
+      
+      // 名前で検索
+      if (route.params.area == 'global') {
+        const name = typeof pokemon.name === 'string' ? pokemon.name : pokemon.name.jpn
+        return searchRegex.test(String(name))
+      } else {
+        return pokemon.status.some(status => 
+          status.name && searchRegex.test(String(status.name.jpn)))
+      }
+      return false
+    })
+  }
+  
+  // タイプでフィルタリング
+  if (selectedTypes.value.length > 0) {
+    filteredList = filteredList.filter(pokemon => {
+      return pokemon.status.some(status => {
+        return selectedTypes.value.some(selectedType => 
+          status.type1 === selectedType || status.type2 === selectedType
+        )
+      })
+    })
+  }
+  
+  return filteredList
 })
 
 let breadcrumbs = []
@@ -150,7 +234,7 @@ useHead({
           </v-breadcrumbs-item>
         </template>
       </v-breadcrumbs>
-    <v-row>
+    <!-- <v-row>
       <v-col>
         <v-text-field
         v-model="searchTerm"
@@ -159,8 +243,8 @@ useHead({
         bg-color="white"
         />
       </v-col>
-    </v-row>
-    <v-row
+    </v-row> -->
+    <!-- <v-row
     v-if="route.params.area != 'global'"
     >
       <v-col>
@@ -172,7 +256,115 @@ useHead({
         bg-color="white"
         ></v-combobox>
       </v-col>
+    </v-row> -->
+    
+    <!-- 検索ボタン -->
+    <v-row>
+      <v-col>
+        <v-btn
+          color="primary"
+          @click="searchModalOpen = true"
+          prepend-icon="mdi-magnify"
+          variant="outlined"
+          block
+        >
+          詳細検索
+        </v-btn>
+      </v-col>
     </v-row>
+    
+    <!-- 検索モーダル -->
+    <v-dialog
+      v-model="searchModalOpen"
+      max-width="600px"
+    >
+      <v-card>
+        <v-card-title class="text-h5">
+          詳細検索
+          <v-spacer></v-spacer>
+          <v-btn icon="mdi-close" variant="text" @click="searchModalOpen = false"></v-btn>
+        </v-card-title>
+        
+        <v-card-text>
+          <v-container>
+            <!-- テキスト検索 -->
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="searchText"
+                  label="図鑑No・名前で検索"
+                  variant="outlined"
+                  bg-color="white"
+                  clearable
+                  prepend-inner-icon="mdi-magnify"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            
+            <!-- タイプフィルター -->
+            <v-row>
+              <v-col
+              v-if="route.params.area != 'global'"
+              >
+                <div class="text-subtitle-1 mb-2">タイプで絞り込み</div>
+                <div class="d-flex flex-wrap gap-1">
+                  <v-btn
+                    v-for="type in allTypes"
+                    :key="type"
+                    :style="{
+                      backgroundColor: selectedTypes.includes(type) ? '#dcdcdc' : getTypeColor(type),
+                      color: selectedTypes.includes(type) ? 'black' : 'white'
+                    }"
+                    class="ma-1"
+                    variant="elevated"
+                    size="small"
+                    @click="toggleType(type)"
+                  >
+                    {{ appConfig.type[type]?.jpn || type }}
+                  </v-btn>
+                </div>
+              </v-col>
+            </v-row>
+            
+            <!-- 選択されているタイプ表示 -->
+            <v-row v-if="selectedTypes.length > 0">
+              <v-col>
+                <v-chip-group>
+                  <v-chip
+                    v-for="type in selectedTypes"
+                    :key="type"
+                    closable
+                    color="#dcdcdc"
+                    text-color="black"
+                    @click:close="toggleType(type)"
+                  >
+                    {{ appConfig.type[type]?.jpn || type }}
+                  </v-chip>
+                </v-chip-group>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-text>
+        
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="grey"
+            variant="text"
+            @click="searchText = ''; selectedTypes = []"
+          >
+            クリア
+          </v-btn>
+          <v-btn
+            color="primary"
+            variant="text"
+            @click="searchModalOpen = false"
+          >
+            完了
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-row>
       <v-col
       cols="12"
@@ -197,7 +389,13 @@ useHead({
                 class="ms-2"
                 size="100"
                 >
-                  <v-img :src='`${"/img/" + ("0000"+pokemon.globalNo).slice(-4)+".png"}`'></v-img>
+                  <NuxtImg
+                    :src='`/img/${("0000" + pokemon.globalNo).slice(-4)}.png`'
+                    alt=""
+                    width="100"
+                    height="100"
+                    fit="cover"
+                  />
               </v-avatar>
 
               <v-card-title

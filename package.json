@@ -13,6 +13,7 @@
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@nuxt/content": "^2.12.0",
+    "@nuxt/image": "1.10.0",
     "@nuxtjs/google-adsense": "^3.0.0",
     "@teachablemachine/image": "^0.8.5",
     "@tensorflow/tfjs": "^4.18.0",
@@ -23,6 +24,8 @@
     "rehype-slug": "^6.0.0",
     "sass": "^1.71.1",
     "sharp": "^0.33.4",
+    "sql.js-httpvfs": "^0.8.12",
+    "sqlite-wasm": "^0.0.2",
     "vue": "^3.4.19",
     "vue-chartjs": "^5.3.0",
     "vue-cropperjs": "^5.0.0",

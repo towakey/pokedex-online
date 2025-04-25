@@ -2,7 +2,7 @@
 const appConfig = useAppConfig()
 const route = useRoute()
 const config = useRuntimeConfig()
-route.meta.title = 'わざマシン一覧'
+route.meta.title = 'わざマシン'
 
 definePageMeta({
   title: "Pokedex-Online"
@@ -108,7 +108,7 @@ const gameVersionTitle = (() => {
     return appConfig.game_eng2jpn[area as GameVersion];
   }
   // 無効な場合はデフォルト値を返す
-  return 'わざマシン一覧';
+  return 'わざマシン';
 })();
 
 let breadcrumbs = []
@@ -118,7 +118,7 @@ breadcrumbs.push({
   disabled: false
 })
 breadcrumbs.push({
-  title: 'わざマシン一覧',
+  title: 'わざマシン',
   href: '/waza_machine',
   disabled: false
 })
@@ -127,7 +127,7 @@ breadcrumbs.push({
   href: '/waza_machine/'+area,
   disabled: true
 })
-const metaTitle = ref("わざマシン一覧")
+const metaTitle = ref("わざマシン")
 const updateMetadata = inject('updateMetadata') as (title: string) => void
 updateMetadata(metaTitle.value)
 useHead({
@@ -210,8 +210,8 @@ function getCategoryColor(category: string) {
       </template>
     </v-breadcrumbs>
     <template
-    v-for="(items, key) in waza_machine"
-    :key="item"
+    v-for="(items, key, idx) in waza_machine"
+    :key="String(idx)"
     >
     <v-card
     elevation-0
@@ -295,6 +295,20 @@ function getCategoryColor(category: string) {
           ></v-badge>
         </template>
         </v-data-table>
+      </v-card-text>
+    </v-card>
+    <v-card
+      v-if="(idx + 1) % 10 === 0"
+      elevation="0"
+      variant="outlined"
+      :style="{ backgroundColor: 'white', marginTop: '20px' }"
+    >
+      <v-card-text>
+        <adsbygoogle
+          :ad-slot="config.public.adSlot"
+          :ad-format="'auto'"
+          :full-width-responsive="true"
+        />
       </v-card-text>
     </v-card>
     </template>

@@ -2,7 +2,7 @@
 const appConfig = useAppConfig()
 const route = useRoute()
 const config = useRuntimeConfig()
-route.meta.title = 'わざ一覧'
+route.meta.title = 'わざ'
 
 definePageMeta({
   title: "Pokedex-Online"
@@ -20,6 +20,44 @@ type RegionEngJpnKey = keyof typeof appConfig.region_eng2jpn;
 const gameVersion = (areaParam as RegionKey in appConfig.region2game) ? 
   appConfig.region2game[areaParam as RegionKey] : '';
 const area = ref(gameVersion);
+
+if(areaParam === 'Scarlet_Violet'){
+  waza = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/waza_list.json')).waza_list
+  area.value = 'Scarlet_Violet'
+} else if(areaParam === 'LegendsArceus'){
+  waza = (await import('~/assets/v1/pokedex/pokedex/LegendsArceus/waza_list.json')).waza_list
+  area.value = 'LegendsArceus'
+} else if(areaParam === 'Sword_Shield'){
+  waza = (await import('~/assets/v1/pokedex/pokedex/Sword_Shield/waza_list.json')).waza_list
+  area.value = 'Sword_Shield'
+} else if(areaParam === 'UltraSun_UltraMoon'){
+  waza = (await import('~/assets/v1/pokedex/pokedex/UltraSun_UltraMoon/waza_list.json')).waza_list
+  area.value = 'UltraSun_UltraMoon'
+} else if(areaParam === 'Sun_Moon'){
+  waza = (await import('~/assets/v1/pokedex/pokedex/Sun_Moon/waza_list.json')).waza_list
+  area.value = 'Sun_Moon'
+} else if(areaParam === 'X_Y'){
+  waza = (await import('~/assets/v1/pokedex/pokedex/X_Y/waza_list.json')).waza_list
+  area.value = 'X_Y'
+} else if(areaParam === 'Black2_White2'){
+  waza = (await import('~/assets/v1/pokedex/pokedex/Black2_White2/waza_list.json')).waza_list
+  area.value = 'Black2_White2'
+} else if(areaParam === 'Black_White'){
+  waza = (await import('~/assets/v1/pokedex/pokedex/Black_White/waza_list.json')).waza_list
+  area.value = 'Black_White'
+} else if(areaParam === 'Diamond_Pearl_Platinum'){
+  waza = (await import('~/assets/v1/pokedex/pokedex/Diamond_Pearl_Platinum/waza_list.json')).waza_list
+  area.value = 'Diamond_Pearl_Platinum'
+} else if(areaParam === 'Ruby_Sapphire_Emerald'){
+  waza = (await import('~/assets/v1/pokedex/pokedex/Ruby_Sapphire_Emerald/waza_list.json')).waza_list
+  area.value = 'Ruby_Sapphire_Emerald'
+} else if(areaParam === 'Gold_Silver_Crystal'){
+  waza = (await import('~/assets/v1/pokedex/pokedex/Gold_Silver_Crystal/waza_list.json')).waza_list
+  area.value = 'Gold_Silver_Crystal'
+} else if(areaParam === 'Red_Green_Blue_Yellow'){
+  waza = (await import('~/assets/v1/pokedex/pokedex/Red_Green_Blue_Yellow/waza_list.json')).waza_list
+  area.value = 'Red_Green_Blue_Yellow'
+}
 
 if(['paldea', 'kitakami', 'blueberry'].includes(areaParam)){
   waza = (await import('~/assets/v1/pokedex/pokedex/Scarlet_Violet/waza_list.json')).waza_list
@@ -39,21 +77,21 @@ breadcrumbs.push({
   disabled: false
 })
 breadcrumbs.push({
-  title: 'わざ一覧',
+  title: 'わざ',
   href: '/waza',
   disabled: false
 })
 
 // 型安全な参照
 const regionTitle = (areaParam as RegionEngJpnKey in appConfig.region_eng2jpn) ? 
-  appConfig.region_eng2jpn[areaParam as RegionEngJpnKey] : 'わざ一覧';
+  appConfig.region_eng2jpn[areaParam as RegionEngJpnKey] : 'わざ';
 
 breadcrumbs.push({
   title: regionTitle,
   href: '/waza/'+ areaParam,
   disabled: true
 })
-const metaTitle = ref("わざ一覧")
+const metaTitle = ref("わざ")
 const updateMetadata = inject('updateMetadata') as (title: string) => void
 updateMetadata(metaTitle.value)
 useHead({
@@ -230,6 +268,20 @@ function getCategoryColor(category: string) {
           ></v-badge>
         </template>
         </v-data-table>
+      </v-card-text>
+    </v-card>
+    <v-card
+      v-if="(idx + 1) % 10 === 0"
+      elevation="0"
+      variant="outlined"
+      :style="{ backgroundColor: 'white', marginTop: '20px' }"
+    >
+      <v-card-text>
+        <adsbygoogle
+          :ad-slot="config.public.adSlot"
+          :ad-format="'auto'"
+          :full-width-responsive="true"
+        />
       </v-card-text>
     </v-card>
     </template>

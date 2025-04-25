@@ -2,7 +2,7 @@
 const appConfig = useAppConfig()
 const route = useRoute()
 const config = useRuntimeConfig()
-route.meta.title = 'とくせい一覧'
+route.meta.title = 'とくせい'
 
 definePageMeta({
   title: "Pokedex-Online"
@@ -24,7 +24,7 @@ breadcrumbs.push({
   disabled: false
 })
 breadcrumbs.push({
-  title: 'とくせい一覧',
+  title: 'とくせい',
   href: '/ability',
   disabled: false
 })
@@ -34,7 +34,7 @@ breadcrumbs.push({
   disabled: true
 })
 const updateMetadata = inject('updateMetadata') as (title: string) => void
-const metaTitle = ref("とくせい一覧")
+const metaTitle = ref("とくせい")
 updateMetadata(metaTitle.value)
 useHead({
   title: metaTitle,
@@ -104,8 +104,8 @@ const shareOn = (network, key) => {
       </template>
     </v-breadcrumbs>
     <template
-    v-for="(item, key) in ability"
-    :key="item"
+    v-for="(item, key, idx) in ability"
+    :key="String(idx)"
     >
     <v-card
     elevation-0
@@ -142,6 +142,20 @@ const shareOn = (network, key) => {
       </v-card-title>
       <v-card-text>
         {{ item[appConfig.region2game[route.params.area]] }}
+      </v-card-text>
+    </v-card>
+    <v-card
+      v-if="(idx + 1) % 10 === 0"
+      elevation="0"
+      variant="outlined"
+      :style="{ backgroundColor: 'white', marginTop: '20px' }"
+    >
+      <v-card-text>
+        <adsbygoogle
+          :ad-slot="config.public.adSlot"
+          :ad-format="'auto'"
+          :full-width-responsive="true"
+        />
       </v-card-text>
     </v-card>
     </template>

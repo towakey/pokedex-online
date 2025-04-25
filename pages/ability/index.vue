@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const appConfig = useAppConfig()
 const route = useRoute()
-route.meta.title = 'とくせい一覧'
+route.meta.title = 'とくせい'
 definePageMeta({
   title: "Pokedex-Online"
 })
@@ -12,12 +12,12 @@ breadcrumbs.push({
   disabled: false
 })
 breadcrumbs.push({
-  title: 'とくせい一覧',
+  title: 'とくせい',
   href: '/ability',
   disabled: true
 })
 const updateMetadata = inject('updateMetadata') as (title: string) => void
-const metaTitle = ref("とくせい一覧")
+const metaTitle = ref("とくせい")
 updateMetadata(metaTitle.value)
 useHead({
   title: metaTitle,

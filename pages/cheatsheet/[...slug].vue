@@ -163,19 +163,39 @@ breadcrumbs.push({
             </template>
           </ContentDoc>
           <!-- 記事下の広告 -->
-          <v-card
-          elevation="0"
-          style="margin-top: 20px; margin-bottom: 20px; background-color: white;"
-          variant="outlined"
-          >
-            <v-card-text>
-              <adsbygoogle
-                :ad-slot="config.public.adSlot"
-                :ad-format="'auto'"
-                :full-width-responsive="true"
-              />
-            </v-card-text>
-          </v-card>
+          <v-row>
+            <v-col cols="12" md="6">
+            <v-card
+            elevation="0"
+            style="margin-top: 20px; margin-bottom: 20px; background-color: white;"
+            variant="outlined"
+            >
+              <v-card-text>
+                <adsbygoogle
+                  :ad-slot="config.public.adSlot"
+                  :ad-format="'auto'"
+                  :full-width-responsive="true"
+                />
+              </v-card-text>
+            </v-card>
+            </v-col>
+            <v-col cols="12" md="6">
+            <v-card
+            elevation="0"
+            style="margin-top: 20px; margin-bottom: 20px; background-color: white;"
+            variant="outlined"
+            >
+              <v-card-text>
+                <adsbygoogle
+                  :ad-slot="config.public.adSlot"
+                  :ad-format="'auto'"
+                  :full-width-responsive="true"
+                />  
+              </v-card-text>
+            </v-card>
+            </v-col>
+          </v-row>
+
         </v-col>
 
         <v-col
@@ -204,13 +224,13 @@ breadcrumbs.push({
                 </v-list-item>
               </v-list>
             </v-card-text>
-            <v-card-text>
+            <!-- <v-card-text>
               <adsbygoogle
                 :ad-slot="config.public.adSlot"
                 :ad-format="'auto'"
                 :full-width-responsive="true"
               />
-            </v-card-text>
+            </v-card-text> -->
           </v-card>
         </v-col>
       </v-row>

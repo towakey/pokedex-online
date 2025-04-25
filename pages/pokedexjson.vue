@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
+route.meta.title = 'pokedex.jsonについて'
 definePageMeta({
   title: "pokedex.jsonについて"
 })
@@ -11,7 +12,7 @@ breadcrumbs.push({
   disabled: false
 })
 breadcrumbs.push({
-  title: route.meta.title,
+  title: 'pokedex.jsonについて',
   href: '/pokedexjson',
   disabled: true
 })
@@ -41,39 +42,37 @@ useHead({
 })
 </script>
 <template>
-  <ContentList path="pokedexjson" v-slot="{ list }">
-    <v-container
-    style="background-color: white;"
+  <v-container
+  style="background-color: white;"
+  >
+    <v-breadcrumbs :items="breadcrumbs">
+      <template v-slot:item="props">
+        <v-breadcrumbs-item
+        exact
+        :disabled="props.item.disabled"
+        :to="props.item.href"
+        nuxt
+        >
+        {{ props.item.title }}
+        </v-breadcrumbs-item>
+      </template>
+    </v-breadcrumbs>
+    <ContentDoc />
+  </v-container>
+  <!-- <v-col v-for="article in list" :key="article._path"
+  cols="12"
+  sm="6"
+  >
+    <NuxtLink
+    :to="{path: article._path}"
     >
-      <v-breadcrumbs :items="breadcrumbs">
-        <template v-slot:item="props">
-          <v-breadcrumbs-item
-          exact
-          :disabled="props.item.disabled"
-          :to="props.item.href"
-          nuxt
-          >
-          {{ props.item.title }}
-          </v-breadcrumbs-item>
-        </template>
-      </v-breadcrumbs>
-      <ContentDoc />
-    </v-container>
-    <!-- <v-col v-for="article in list" :key="article._path"
-    cols="12"
-    sm="6"
-    >
-      <NuxtLink
-      :to="{path: article._path}"
-      >
-        <v-card
-          :title="article.title"
-          :text="article.description"
-          elevation="0"
-          color="#e3e1e1"
-          height="150"
-        />
-      </NuxtLink>
-    </v-col> -->
-  </ContentList>
+      <v-card
+        :title="article.title"
+        :text="article.description"
+        elevation="0"
+        color="#e3e1e1"
+        height="150"
+      />
+    </NuxtLink>
+  </v-col> -->
 </template>

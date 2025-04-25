@@ -6,17 +6,17 @@ export default defineAppConfig({
       img: '/icon.png'
     },
     {
-      title: 'わざ一覧',
+      title: 'わざ',
       path: '/waza',
       img: '/icon.png'
     },
     {
-      title: 'わざマシン一覧',
+      title: 'わざマシン',
       path: '/waza_machine',
       img: '/icon.png'
     },
     {
-      title: 'とくせい一覧',
+      title: 'とくせい',
       path: '/ability',
       img: '/icon.png'
     },

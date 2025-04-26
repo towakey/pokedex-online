@@ -95,6 +95,9 @@ export default defineNuxtConfig({
         transformAssetUrls,
       },
     },
+    optimizeDeps: {
+      exclude: ['sqlite-wasm']
+    }
     // css: {
     //   preprocessorOptions: {
     //     scss: {
@@ -154,7 +157,13 @@ export default defineNuxtConfig({
     nitro: {
       routeRules: {
         '/api/proxy': { cors: true },
+        '/sqlite-viewer': { ssr: false },
+        '/webapp/db_view': { ssr: false },
       },
+      preset: 'vercel-static',
+      esbuild: {
+        wasm: true
+      }
     },
   },
 

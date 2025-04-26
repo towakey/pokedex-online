@@ -19,6 +19,11 @@ const menu = [
     path: '/webapp/type_checker',
     img: '/icon.png'
   },
+  {
+    title: 'DB Viewer',
+    path: '/webapp/db_view',
+    img: '/icon.png'
+  },
 ]
 
 let breadcrumbs = []

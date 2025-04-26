@@ -68,6 +68,13 @@ async function executeQuery() {
   }
 }
 
+// 結果をクリップボードにコピーする関数
+function copyResults() {
+  if (!dbData.value) return;
+  const text = JSON.stringify(dbData.value, null, 2);
+  navigator.clipboard.writeText(text);
+}
+
 onMounted(async () => {
   loading.value = true;
   error.value = null;
@@ -100,15 +107,48 @@ onMounted(async () => {
       </v-breadcrumbs-item>
     </v-breadcrumbs>
     <ClientOnly>
-      <div class='query-box'>
-        <input v-model='query' type='text' placeholder='SQLクエリを入力' />
-        <button @click='executeQuery'>実行</button>
-      </div>
-      <div v-if="loading">Loading...</div>
-      <div v-else-if="error">Error: {{ error }}</div>
-      <div v-else-if="dbData">
-        <pre>{{ JSON.stringify(dbData, null, 2) }}</pre>
-      </div>
+      <v-row class="query-box">
+        <v-col cols="12">
+          <v-textarea
+            v-model="query"
+            label="SQLクエリを入力"
+            outlined
+            dense
+            auto-grow
+            rows="4"
+            class="w-100"
+          />
+        </v-col>
+        <v-col cols="12" class="d-flex justify-end">
+          <v-btn color="primary" @click="executeQuery">実行</v-btn>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-progress-circular
+            v-if="loading"
+            indeterminate
+            color="primary"
+          />
+          <v-alert
+            v-else-if="error"
+            type="error"
+            dense
+          >
+            Error: {{ error }}
+          </v-alert>
+          <v-card v-else-if="dbData" flat>
+            <v-card-title class="d-flex justify-end">
+              <v-btn icon @click="copyResults">
+                <v-icon>mdi-content-copy</v-icon>
+              </v-btn>
+            </v-card-title>
+            <v-card-text>
+              <pre>{{ JSON.stringify(dbData, null, 2) }}</pre>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
     </ClientOnly>
   </v-container>
 </template>

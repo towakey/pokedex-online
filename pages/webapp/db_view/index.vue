@@ -48,16 +48,16 @@ useHead({
   ]
 })
 
-// プリセットクエリ一覧
-const presets = [
-  // { name: '先頭10件', sql: 'SELECT * FROM pokedex LIMIT 10' },
-  // { name: 'ポケモン数', sql: 'SELECT COUNT(*) AS cnt FROM pokedex' },
-  { name: 'テーブル一覧', sql: 'select name from sqlite_master where type="table"' },
-  { name: 'pokedexとカントー図鑑を結合', sql: 'SELECT * FROM pokedex JOIN kanto ON pokedex.no = kanto.globalNo AND pokedex.form = kanto.form AND pokedex.region = kanto.region AND pokedex.mega_evolution = kanto.mega_evolution AND pokedex.gigantamax = kanto.gigantamax' },
-  { name: '全国図鑑Noで図鑑説明を検索', sql: 'SELECT * FROM description WHERE no="6"' },
-  { name: '図鑑説明文をあいまい検索', sql: 'SELECT * FROM description WHERE description LIKE "%ノーベル%"' },
-  // 追加したいクエリをここに
-];
+// プリセットクエリ一覧（runtime fetch）
+const presets = ref([]);
+onMounted(async () => {
+  try {
+    const res = await fetch('/db-view-presets.json');
+    presets.value = await res.json();
+  } catch (err) {
+    console.error('Failed to load presets:', err);
+  }
+});
 
 const query = ref('SELECT * FROM pokedex LIMIT 10');
 // プリセットクエリ実行

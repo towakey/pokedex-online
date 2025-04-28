@@ -140,7 +140,13 @@ export default defineNuxtConfig({
     workbox: {
       globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
       navigateFallback: '/',
-      maximumFileSizeToCacheInBytes: 8 * 1024 * 1024, // 8MB
+      maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
+      runtimeCaching: [
+        {
+          urlPattern: /pokedex\.db$/,
+          handler: 'NetworkFirst'
+        }
+      ]
     },
     client: {
       installPrompt: true,

@@ -48,8 +48,24 @@ useHead({
   ]
 })
 
+// プリセットクエリ一覧
+const presets = [
+  // { name: '先頭10件', sql: 'SELECT * FROM pokedex LIMIT 10' },
+  // { name: 'ポケモン数', sql: 'SELECT COUNT(*) AS cnt FROM pokedex' },
+  { name: 'テーブル一覧', sql: 'select name from sqlite_master where type="table"' },
+  { name: 'pokedexとカントー図鑑を結合', sql: 'SELECT * FROM pokedex JOIN kanto ON pokedex.no = kanto.globalNo AND pokedex.form = kanto.form AND pokedex.region = kanto.region AND pokedex.mega_evolution = kanto.mega_evolution AND pokedex.gigantamax = kanto.gigantamax' },
+  { name: '全国図鑑Noで図鑑説明を検索', sql: 'SELECT * FROM description WHERE no="6"' },
+  { name: '図鑑説明文をあいまい検索', sql: 'SELECT * FROM description WHERE description LIKE "%ノーベル%"' },
+  // 追加したいクエリをここに
+];
 
 const query = ref('SELECT * FROM pokedex LIMIT 10');
+// プリセットクエリ実行
+function runPreset(sql) {
+  query.value = sql;
+  executeQuery();
+}
+
 const dbData = ref(null);
 const loading = ref(false);
 const error = ref(null);
@@ -79,13 +95,14 @@ onMounted(async () => {
   loading.value = true;
   error.value = null;
   const base = window.location.origin;
-  const workerUrl = `${base}/sqlite.worker.js`;
-  const wasmUrl   = `${base}/sql-wasm.wasm`;
+  const ts = Date.now();
+  const workerUrl = `${base}/sqlite.worker.js?ts=${ts}`;
+  const wasmUrl   = `${base}/sql-wasm.wasm?ts=${ts}`;
   const config = {
     from: 'inline',
     config: {
       serverMode: 'full',
-      url: `${base}/pokedex.db`,
+      url: `${base}/pokedex.db?ts=${ts}`,
       requestChunkSize: 4096,
     },
   };
@@ -121,6 +138,14 @@ onMounted(async () => {
         </v-col>
         <v-col cols="12" class="d-flex justify-end">
           <v-btn color="primary" @click="executeQuery">実行</v-btn>
+        </v-col>
+      </v-row>
+      <!-- プリセットクエリボタン -->
+      <v-row class="preset-buttons" dense>
+        <v-col cols="auto" v-for="(preset, i) in presets" :key="i">
+          <v-btn small outlined @click="runPreset(preset.sql)">
+            {{ preset.name }}
+          </v-btn>
         </v-col>
       </v-row>
       <v-row>

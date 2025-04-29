@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, nextTick } from 'vue';
 import { createDbWorker } from 'sql.js-httpvfs';
 
 definePageMeta({ 
@@ -91,6 +91,43 @@ function copyResults() {
   navigator.clipboard.writeText(text);
 }
 
+// クエリビルダーダイアログ
+const builderDialog = ref(false);
+const builderQuery = ref('');
+const builderButtons = [
+  { label: 'SELECT', text: 'SELECT ' },
+  { label: 'FROM', text: 'FROM ' },
+  { label: 'WHERE', text: 'WHERE ' },
+  { label: 'AND', text: 'AND ' },
+  { label: 'OR', text: 'OR ' },
+  { label: 'LIMIT', text: 'LIMIT ' }
+];
+const builderTextarea = ref(null);
+
+function openBuilder() {
+  builderQuery.value = query.value;
+  builderDialog.value = true;
+  nextTick(() => builderTextarea.value.focus());
+}
+
+function insertBuilderText(text) {
+  const textarea = builderTextarea.value;
+  if (!textarea) return;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const val = builderQuery.value;
+  builderQuery.value = val.slice(0, start) + text + val.slice(end);
+  nextTick(() => {
+    textarea.selectionStart = textarea.selectionEnd = start + text.length;
+    textarea.focus();
+  });
+}
+
+function applyBuilder() {
+  query.value = builderQuery.value;
+  builderDialog.value = false;
+}
+
 onMounted(async () => {
   loading.value = true;
   error.value = null;
@@ -138,6 +175,7 @@ onMounted(async () => {
         </v-col>
         <v-col cols="12" class="d-flex justify-end">
           <v-btn color="primary" @click="executeQuery">実行</v-btn>
+          <v-btn color="secondary" class="ml-2" @click="openBuilder">クエリビルダー</v-btn>
         </v-col>
       </v-row>
       <!-- プリセットクエリボタン -->
@@ -175,5 +213,24 @@ onMounted(async () => {
         </v-col>
       </v-row>
     </ClientOnly>
+    <!-- Query Builder Modal -->
+    <v-dialog v-model="builderDialog" max-width="600">
+      <v-card>
+        <v-card-title>クエリビルダー</v-card-title>
+        <v-card-text>
+          <textarea ref="builderTextarea" v-model="builderQuery" style="width:100%; height:200px; font-family:monospace;"></textarea>
+          <div class="mt-4 d-flex flex-wrap">
+            <v-btn small class="ma-1" v-for="(btn, i) in builderButtons" :key="i" @click="insertBuilderText(btn.text)">
+              {{ btn.label }}
+            </v-btn>
+          </div>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn text @click="builderDialog = false">閉じる</v-btn>
+          <v-btn color="primary" @click="applyBuilder">適用</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>

@@ -91,6 +91,46 @@ function copyResults() {
   navigator.clipboard.writeText(text);
 }
 
+// Export formats and download function
+const exportFormats = ['JSON', 'CSV'];
+const exportFormat = ref('JSON');
+
+function exportResults() {
+  if (!dbData.value) return;
+  const now = new Date();
+  const pad = num => num.toString().padStart(2, '0');
+  const ts = `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+  let content = '';
+  let mimeType = '';
+  let fileExt = '';
+  if (exportFormat.value === 'JSON') {
+    content = JSON.stringify(dbData.value, null, 2);
+    mimeType = 'application/json';
+    fileExt = '.json';
+  } else {
+    const rows = Array.isArray(dbData.value) ? dbData.value : [];
+    const headers = rows.length > 0 ? Object.keys(rows[0]) : [];
+    const csvRows = [headers.join(','), ...rows.map(row =>
+      headers.map(h => {
+        const cell = row[h] != null ? row[h] : '';
+        return JSON.stringify(cell);
+      }).join(',')
+    )];
+    content = csvRows.join('\r\n');
+    mimeType = 'text/csv';
+    fileExt = '.csv';
+  }
+  const blob = new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${ts}${fileExt}`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 // クエリビルダーダイアログ
 const builderDialog = ref(false);
 const builderQuery = ref('');
@@ -201,10 +241,17 @@ onMounted(async () => {
             Error: {{ error }}
           </v-alert>
           <v-card v-else-if="dbData" flat>
-            <v-card-title class="d-flex justify-end">
-              <v-btn icon @click="copyResults">
-                <v-icon>mdi-content-copy</v-icon>
-              </v-btn>
+            <v-card-title class="d-flex justify-end align-center">
+              <v-select
+                v-model="exportFormat"
+                :items="exportFormats"
+                dense
+                outlined
+                hide-details
+                style="max-width: 120px;"
+              />
+              <v-btn color="primary" class="ml-2" @click="exportResults">出力する</v-btn>
+              <v-icon class="ml-2" @click="copyResults" style="cursor: pointer;">mdi-content-copy</v-icon>
             </v-card-title>
             <v-card-text>
               <pre>{{ JSON.stringify(dbData, null, 2) }}</pre>

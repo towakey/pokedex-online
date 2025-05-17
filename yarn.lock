@@ -9072,9 +9072,9 @@ vue@^3.4.19, vue@^3.5.13:
     "@vue/shared" "3.5.13"
 
 vuetify@^3.5.4:
-  version "3.7.6"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-3.7.6.tgz#f966dbe74666cb847d67b3e3d8c6fee75cf972d3"
-  integrity sha512-lol0Va5HtMIqZfjccSD5DLv5v31R/asJXzc6s7ULy51PHr1DjXxWylZejhq0kVpMGW64MiV1FmA/p8eYQfOWfQ==
+  version "3.8.5"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-3.8.5.tgz#9bd2f7afa4ac9ea39be6b154358e209d864c1bf1"
+  integrity sha512-W/mTaNDyO6NRqAQmnkMUn9TYvRb//BPF/vk7h3+2xNJOyI9ev90JmYjrihOtb+6QDrB79wVUH0Y+0OjYK73GsA==
 
 web-namespaces@^2.0.0:
   version "2.0.1"

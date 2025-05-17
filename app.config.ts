@@ -3,37 +3,44 @@ export default defineAppConfig({
     {
       title: 'ポケモン図鑑',
       path: '/pokedex',
-      img: '/icon.png'
+      img: '/icon.png',
+      category: 'pokemon_data'
     },
     {
       title: 'わざ',
       path: '/waza',
-      img: '/icon.png'
+      img: '/icon.png',
+      category: 'pokemon_data'
     },
     {
       title: 'わざマシン',
       path: '/waza_machine',
-      img: '/icon.png'
+      img: '/icon.png',
+      category: 'pokemon_data'
     },
     {
       title: 'とくせい',
       path: '/ability',
-      img: '/icon.png'
+      img: '/icon.png',
+      category: 'pokemon_data'
     },
     {
       title: '図鑑カメラ',
       path: '/camera',
-      img: '/camera.png'
+      img: '/camera.png',
+      category: 'tools_gallery'
     },
     {
       title: '検索',
       path: '/search',
-      img: '/icon.png'
+      img: '/icon.png',
+      category: 'tools_gallery'
     },
     {
       title: 'pokedex.jsonについて',
       path: '/pokedexjson',
-      img: '/icon.png'
+      img: '/icon.png',
+      category: 'useful_information'
     },
     // {
     //   title: 'ポケモン用語の基礎知識',
@@ -43,32 +50,38 @@ export default defineAppConfig({
     {
       title: '年表',
       path: '/pokemon_history',
-      img: '/icon.png'
+      img: '/icon.png',
+      category: 'useful_information'
     },
     {
       title: 'WebApp',
       path: '/webapp',
-      img: '/icon.png'
+      img: '/icon.png',
+      category: 'tools_gallery'
     },
     {
       title: 'チートシート',
       path: '/cheatsheet',
-      img: '/blog.png'
+      img: '/blog.png',
+      category: 'useful_information'
     },
     {
       title: 'リンク',
       path: '/link',
-      img: '/icon.png'
+      img: '/icon.png',
+      category: 'useful_information'
     },
     {
       title: 'リーフ',
       path: '/leaf',
-      img: '/icon.png'
+      img: '/icon.png',
+      category: 'tools_gallery'
     },
     {
       title: 'ギャラリー',
       path: '/gallery',
-      img: '/icon.png'
+      img: '/icon.png',
+      category: 'tools_gallery'
     },
   ],
     

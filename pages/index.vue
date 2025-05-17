@@ -54,6 +54,26 @@ breadcrumbs.push({
 const updateMetadata = inject('updateMetadata') as (title: string) => void
 const metaTitle = ref("Pokedex-Online")
 updateMetadata(metaTitle.value)
+
+// カテゴリ情報を追加
+const categoryTitles = {
+  pokemon_data: 'ポケモン関連データ',
+  tools_gallery: 'ツールとギャラリー',
+  useful_information: 'Information'
+}
+
+// カテゴリごとにメニューをグループ化
+const groupedMenu = computed(() => {
+  const groups: { [key: string]: any[] } = {}
+  appConfig.main_menu.forEach(item => {
+    if (!groups[item.category]) {
+      groups[item.category] = []
+    }
+    groups[item.category].push(item)
+  })
+  return groups
+})
+
 useHead({
   title: metaTitle,
   meta: [
@@ -89,37 +109,41 @@ useHead({
         </v-breadcrumbs-item>
       </template>
     </v-breadcrumbs>
-    <v-row>
-      <v-col
-      cols="12"
-      sm="6"
-      v-for="item in appConfig.main_menu" :key="item.title"
-      >
-        <NuxtLink
-        :to="{path: `${item.path}`}"
-        class="nuxtlink"
+
+    <div v-for="(items, category) in groupedMenu" :key="category" class="mb-8">
+      <h2 class="text-h5 mb-4">{{ categoryTitles[category] || category }}</h2>
+      <v-row>
+        <v-col
+        cols="12"
+        sm="6"
+        md="4"
+        v-for="item in items" :key="item.title"
         >
-          <v-card
-          elevation-0
-          variant="outlined"
-          style="background-color: white;"
+          <NuxtLink
+          :to="{path: `${item.path}`}"
+          class="nuxtlink"
           >
-            <div
-            class="d-flex align-center"
-            style="float: left;"
+            <v-card
+            elevation-0
+            variant="outlined"
+            style="background-color: white;"
             >
-              <v-avatar
-              class="ms-2"
-              size="100"
-              tile
+              <div
+              class="d-flex align-center pa-3"
               >
-                <v-img :src="`${item.img}`"></v-img>
-              </v-avatar>
-              <v-card-title>{{ item.title }}</v-card-title>
-            </div>
-          </v-card>
-        </NuxtLink>
-      </v-col>
-    </v-row>
+                <v-avatar
+                class="me-3"
+                size="60" 
+                tile
+                >
+                  <v-img :src="`${item.img}`"></v-img>
+                </v-avatar>
+                <v-card-title class="text-subtitle-1">{{ item.title }}</v-card-title>
+              </div>
+            </v-card>
+          </NuxtLink>
+        </v-col>
+      </v-row>
+    </div>
   </v-container>
 </template>

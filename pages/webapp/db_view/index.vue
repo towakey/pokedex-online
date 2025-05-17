@@ -1,10 +1,11 @@
 <script setup>
-import { ref, onMounted, nextTick } from 'vue';
+import { ref, onMounted, nextTick, computed } from 'vue';
 import { createDbWorker } from 'sql.js-httpvfs';
+const config = useRuntimeConfig() // Added to access adSlot
 
 definePageMeta({ 
   ssr: false,
-  title: "DB Viewer β"
+  title: "DB Viewer"
 });
 
 let breadcrumbs = []
@@ -24,8 +25,7 @@ breadcrumbs.push({
   disabled: true
 })
 
-// const updateMetadata = inject('updateMetadata') as (title: string) => void
-const metaTitle = ref("DB Viewer β")
+const metaTitle = ref("DB Viewer")
 // updateMetadata(metaTitle.value)
 useHead({
   title: metaTitle,
@@ -60,16 +60,49 @@ onMounted(async () => {
 });
 
 const query = ref('SELECT * FROM pokedex LIMIT 10');
+const descriptionSearchTerm = ref('');
+const currentTab = ref('descriptionSearch');
+const showSharedQueryInputArea = ref(false);
+
 // プリセットクエリ実行
 function runPreset(sql) {
   query.value = sql;
-  executeQuery();
+  showSharedQueryInputArea.value = true;
 }
 
 const dbData = ref(null);
 const loading = ref(false);
 const error = ref(null);
 let dbWorker;
+
+// Added from description.vue - adjust table/column names if necessary for pokedex.db
+function searchDescription() {
+  let generatedQuery = '';
+  if (!descriptionSearchTerm.value.trim()) {
+    generatedQuery = 'SELECT * FROM LOCAL_POKEDEX_DESCRIPTION LIMIT 10';
+  } else {
+    generatedQuery = `
+SELECT
+    lpd.*,
+    pn.name AS name
+FROM
+    LOCAL_POKEDEX_DESCRIPTION AS lpd
+INNER JOIN
+    POKEDEX_NAME AS pn
+ON
+    lpd.globalNo = pn.globalNo AND
+    lpd.form = pn.form AND
+    lpd.region = pn.region AND
+    lpd.mega_evolution = pn.mega_evolution AND
+    lpd.gigantamax = pn.gigantamax
+WHERE
+    lpd.description LIKE '%${descriptionSearchTerm.value.trim()}%' AND
+    pn.language = 'jpn';
+    `;
+  }
+  query.value = generatedQuery;
+  executeQuery(); // Execute the query immediately
+}
 
 async function executeQuery() {
   loading.value = true;
@@ -145,7 +178,11 @@ const builderButtons = [
 const builderTextarea = ref(null);
 
 function openBuilder() {
-  builderQuery.value = query.value;
+  if (currentTab.value === 'sqlDirect') {
+    builderQuery.value = query.value;
+  } else {
+    builderQuery.value = query.value; 
+  }
   builderDialog.value = true;
   nextTick(() => builderTextarea.value.focus());
 }
@@ -165,7 +202,62 @@ function insertBuilderText(text) {
 
 function applyBuilder() {
   query.value = builderQuery.value;
+  showSharedQueryInputArea.value = true;
   builderDialog.value = false;
+}
+
+// Added for Weight/Height Search Tab
+const searchHeightM = ref(null);
+const searchWeightKg = ref(null);
+const sortHeightDesc = ref(true); // true: Desc (High to Low), false: Asc (Low to High)
+const sortWeightDesc = ref(true); // true: Desc (Heavy to Light), false: Asc (Light to Heavy)
+
+async function searchByWeightHeight() {
+  let sql = `
+    SELECT
+        p.globalNo, p.form, p.region, p.mega_evolution, p.gigantamax,
+        CAST(p.height AS REAL) AS height_val,
+        CAST(p.weight AS REAL) AS weight_val,
+        pn.name
+    FROM
+        POKEDEX AS p
+    INNER JOIN
+        POKEDEX_NAME AS pn
+    ON
+        p.globalNo = pn.globalNo AND
+        p.form = pn.form AND
+        p.region = pn.region AND
+        p.mega_evolution = pn.mega_evolution AND
+        p.gigantamax = pn.gigantamax
+    WHERE
+        pn.language = 'jpn'
+  `;
+
+  const whereConditions = [];
+  if (searchHeightM.value !== null && searchHeightM.value !== '') {
+    const height = parseFloat(searchHeightM.value);
+    if (!isNaN(height)) {
+      whereConditions.push(`CAST(p.height AS REAL) >= ${height}`);
+    }
+  }
+  if (searchWeightKg.value !== null && searchWeightKg.value !== '') {
+    const weight = parseFloat(searchWeightKg.value);
+    if (!isNaN(weight)) {
+      whereConditions.push(`CAST(p.weight AS REAL) >= ${weight}`);
+    }
+  }
+
+  if (whereConditions.length > 0) {
+    sql += ' AND ' + whereConditions.join(' AND ');
+  }
+
+  sql += ` ORDER BY height_val ${sortHeightDesc.value ? 'DESC' : 'ASC'}, weight_val ${sortWeightDesc.value ? 'DESC' : 'ASC'}`;
+  sql += ' LIMIT 100';
+
+  query.value = sql;
+  currentTab.value = 'sizeSearch'; // Ensure results are shown under the SQL direct tab or adjust as needed
+  showSharedQueryInputArea.value = false; // Show the query
+  await executeQuery();
 }
 
 onMounted(async () => {
@@ -201,31 +293,123 @@ onMounted(async () => {
       </v-breadcrumbs-item>
     </v-breadcrumbs>
     <ClientOnly>
-      <v-row class="query-box">
-        <v-col cols="12">
-          <v-textarea
-            v-model="query"
-            label="SQLクエリを入力"
-            outlined
-            dense
-            auto-grow
-            rows="4"
-            class="w-100"
-          />
-        </v-col>
-        <v-col cols="12" class="d-flex justify-end">
-          <v-btn color="primary" @click="executeQuery">実行</v-btn>
-          <v-btn color="secondary" class="ml-2" @click="openBuilder">クエリビルダー</v-btn>
-        </v-col>
-      </v-row>
-      <!-- プリセットクエリボタン -->
-      <v-row class="preset-buttons" dense>
-        <v-col cols="auto" v-for="(preset, i) in presets" :key="i">
-          <v-btn small outlined @click="runPreset(preset.sql)">
-            {{ preset.name }}
-          </v-btn>
-        </v-col>
-      </v-row>
+      <v-tabs v-model="currentTab" background-color="primary" dark class="mb-4">
+        <v-tab value="descriptionSearch">Description検索</v-tab>
+        <v-tab value="sizeSearch">重さ・高さ検索</v-tab>
+        <v-tab value="sqlDirect">SQL直接入力</v-tab>
+      </v-tabs>
+
+      <v-window v-model="currentTab">
+        <v-window-item value="sqlDirect">
+          <!-- Query input area and buttons removed from here -->
+          <!-- プリセットクエリボタン -->
+          <v-row class="preset-buttons mb-4" dense>
+            <v-col cols="auto" v-for="(preset, i) in presets" :key="i">
+              <v-btn small variant="outlined" elevation="0" style="background-color: white;" @click="runPreset(preset.sql)">
+                {{ preset.name }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-window-item>
+
+        <v-window-item value="descriptionSearch">
+          <v-row class="mb-4">
+            <v-col cols="12">
+              <v-textarea
+                v-model="descriptionSearchTerm"
+                label="Descriptionで検索"
+                outlined
+                dense
+                auto-grow
+                rows="2"
+                class="w-100"
+              />
+            </v-col>
+            <v-col cols="12" class="d-flex justify-end">
+              <v-btn variant="outlined" elevation="0" style="background-color: white;" @click="searchDescription">実行</v-btn> 
+            </v-col>
+          </v-row>
+        </v-window-item>
+
+        <v-window-item value="sizeSearch">
+          <v-row class="mb-4 align-center" dense>
+            <v-col cols="12" sm="6" md="3">
+              <v-text-field
+                v-model="searchHeightM"
+                label="高さ (m以上)"
+                type="number"
+                clearable
+                variant="outlined"
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" sm="6" md="3">
+              <v-switch
+                v-model="sortHeightDesc"
+                :label="`高さ: ${sortHeightDesc ? '高い順' : '低い順'}`"
+                color="primary"
+                inset
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" sm="6" md="3">
+              <v-text-field
+                v-model="searchWeightKg"
+                label="重さ (kg以上)"
+                type="number"
+                clearable
+                variant="outlined"
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" sm="6" md="3">
+              <v-switch
+                v-model="sortWeightDesc"
+                :label="`重さ: ${sortWeightDesc ? '重い順' : '軽い順'}`"
+                color="primary"
+                inset
+                hide-details
+              />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" class="d-flex justify-end">
+              <v-btn variant="outlined" elevation="0" style="background-color: white;" @click="searchByWeightHeight">
+                検索実行
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-window-item>
+      </v-window>
+
+      <v-btn variant="outlined" elevation="0" style="background-color: white;" @click="showSharedQueryInputArea = !showSharedQueryInputArea" class="mb-4">
+        {{ showSharedQueryInputArea ? '実行クエリ入力欄を隠す' : '実行クエリ入力欄を表示' }}
+      </v-btn>
+
+      <v-expand-transition>
+        <div v-if="showSharedQueryInputArea">
+          <v-row class="query-box mb-4">
+            <v-col cols="12">
+              <v-textarea
+                v-model="query"
+                label="実行するSQLクエリ"
+                outlined
+                dense
+                auto-grow
+                rows="4"
+                class="w-100"
+              />
+            </v-col>
+            <v-col cols="12" class="d-flex justify-end">
+              <v-btn variant="outlined" elevation="0" style="background-color: white;" @click="executeQuery" :disabled="!query.trim()">実行</v-btn>
+              <v-btn variant="outlined" elevation="0" style="background-color: white;" class="ml-2" @click="openBuilder">クエリビルダー</v-btn>
+            </v-col>
+          </v-row>
+        </div>
+      </v-expand-transition>
+
       <v-row>
         <v-col>
           <v-progress-circular
@@ -250,7 +434,7 @@ onMounted(async () => {
                 hide-details
                 style="max-width: 120px;"
               />
-              <v-btn color="primary" class="ml-2" @click="exportResults">出力する</v-btn>
+              <v-btn variant="outlined" elevation="0" style="background-color: white;" class="ml-2" @click="exportResults">出力する</v-btn>
               <v-icon class="ml-2" @click="copyResults" style="cursor: pointer;">mdi-content-copy</v-icon>
             </v-card-title>
             <v-card-text>
@@ -274,10 +458,34 @@ onMounted(async () => {
         </v-card-text>
         <v-card-actions>
           <v-spacer/>
-          <v-btn text @click="builderDialog = false">閉じる</v-btn>
-          <v-btn color="primary" @click="applyBuilder">適用</v-btn>
+          <v-btn variant="outlined" elevation="0" style="background-color: white;" @click="builderDialog = false">閉じる</v-btn>
+          <v-btn variant="outlined" elevation="0" style="background-color: white;" @click="applyBuilder">適用</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-row>
+      <v-col cols="12" md="6">
+        <v-card elevation="0" style="background-color: white;" variant="outlined">
+          <v-card-text>
+            <adsbygoogle
+              :ad-slot="config.public.adSlot"
+              :ad-format="'auto'"
+              :full-width-responsive="true"
+            />
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col cols="12" md="6">
+        <v-card elevation="0" style="background-color: white;" variant="outlined">
+          <v-card-text>
+            <adsbygoogle
+              :ad-slot="config.public.adSlot"
+              :ad-format="'auto'"
+              :full-width-responsive="true"
+            />
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>

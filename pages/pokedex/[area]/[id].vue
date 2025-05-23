@@ -131,6 +131,39 @@ if(route.params.area !== 'global'){
 }
 
 const metaImage = ref("https://pokedex-online.jp/img/" + ('0000' + pokedex.result[0].globalNo).slice( -4 ) + ".png")
+
+// ポケモンデータをJSONでダウンロード
+const downloadPokemonData = () => {
+  try {
+    const currentModel = model.value;
+    const pokemonData = pokedex?.result?.[currentModel];
+    
+    if (!pokemonData) {
+      console.error('ポケモンデータが見つかりません');
+      return;
+    }
+    
+    // srcプロパティを除外したデータを作成
+    const { src, ...dataWithoutSrc } = pokemonData;
+    
+    const dataStr = 'data:text/json;charset=utf-8,' + 
+      encodeURIComponent(JSON.stringify(dataWithoutSrc, null, 2));
+      
+    const downloadAnchorNode = document.createElement('a');
+    const areaName = appConfig.pokedex_eng2jpn[route.params.area] || 'unknown';
+    const paddedNo = String(pokemonData.no || '0000').padStart(4, '0');
+    const pokemonName = pokemonData.name?.jpn || 'unknown';
+    const fileName = `${areaName}_${paddedNo}_${pokemonName}.json`;
+    
+    downloadAnchorNode.setAttribute('href', dataStr);
+    downloadAnchorNode.setAttribute('download', fileName);
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  } catch (error) {
+    console.error('ダウンロード中にエラーが発生しました:', error);
+  }
+};
 let breadcrumbs = []
 breadcrumbs.push({
   title: 'HOME',
@@ -311,7 +344,6 @@ onMounted(() => {
     // 少し遅延させてVueのレンダリングが完了した後に実行
     setTimeout(() => {
       const hash = decodeURIComponent(window.location.hash.substring(1))
-      // console.log('Hash found:', hash)
       
       // 各ステータスを調べて、名前やフォームが一致するものを探す
       for (let i = 0; i < pokedex.result.length; i++) {
@@ -319,35 +351,30 @@ onMounted(() => {
         
         // メガシンカの場合
         if (status.mega_evolution && status.mega_evolution.includes('メガ') && hash.includes('メガ')) {
-          console.log('メガシンカ found at index:', i)
           model.value = i
           break
         }
         
         // 名前が一致する場合
         if (status.name && status.name.jpn === hash) {
-          console.log('Name match found at index:', i)
           model.value = i
           break
         }
         
         // フォームが一致する場合
         if (status.form === hash) {
-          console.log('Form match found at index:', i)
           model.value = i
           break
         }
         
         // ギガンタマックスの場合
         if (status.gigantamax && status.gigantamax.includes(hash)) {
-          console.log('Gigantamax match found at index:', i)
           model.value = i
           break
         }
         
         // 地域フォームの場合
         if (status.region && status.region.includes(hash)) {
-          console.log('Region match found at index:', i)
           model.value = i
           break
         }
@@ -763,6 +790,16 @@ const statusIndex = ref()
           <v-row
           style="margin-top: 20px;"
           >
+            <v-col cols="12" class="mb-4">
+              <v-btn
+                block
+                color="primary"
+                @click="downloadPokemonData"
+                prepend-icon="mdi-download"
+              >
+                このポケモンのデータをJSONでダウンロード
+              </v-btn>
+            </v-col>
             <v-col cols="12" md="6">
               <v-card
                 elevation="0"

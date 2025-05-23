@@ -42,22 +42,39 @@ try {
     }
 
     $sql_ranking = "
-        SELECT 
-            al.pokemon_id AS id, 
-            PN.name AS name,
-            COALESCE(NULLIF(LP.region, ''), 'global') AS area, 
-            LP.no AS no, 
-            '/img/' || printf('%04d', al.pokemon_id) || '.png' AS image_path,
-            COUNT(al.pokemon_id) AS access_count
-        FROM db_analytics.access_logs al -- アタッチした analytics DB のテーブル
-        JOIN LOCAL_POKEDEX LP ON al.pokemon_id = LP.globalNo -- メインDB (pokedex.db) のテーブル
-        JOIN POKEDEX_NAME PN ON LP.globalNo = PN.globalNo AND PN.language = 'jpn' -- メインDB (pokedex.db) のテーブル
-        WHERE 
-            {$date_condition}
-            AND al.pokemon_id IS NOT NULL AND al.pokemon_id != '' AND al.pokemon_id != 'undefined' AND al.pokemon_id != 'null'
-            AND al.area IS NOT NULL AND al.area != '' AND al.area != 'undefined' AND al.area != 'null' 
-            AND al.page_path LIKE '/pokedex/%/%' 
-        GROUP BY al.pokemon_id, LP.no, PN.name, COALESCE(NULLIF(LP.region, ''), 'global') 
+        WITH RankedPokemonGlobal AS (
+            SELECT
+                al.pokemon_id AS id, -- This is globalNo
+                COUNT(al.pokemon_id) AS access_count
+            FROM db_analytics.access_logs al
+            WHERE
+                {$date_condition}
+                AND al.pokemon_id IS NOT NULL AND al.pokemon_id != '' AND al.pokemon_id != 'undefined' AND al.pokemon_id != 'null'
+                AND al.page_path LIKE '/pokedex/%/%' -- Ensure it's a Pokémon page access
+            GROUP BY al.pokemon_id -- Group by global Pokemon ID
+        ),
+        RankedPokemonWithDetails AS (
+            SELECT
+                rpg.id,
+                rpg.access_count,
+                PN.name,
+                LP.no,
+                COALESCE(NULLIF(LP.region, ''), 'global') AS area,
+                '/img/' || printf('%04d', rpg.id) || '.png' AS image_path,
+                ROW_NUMBER() OVER (PARTITION BY rpg.id ORDER BY CASE WHEN LP.region = '' OR LP.region = 'global' THEN 0 ELSE 1 END, LP.no ASC) as rn
+            FROM RankedPokemonGlobal rpg
+            JOIN POKEDEX_NAME PN ON rpg.id = PN.globalNo AND PN.language = 'jpn'
+            LEFT JOIN LOCAL_POKEDEX LP ON rpg.id = LP.globalNo -- Join to get all local versions for this global ID
+        )
+        SELECT
+            id,
+            name,
+            area,
+            no,
+            image_path,
+            access_count
+        FROM RankedPokemonWithDetails
+        WHERE rn = 1 -- Pick the top-ranked local entry for each global ID
         ORDER BY access_count DESC
         LIMIT 3
     ";

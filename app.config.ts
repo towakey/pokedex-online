@@ -30,12 +30,12 @@ export default defineAppConfig({
       img: '/camera.png',
       category: 'tools_gallery'
     },
-    {
-      title: '検索',
-      path: '/search',
-      img: '/icon.png',
-      category: 'tools_gallery'
-    },
+    // {
+    //   title: '検索',
+    //   path: '/search',
+    //   img: '/icon.png',
+    //   category: 'tools_gallery'
+    // },
     {
       title: 'pokedex.jsonについて',
       path: '/pokedexjson',
@@ -213,7 +213,9 @@ export default defineAppConfig({
     "kanto": "カントー図鑑",
     "johto": "ジョウト図鑑",
     "hoenn": "ホウエン図鑑",
+    "kanto_frlg": "カントー図鑑",
     "sinnoh": "シンオウ図鑑",
+    "johto_hgss": "ジョウト図鑑",
     "unova_bw": "イッシュ図鑑",
     "unova_b2w2": "イッシュ図鑑",
     "central_kalos": "セントラルカロス図鑑",
@@ -234,7 +236,9 @@ export default defineAppConfig({
     "kanto": "カントー図鑑",
     "johto": "ジョウト図鑑",
     "hoenn": "ホウエン図鑑",
+    "kanto_frlg": "カントー図鑑",
     "sinnoh": "シンオウ図鑑",
+    "johto_hgss": "ジョウト図鑑",
     "unova_bw": "イッシュ図鑑(ブラック ホワイト)",
     "unova_b2w2": "イッシュ図鑑(ブラック2 ホワイト2)",
     "central_kalos": "セントラルカロス図鑑",
@@ -351,10 +355,22 @@ export default defineAppConfig({
       area: 'unova_bw'
     },
     {
+      title: 'ジョウト図鑑',
+      path: '/johto_hgss',
+      content: '図鑑総数 251匹',
+      area: 'johto_hgss'
+    },
+    {
       title: 'シンオウ図鑑',
       path: '/sinnoh',
       content: '図鑑総数 210匹',
       area: 'sinnoh'
+    },
+    {
+      title: 'カントー図鑑',
+      path: '/kanto_frlg',
+      content: '図鑑総数 151匹',
+      area: 'kanto_frlg'
     },
     {
       title: 'ホウエン図鑑',
@@ -374,12 +390,6 @@ export default defineAppConfig({
       content: '図鑑総数 151匹',
       area: 'kanto'
     },
-    // {
-    //   title: 'メガシンカ',
-    //   path: '/mega_evolution',
-    //   content: '',
-    //   area: 'mega_evolution'
-    // },
   ],
   gameVersion: [
     {
@@ -395,8 +405,16 @@ export default defineAppConfig({
       "eng": "Ruby_Sapphire_Emerald",
     },
     {
+      "jpn": "ファイアレッド・リーフグリーン",
+      "eng": "FireRed_LeafGreen",
+    },
+    {
       "jpn": "ダイアモンド・パール・プラチナ",
       "eng": "Diamond_Pearl_Platinum",
+    },
+    {
+      "jpn": "ハートゴールド・ソウルシルバー",
+      "eng": "HeartGold_SoulSilver",
     },
     {
       "jpn": "ブラック・ホワイト",
@@ -436,6 +454,7 @@ export default defineAppConfig({
     "Gold_Silver_Crystal",
     "Ruby_Sapphire_Emerald",
     "Diamond_Pearl_Platinum",
+    "HeartGold_SoulSilver",
     "Black_White",
     "Black2_White2",
     "X_Y",
@@ -450,7 +469,9 @@ export default defineAppConfig({
     "kanto": "Red_Green_Blue_Yellow",
     "johto": "Gold_Silver_Crystal",
     "hoenn": "Ruby_Sapphire_Emerald",
+    "kanto_frlg": "FireRed_LeafGreen",
     "sinnoh": "Diamond_Pearl_Platinum",
+    "johto_hgss": "HeartGold_SoulSilver",
     "unova_bw": "Black_White",
     "unova_b2w2": "Black2_White2",
     "central_kalos": "X_Y",
@@ -470,7 +491,9 @@ export default defineAppConfig({
     "Red_Green_Blue_Yellow": "赤・緑・青・ピカチュウ",
     "Gold_Silver_Crystal": "金・銀・クリスタル",
     "Ruby_Sapphire_Emerald": "ルビー・サファイア・エメラルド",
+    "FireRed_LeafGreen": "ファイアレッド・リーフグリーン",
     "Diamond_Pearl_Platinum": "ダイアモンド・パール・プラチナ",
+    "HeartGold_SoulSilver": "ハートゴールド・ソウルシルバー",
     "Black_White": "ブラック・ホワイト",
     "Black2_White2": "ブラック2・ホワイト2",
     "X_Y": "X・Y",
@@ -485,7 +508,9 @@ export default defineAppConfig({
     "kanto": "カントー地方",
     "johto": "ジョウト地方",
     "hoenn": "ホウエン地方",
+    "kanto_frlg": "カントー地方",
     "sinnoh": "シンオウ地方",
+    "johto_hgss": "ジョウト地方",
     "unova_bw": "イッシュ地方",
     "unova_b2w2": "イッシュ地方",
     "central_kalos": "カロス地方",
@@ -513,9 +538,13 @@ export default defineAppConfig({
     "ruby": "ルビー",
     "sapphire": "サファイア",
     "emerald": "エメラルド",
+    "firered": "ファイアレッド",
+    "leafgreen": "リーフグリーン",
     "diamond": "ダイアモンド",
     "pearl": "パール",
     "platinum": "プラチナ",
+    "heartgold": "ハートゴールド",
+    "soulsilver": "ソウルシルバー",
     "black": "ブラック",
     "white": "ホワイト",
     "black2": "ブラック2",

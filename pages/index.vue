@@ -37,48 +37,6 @@ const appConfig = useAppConfig()
 definePageMeta({
   title: "Pokedex-Online"
 })
-// const menu = [
-// {
-//     title: 'ポケモン図鑑',
-//     path: '/pokedex',
-//     img: '/icon.png'
-//   },
-//   {
-//     title: 'わざ一覧',
-//     path: '/waza',
-//     img: '/icon.png'
-//   },
-//   {
-//     title: 'とくせい一覧',
-//     path: '/ability',
-//     img: '/icon.png'
-//   },
-//   {
-//     title: 'WebApp',
-//     path: '/webapp',
-//     img: '/icon.png'
-//   },
-//   {
-//     title: 'チートシート',
-//     path: '/cheatsheet',
-//     img: '/blog.png'
-//   },
-//   {
-//     title: '図鑑カメラ',
-//     path: '/camera',
-//     img: '/camera.png'
-//   },
-//   {
-//     title: 'pokedex.jsonについて',
-//     path: '/pokedexjson',
-//     img: '/icon.png'
-//   },
-//   {
-//     title: 'リンク',
-//     path: '/link',
-//     img: '/icon.png'
-//   }
-// ]
 let breadcrumbs = []
 breadcrumbs.push({
   title: 'HOME',
@@ -206,7 +164,6 @@ async function fetchRankings(period: 'daily' | 'weekly' | 'monthly', title: stri
       throw new Error(errorData.error || `HTTP error ${response.status}`);
     }
     const data: RankingPokemon[] = await response.json();
-    console.log(`Fetched ${period} rankings:`, JSON.stringify(data)); // デバッグログ追加
     carouselItems.value[itemIndex].content = data.length > 0 ? data : null; 
   } catch (e: any) {
     console.error(`Error fetching ${period} rankings:`, e);
@@ -280,8 +237,6 @@ const filteredCarouselItems = computed(() => {
 });
 
 const getPokemonLink = (pokemon: FeaturedPokemon | RankingPokemon): string => {
-  console.log('getPokemonLink received:', JSON.parse(JSON.stringify(pokemon))); // Proxyを展開してログ出力
-
   // pokemon.area が undefined や空文字の場合のフォールバックを追加
   const area = pokemon.area || 'global'; // areaが空なら 'global' として扱う
 

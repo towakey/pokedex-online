@@ -42,9 +42,19 @@ export default defineEventHandler(async (event) => {
       pokedex = (await import('~/assets/v1/pokedex/pokedex/Ruby_Sapphire_Emerald/Ruby_Sapphire_Emerald.json')).default.pokedex
       type_list = appConfig.type_list['2']
       break
+    case "kanto_frlg":
+      ver = "FireRed_LeafGreen"
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/FireRed_LeafGreen/FireRed_LeafGreen.json')).default.pokedex
+      type_list = appConfig.type_list['2']
+      break
     case "sinnoh":
       ver = "Diamond_Pearl_Platinum"
       pokedex = (await import('~/assets/v1/pokedex/pokedex/Diamond_Pearl_Platinum/Diamond_Pearl_Platinum.json')).default.pokedex
+      type_list = appConfig.type_list['2']
+      break
+    case "johto_hgss":
+      ver = "HeartGold_SoulSilver"
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/HeartGold_SoulSilver/HeartGold_SoulSilver.json')).default.pokedex
       type_list = appConfig.type_list['2']
       break
     case "unova_bw":
@@ -230,9 +240,6 @@ export default defineEventHandler(async (event) => {
         let name: string = ''
         if( 0 <= id && id < global.length)
         {
-          // result = global[id]
-          // result["no"] = id+1
-          // result["globalNo"] = id+1
           global[id]["form"].forEach((normal: any) => {
             if(normal.name !== undefined) {
               name = normal.name
@@ -422,106 +429,6 @@ export default defineEventHandler(async (event) => {
           })
           result = arr
         })
-        // result = pokedex[appConfig.pokedex_eng2jpn[area]][id]
-        // result["name"] = global[result["globalNo"] - 1]["name"]
-
-        // result["status"].forEach((status: any) => {
-        //   status["type_compatibility"] = {}
-        //   type_list.forEach((val: any) => {
-        //     if(status["type2"] == "")
-        //     {
-        //       status["type_compatibility"][val] = String(Number(type[val][status["type1"]]))
-        //     }
-        //     else
-        //     {
-        //       status["type_compatibility"][val] = String(Number(type[val][status["type1"]]) * Number(type[val][status["type2"]]))
-        //     }
-        //   })
-        //   if(status["ability1"] != "")
-        //   {
-        //     status["ability1_description"] = ability[status["ability1"]][ver]
-        //   }
-        //   else
-        //   {
-        //     status["ability1_description"] = ""
-        //   }
-
-        //   if(status["ability2"] != "")
-        //   {
-        //     status["ability2_description"] = ability[status["ability2"]][ver]
-        //   }
-        //   else
-        //   {
-        //     status["ability2_description"] = ""
-        //   }
-
-        //   if(status["dream_ability"] != "")
-        //   {
-        //     status["dream_ability_description"] = ability[status["dream_ability"]][ver]
-        //   }
-        //   else
-        //   {
-        //     status["dream_ability_description"] = ""
-        //   }
-
-        //   global[result["globalNo"] - 1]["form"].forEach((normal: any) => {
-        //     Object.keys(normal).forEach((key: any) => {
-        //       status["name"] = global[result["globalNo"] - 1].name
-        //       if(status.form == normal.form && status.region == normal.region && status.mega_evolution == normal.mega_evolution && status.gigantamax == normal.gigantamax)
-        //       {
-        //         status[key] = normal[key]
-        //         if(normal.hasOwnProperty("name"))
-        //           {
-        //             status["name"] = normal.name
-        //           }
-        //           else
-        //           {
-        //             status["name"] = global[result["globalNo"] - 1].name
-        //           }
-        //       }
-        //     })
-        //   })
-
-        //   if(Object.keys(waza).length > 0 && waza[id+1] !== undefined){
-        //     if(waza[id+1][status.form] !== undefined){
-        //       if(Array.isArray(waza[id+1][status.form]["わざマシン"])) {
-        //         waza[id+1][status.form]["わざマシン"] = waza[id+1][status.form]["わざマシン"].reduce(
-        //           (acc: any, key: any) => {
-        //             acc[key] = waza_machine[key]
-        //             return acc;
-        //           },
-        //           {} as { [key: string]: string }
-        //         )
-        //       }
-        //       status["waza"] = waza[id+1][status.form]
-        //     }
-        //     if(waza[id+1][status.region] !== undefined){
-        //       if(Array.isArray(waza[id+1][status.region]["わざマシン"])) {
-        //         waza[id+1][status.region]["わざマシン"] = waza[id+1][status.region]["わざマシン"].reduce(
-        //           (acc: any, key: any) => {
-        //             acc[key] = waza_machine[key]
-        //             return acc;
-        //           },
-        //           {} as { [key: string]: string }
-        //         )
-        //       }
-        //       status["waza"] = waza[id+1][status.region]
-        //     }
-        //   }
-        //   if(Object.keys(evolve).length > 0 && evolve["進化先"] && evolve["進化先"][id+1] !== undefined){
-        //     if(status.form && evolve["進化先"][id+1][status.form] && Object.keys(evolve["進化先"][id+1][status.form]).length > 0){
-        //       console.log(evolve["進化先"][id+1][status.form])
-        //       status["evolve"] = evolve["進化先"][id+1][status.form]
-        //       // Object.keys()は配列を返すので、for...inではなくforEachを使用
-        //       Object.keys(status["evolve"]).forEach(val => {
-        //           if(evolve["進化先"][id+1][status.form][val] && Object.keys(evolve["進化先"][id+1][status.form][val]).length > 0) {
-        //               status["evolve"][val]["globalNo"] = pokedex[appConfig.pokedex_eng2jpn[area]][Number(Object.keys(evolve["進化先"][id+1][status.form][val])[0]) - 1]["globalNo"]
-        //               status["evolve"][val]["name"] = global[status["evolve"][val]["globalNo"]-1]["name"]
-        //           }
-        //       })
-        //     }
-        //   }
-        // })
       }
     }
     else
@@ -551,7 +458,9 @@ export default defineEventHandler(async (event) => {
     const kanto_default: any = (await import('~/assets/v1/pokedex/pokedex/Red_Green_Blue_Yellow/Red_Green_Blue_Yellow.json')).default
     const johto_default: any = (await import('~/assets/v1/pokedex/pokedex/Gold_Silver_Crystal/Gold_Silver_Crystal.json')).default
     const hoenn_default: any = (await import('~/assets/v1/pokedex/pokedex/Ruby_Sapphire_Emerald/Ruby_Sapphire_Emerald.json')).default
+    const kanto_frlg_default: any = (await import('~/assets/v1/pokedex/pokedex/FireRed_LeafGreen/FireRed_LeafGreen.json')).default
     const sinnoh_default: any = (await import('~/assets/v1/pokedex/pokedex/Diamond_Pearl_Platinum/Diamond_Pearl_Platinum.json')).default
+    const johto_hgss_default: any = (await import('~/assets/v1/pokedex/pokedex/HeartGold_SoulSilver/HeartGold_SoulSilver.json')).default
     const unova_bw_default: any = (await import('~/assets/v1/pokedex/pokedex/Black_White/Black_White.json')).default
     const unova_b2w2_default: any = (await import('~/assets/v1/pokedex/pokedex/Black2_White2/Black2_White2.json')).default
     const central_kalos_default: any = (await import('~/assets/v1/pokedex/pokedex/X_Y/X_Y.json')).default
@@ -593,8 +502,16 @@ export default defineEventHandler(async (event) => {
         "update": hoenn_default.update
       },
       {
+        "file": "FireRed_LeafGreen.json",
+        "update": kanto_frlg_default.update
+      },
+      {
         "file": "Diamond_Pearl_Platinum.json",
         "update": sinnoh_default.update
+      },
+      {
+        "file": "HeartGold_SoulSilver.json",
+        "update": johto_hgss_default.update
       },
       {
         "file": "Black_White.json",

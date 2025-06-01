@@ -2,6 +2,7 @@
 import { ref, onMounted, nextTick, computed } from 'vue';
 import { createDbWorker } from 'sql.js-httpvfs';
 const config = useRuntimeConfig() // Added to access adSlot
+const appConfig = useAppConfig()
 
 definePageMeta({ 
   ssr: false,
@@ -59,7 +60,26 @@ onMounted(async () => {
   }
 });
 
-const query = ref('SELECT * FROM pokedex LIMIT 10');
+const query = ref(`
+SELECT 
+  p.*, 
+  pn.name,
+  pc.classification
+FROM 
+  pokedex as p 
+INNER JOIN 
+  POKEDEX_NAME as pn 
+ON 
+  p.id = pn.id
+INNER JOIN 
+  POKEDEX_CLASSIFICATION as pc 
+ON 
+  p.id = pc.id 
+WHERE 
+  pn.language = 'jpn' 
+  AND pc.language = 'jpn'
+LIMIT 10
+`);
 const descriptionSearchTerm = ref('');
 const currentTab = ref('descriptionSearch');
 const showSharedQueryInputArea = ref(false);
@@ -82,23 +102,50 @@ function searchDescription() {
     generatedQuery = 'SELECT * FROM LOCAL_POKEDEX_DESCRIPTION LIMIT 10';
   } else {
     generatedQuery = `
-SELECT
-    lpd.*,
-    pn.name AS name
+SELECT 
+    lp.id
+    ,lp.no
+    ,lp.globalNo
+    ,lp.pokedex
+    ,pn.name
+    ,lpt.type1
+    ,lpt.type2
+    ,lp.version
+    ,lpd.version
+    ,lpd.description
 FROM
-    LOCAL_POKEDEX_DESCRIPTION AS lpd
-INNER JOIN
+    LOCAL_POKEDEX AS lp
+LEFT OUTER JOIN
     POKEDEX_NAME AS pn
 ON
-    lpd.globalNo = pn.globalNo AND
-    lpd.form = pn.form AND
-    lpd.region = pn.region AND
-    lpd.mega_evolution = pn.mega_evolution AND
-    lpd.gigantamax = pn.gigantamax
+    lp.id = pn.id
+    AND pn.language = 'jpn'
+LEFT OUTER JOIN
+    LOCAL_POKEDEX_TYPE AS lpt
+ON
+    lp.id = lpt.id
+    AND lp.version = lpt.version
+LEFT OUTER JOIN
+    LOCAL_POKEDEX_DESCRIPTION AS lpd
+ON
+    lp.id = lpd.id
+    AND lpd.language = 'jpn'
+    
+    AND (
+        lp.version = lpd.version
+        OR EXISTS (
+            SELECT 1 
+            FROM (
+                SELECT value 
+                FROM json_each('["' || replace(lp.version, '_', '","') || '"]')
+            ) AS versions
+            WHERE versions.value = lpd.version
+        )
+    )
 WHERE
-    lpd.description LIKE '%${descriptionSearchTerm.value.trim()}%' AND
-    pn.language = 'jpn';
-    `;
+    lpd.description LIKE '%${descriptionSearchTerm.value.trim()}%' 
+;
+`;
   }
   query.value = generatedQuery;
   executeQuery(); // Execute the query immediately
@@ -127,6 +174,10 @@ function copyResults() {
 // Export formats and download function
 const exportFormats = ['JSON', 'CSV'];
 const exportFormat = ref('JSON');
+
+// 表示モードの設定
+const displayModes = ['JSON', 'Card'];
+const displayMode = ref('Card');
 
 function exportResults() {
   if (!dbData.value) return;
@@ -294,7 +345,7 @@ onMounted(async () => {
     </v-breadcrumbs>
     <ClientOnly>
       <v-tabs v-model="currentTab" background-color="primary" dark class="mb-4">
-        <v-tab value="descriptionSearch">Description検索</v-tab>
+        <v-tab value="descriptionSearch">図鑑説明検索</v-tab>
         <v-tab value="sizeSearch">重さ・高さ検索</v-tab>
         <v-tab value="sqlDirect">SQL直接入力</v-tab>
       </v-tabs>
@@ -317,7 +368,7 @@ onMounted(async () => {
             <v-col cols="12">
               <v-textarea
                 v-model="descriptionSearchTerm"
-                label="Descriptionで検索"
+                label="図鑑説明で検索"
                 outlined
                 dense
                 auto-grow
@@ -425,20 +476,77 @@ onMounted(async () => {
             Error: {{ error }}
           </v-alert>
           <v-card v-else-if="dbData" flat>
-            <v-card-title class="d-flex justify-end align-center">
-              <v-select
-                v-model="exportFormat"
-                :items="exportFormats"
-                dense
-                outlined
-                hide-details
-                style="max-width: 120px;"
-              />
-              <v-btn variant="outlined" elevation="0" style="background-color: white;" class="ml-2" @click="exportResults">出力する</v-btn>
-              <v-icon class="ml-2" @click="copyResults" style="cursor: pointer;">mdi-content-copy</v-icon>
+            <v-card-title class="d-flex justify-space-between align-center">
+              <div class="d-flex align-center">
+                <v-select
+                  v-model="displayMode"
+                  :items="displayModes"
+                  label="表示モード"
+                  dense
+                  outlined
+                  hide-details
+                  style="max-width: 120px;"
+                />
+              </div>
+              <div class="d-flex align-center">
+                <v-select
+                  v-model="exportFormat"
+                  :items="exportFormats"
+                  label="出力形式"
+                  dense
+                  outlined
+                  hide-details
+                  style="max-width: 120px;"
+                />
+                <v-btn variant="outlined" elevation="0" style="background-color: white;" class="ml-2" @click="exportResults">出力する</v-btn>
+                <v-icon class="ml-2" @click="copyResults" style="cursor: pointer;">mdi-content-copy</v-icon>
+              </div>
             </v-card-title>
             <v-card-text>
-              <pre>{{ JSON.stringify(dbData, null, 2) }}</pre>
+              <!-- JSON表示モード -->
+              <div v-if="displayMode === 'JSON'">
+                <pre>{{ JSON.stringify(dbData, null, 2) }}</pre>
+              </div>
+              
+              <!-- カード表示モード -->
+              <div v-else-if="displayMode === 'Card'" class="card-display-mode">
+                <v-row>
+                  <template v-if="Array.isArray(dbData)">
+                    <v-col
+                      v-for="(item, index) in dbData"
+                      :key="index"
+                      cols="12"
+                      md="12"
+                      lg="12"
+                    >
+                      <NuxtLink class="nuxtlink" :to="`/pokedex/${appConfig.game2region[appConfig.ver2game[item.version]] || 'global'}/${item.version ? item.no : item.globalNo}`">
+                        <v-card variant="outlined" class="mb-4">
+                          <div class="d-flex flex-no-wrap">
+                            <div class="d-flex flex-column align-center mr-4">
+                              <v-avatar size="125" tile>
+                                <v-img :src="`/img/${('0000' + item.globalNo).slice( -4 )}.png`" />
+                              </v-avatar>
+                            </div>
+                            <div>
+                              <v-card-title>
+                                <span v-if="item.globalNo">No.{{ item.globalNo }}</span> <span v-if="item.name">{{ item.name }}</span>
+                              </v-card-title>
+                              <v-card-text>
+                                <span v-if="item.classification">{{ item.classification }}</span> <span v-if="item.height">{{ item.height }}m</span> <span v-if="item.weight">{{ item.weight }}kg</span><br>
+                                <span v-if="item.type1"><typeIcon :type="item.type1" /></span><span v-if="item.type2"><typeIcon :type="item.type2" /></span><span v-if="item.version">{{ appConfig.ver_eng2jpn[item.version] }}</span><br>
+                                <span v-if="item.description">{{ item.description }}</span>
+                              </v-card-text>
+                            </div>
+                          </div>
+                        </v-card>
+                      </NuxtLink>
+                    </v-col>
+                  </template>
+                  <v-col v-else cols="12">
+                    <v-alert type="info" dense>データが配列形式ではありません。表示モードをJSONに切り替えてください。</v-alert>
+                  </v-col>
+                </v-row>
+              </div>
             </v-card-text>
           </v-card>
         </v-col>

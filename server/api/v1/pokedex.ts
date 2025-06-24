@@ -28,8 +28,8 @@ export default defineEventHandler(async (event) => {
     case "global":
       break
     case "kanto":
-      ver = "Red_Green_Blue_Yellow"
-      pokedex = (await import('~/assets/v1/pokedex/pokedex/Red_Green_Blue_Yellow/Red_Green_Blue_Yellow.json')).default.pokedex
+      ver = "Red_Green_Blue_Pikachu"
+      pokedex = (await import('~/assets/v1/pokedex/pokedex/Red_Green_Blue_Pikachu/Red_Green_Blue_Pikachu.json')).default.pokedex
       type_list = appConfig.type_list['1']
       break
     case "johto":
@@ -292,7 +292,7 @@ export default defineEventHandler(async (event) => {
               weight = normal.weight
             }
           })
-          if(ver == 'Red_Green_Blue_Yellow' || ver == 'Gold_Silver_Crystal' || ver == 'LegendsArceus')
+          if(ver == 'Red_Green_Blue_Pikachu' || ver == 'Gold_Silver_Crystal' || ver == 'LegendsArceus')
           {
             // ver = ''
             // console.log(ability[status["ability1"]][ver])
@@ -455,7 +455,7 @@ export default defineEventHandler(async (event) => {
     const global_default: any = (await import('~/assets/v1/pokedex/pokedex/pokedex.json')).default
     const ability_default: any = (await import('~/assets/v1/pokedex/ability/ability.json')).default
     const type_default: any = (await import('~/assets/v1/pokedex/type/type.json')).default
-    const kanto_default: any = (await import('~/assets/v1/pokedex/pokedex/Red_Green_Blue_Yellow/Red_Green_Blue_Yellow.json')).default
+    const kanto_default: any = (await import('~/assets/v1/pokedex/pokedex/Red_Green_Blue_Pikachu/Red_Green_Blue_Pikachu.json')).default
     const johto_default: any = (await import('~/assets/v1/pokedex/pokedex/Gold_Silver_Crystal/Gold_Silver_Crystal.json')).default
     const hoenn_default: any = (await import('~/assets/v1/pokedex/pokedex/Ruby_Sapphire_Emerald/Ruby_Sapphire_Emerald.json')).default
     const kanto_frlg_default: any = (await import('~/assets/v1/pokedex/pokedex/FireRed_LeafGreen/FireRed_LeafGreen.json')).default
@@ -490,7 +490,7 @@ export default defineEventHandler(async (event) => {
         "update": type_default.update
       },
       {
-        "file": "Red_Green_Blue_Yellow.json",
+        "file": "Red_Green_Blue_Pikachu.json",
         "update": kanto_default.update
       },
       {

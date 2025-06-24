@@ -148,20 +148,15 @@ onMounted(() => {
       <v-spacer />
 
       <!-- ローディングインジケーターを追加 -->
-      <!-- <v-progress-circular
+      <v-img
         v-if="isLoading"
-        indeterminate
-        color="white"
-        size="24"
+        :src="'/img/loading/polygon_loading_2.gif'"
+        alt="Loading..."
+        width="40"
+        height="40"
         class="mr-4"
-      >Loading</v-progress-circular> -->
-      <v-progress-circular
-        v-if="isLoading"
-        indeterminate
-        color="white"
-        size="24"
-        class="mr-4"
-      ></v-progress-circular>
+        contain
+      />
 
       <v-menu>
           <template v-slot:activator="{ props }">

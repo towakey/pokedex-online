@@ -20,58 +20,58 @@ export default defineEventHandler(async (event) => {
     case "global":
       break
     case "kanto":
-      ver = "Red_Green_Blue_Yellow"
+      ver = "red_green_blue_pikachu"
       break
     case "johto":
-      ver = "Gold_Silver_Crystal"
+      ver = "gold_silver_crystal"
       break
     case "hoenn":
-      ver = "Ruby_Sapphire_Emerald"
+      ver = "ruby_sapphire_emerald"
       break
     case "sinnoh":
-      ver = "Diamond_Pearl_Platinum"
+      ver = "diamond_pearl_platinum"
       break
     case "unova_bw":
-      ver = "Black_White"
+      ver = "black_white"
       break
     case "unova_b2w2":
-      ver = "Black2_White2"
+      ver = "black2_white2"
       break
     case "central_kalos":
-      ver = "X_Y"
+      ver = "x_y"
       break
     case "coast_kalos":
-      ver = "X_Y"
+      ver = "x_y"
       break
     case "mountain_kalos":
-      ver = "X_Y"
+      ver = "x_y"
       break
     case "alola_sm":
-      ver = "Sun_Moon"
+      ver = "sun_moon"
       break
     case "alola_usum":
-      ver = "UltraSun_UltraMoon"
+      ver = "ultrasun_ultramoon"
       break
     case "galar":
-      ver = "Sword_Shield"
+      ver = "sword_shield"
       break
     case "crown_tundra":
-      ver = "Sword_Shield"
+      ver = "sword_shield"
       break
     case "isle_of_armor":
-      ver = "Sword_Shield"
+      ver = "sword_shield"
       break
     case "hisui":
-      ver = "LegendsArceus"
+      ver = "legendsarceus"
       break
     case "paldea":
-      ver = "Scarlet_Violet"
+      ver = "scarlet_violet"
       break
     case "kitakami":
-      ver = "Scarlet_Violet"
+      ver = "scarlet_violet"
       break
     case "blueberry":
-      ver = "Scarlet_Violet"
+      ver = "scarlet_violet"
       break
   }
 

@@ -62,25 +62,84 @@ const config = useRuntimeConfig()
 const appConfig = useAppConfig()
 const route = useRoute()
 route.meta.title = appConfig.pokedex_eng2jpn[route.params.area]
+// ---------- 新API対応型 ----------
+interface RawPokedexResponse {
+  success: boolean;
+  data: Record<string, PokemonStatus[]>;
+  region: string | null;
+}
+
+// ---------- 新API取得関数 ----------
+const fetchPokedex = async (area: string, id: number | string) => {
+  // API には常に 4 桁 0 埋めで送る
+  const noParam = String(id).padStart(4, '0')
+
+  const { data } = await useFetch<RawPokedexResponse>(
+    `http://localhost/pokedex/pokedex.php?region=${area}&no=${noParam}`,
+    { key: `pokedex-${area}-${noParam}` }
+  )
+  if (!data.value || !data.value.success) {
+    return { query: { id: String(id), area: String(area), mode: 'details' }, result: [] } as PokedexResponse
+  }
+  const resultArray = Object.values(data.value.data).flat()
+  return { query: { id: String(id), area: String(area), mode: 'details' }, result: resultArray } as PokedexResponse
+}
+
+// ---------- タイプ相性取得関数 ----------
+const fetchTypeCompatibility = async (type1: string, type2: string, region: string) => {
+  try {
+    const params = new URLSearchParams({ type1: type1, region: region })
+    if (type2 && type2 !== '') {
+      params.append('type2', type2)
+    }
+    const { data } = await useFetch<{ rates: { [key: string]: string } }>(
+      `http://localhost/pokedex/type.php?${params.toString()}`,
+      { key: `type-${region}-${type1}-${type2}` }
+    )
+    const rawRates = data.value?.data?.rates ?? {}
+    const rates: { [key: string]: string } = {}
+    for (const [k, v] of Object.entries(rawRates)) {
+      rates[k] = String(v)
+    }
+    return rates
+  } catch (error) {
+    console.error('タイプ相性の取得に失敗しました', error)
+    return {}
+  }
+}
+
 definePageMeta({
   title: "Pokedex-Online"
 })
 let nameDialog = ref(false)
 let model = ref(0)
-const pokedex = (await useFetch<PokedexResponse>('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+route.params.id)).data.value
-const prev = (await useFetch<PokedexResponse>('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) - 1))).data.value
-const next = (await useFetch<PokedexResponse>('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+(Number(route.params.id) + 1))).data.value
-const src = "/img/" + ('0000' + pokedex.result[0].globalNo).slice( -4 ) + ".png"
-
-// console.log(pokedex)
+// const pokedex = (await useFetch<PokedexResponse>('/api/v1/pokedex?mode=details&area='+route.params.area+'&id='+route.params.id)).data.value
+const pokedex = await fetchPokedex(route.params.area as string, route.params.id as string)
+// 各ステータスにタイプ相性データを付与
+for (const status of pokedex.result) {
+  status.type_compatibility = await fetchTypeCompatibility(status.type1, status.type2, route.params.area as string)
+}
+const prev = await fetchPokedex(route.params.area as string, Number(route.params.id) - 1)
 // console.log(prev)
+const next = await fetchPokedex(route.params.area as string, Number(route.params.id) + 1)
 // console.log(next)
+// pokedex データ有無を判定（先に定義しておく）
+const hasPokedexData = pokedex.result.length > 0
+let src = '';
+if (pokedex.result.length) {
+  src = "/img/pokedex/" + pokedex.result[0].id + ".png";
+}
+
+// // console.log(pokedex)
+// // console.log(prev)
+// // console.log(next)
 let existsPokedex : { [key: string]: ExistsResponse } = {}
 let pdx
 for(pdx in appConfig.pokedex_list.filter(item => !item.area.includes('global'))){
   const {data, error, refresh} = (await useFetch<ExistsResponse>('/api/v1/pokedex?mode=exists&area='+appConfig.pokedex_list[Number(pdx)+1].area+'&id='+String(route.params.id)))
   existsPokedex[appConfig.pokedex_list[Number(pdx)+1].area] = data.value
 }
+// console.log('checkpoint1')
 
 let pokedex_status
 let normal = 0
@@ -94,43 +153,35 @@ let giga = 1
 let mugen = 1
 if(route.params.area !== 'global'){
   for(pokedex_status in pokedex.result){
+    pokedex.result[pokedex_status].src = '/img/pokedex/' + pokedex.result[pokedex_status].id + '.png'
     if(pokedex.result[pokedex_status].mega_evolution.includes('メガ')){
-      pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + '-mega' + mega + ".png"
       mega++
     }else if(pokedex.result[pokedex_status].gigantamax.includes('キョダイマックス')){
-      pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + '-gigantmax' + giga + ".png"
       giga++
     }else if(pokedex.result[pokedex_status].gigantamax.includes('ムゲンダイマックス')){
-      pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + '-mugen' + mugen + ".png"
       mugen++
     }else if(pokedex.result[pokedex_status].region.includes('アローラのすがた')){
       region_name = 'alora'
-      pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + '-' + region_name + alora + ".png"
       alora++
     }else if(pokedex.result[pokedex_status].region.includes('ガラルのすがた')){
       region_name = 'galar'
-      pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + '-' + region_name + galar + ".png"
       galar++
     }else if(pokedex.result[pokedex_status].region.includes('ヒスイのすがた')){
       region_name = 'hisui'
-      pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + '-' + region_name + hisui + ".png"
       hisui++
     }else if(pokedex.result[pokedex_status].region.includes('パルデアのすがた')){
       region_name = 'paldea'
-      pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + '-' + region_name + paldea + ".png"
       paldea++
     }else{
-      if(normal == 0){
-        pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + ".png"
-      }else{
-        pokedex.result[pokedex_status]["src"]='/img/'+('0000' + pokedex.result[pokedex_status].globalNo).slice( -4 ) + '-' + normal + ".png"
-      }
       normal++
     }
   }
 }
 
-const metaImage = ref("https://pokedex-online.jp/img/" + ('0000' + pokedex.result[0].globalNo).slice( -4 ) + ".png")
+const metaImage = ref('');
+if (pokedex.result.length) {
+  metaImage.value = "https://pokedex-online.jp/img/pokedex/" + pokedex.result[0].id + ".png";
+}
 
 // ポケモンデータをJSONでダウンロード
 const downloadPokemonData = () => {
@@ -182,9 +233,10 @@ Object.keys(route.params).forEach((val) => {
       href: '/pokedex/'+route.params[val],
       disabled: false
     })
-  }else if(val === 'id'){
+  } else if (val === 'id') {
+    const titleName = hasPokedexData ? pokedex.result[0].name.jpn : String(route.params['id'])
     breadcrumbs.push({
-      title: pokedex.result[0].name.jpn,
+      title: titleName,
       href: '/pokedex/'+route.params['area']+'/'+route.params['id'],
       disabled: true
     })
@@ -211,7 +263,12 @@ const prevModel = () => {
   }
 }
 const updateMetadata = inject('updateMetadata') as (title: string) => void
-const metaTitle = ref(pokedex.result[0].name.jpn+" - "+route.meta.title+"\n#"+pokedex.result[0].name.jpn)
+// メタタイトルを安全に生成
+const metaTitle = ref(
+  hasPokedexData
+    ? `${pokedex.result[0].name.jpn} - ${route.meta.title}\n#${pokedex.result[0].name.jpn}`
+    : `${route.meta.title}`
+)
 updateMetadata(metaTitle.value)
 useHead({
   title: metaTitle,
@@ -248,7 +305,7 @@ const onSwipeLeft = () => {
 const onSwipeRight = () => {
   // console.log("right")
   // console.log(`/pokedex/${route.params.area}/${(Number(route.params.id) + 1)}`)
-  // console.log(next)
+  // // console.log(next)
   if(next != false){
     navigateTo(`/pokedex/${route.params.area}/${(Number(route.params.id) + 1)}`, {
       replace: false // trueにすると、履歴に新しいエントリを追加せずに現在のエントリを置き換えます
@@ -669,7 +726,7 @@ const statusIndex = ref()
                 width="auto"
                 class=""
                 >
-                  <div class="responsive-text">分類　　　　　{{ pokedex.result[model].classification }}</div>
+                  <div class="responsive-text">分類　　　　　{{ pokedex.result[model].classification.jpn }}</div>
                 </v-card-title>
               </v-card>
               <v-card
@@ -790,7 +847,7 @@ const statusIndex = ref()
           <v-row
           style="margin-top: 20px;"
           >
-            <v-col cols="12" class="mb-4">
+            <!-- <v-col cols="12" class="mb-4">
               <v-btn
                 block
                 color="primary"
@@ -799,7 +856,7 @@ const statusIndex = ref()
               >
                 このポケモンのデータをJSONでダウンロード
               </v-btn>
-            </v-col>
+            </v-col> -->
             <v-col cols="12" md="6">
               <v-card
                 elevation="0"

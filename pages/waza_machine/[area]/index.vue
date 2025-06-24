@@ -63,9 +63,9 @@ try {
   } else if (area === 'Gold_Silver_Crystal') {
     waza = (await import('~/assets/v1/pokedex/pokedex/Gold_Silver_Crystal/waza_list.json')).waza_list
     waza_machine_row = (await import('~/assets/v1/pokedex/pokedex/Gold_Silver_Crystal/waza_machine.json')).waza_machine
-  } else if (area === 'Red_Green_Blue_Yellow') {
-    waza = (await import('~/assets/v1/pokedex/pokedex/Red_Green_Blue_Yellow/waza_list.json')).waza_list
-    waza_machine_row = (await import('~/assets/v1/pokedex/pokedex/Red_Green_Blue_Yellow/waza_machine.json')).waza_machine
+  } else if (area === 'Red_Green_Blue_Pikachu') {
+    waza = (await import('~/assets/v1/pokedex/pokedex/Red_Green_Blue_Pikachu/waza_list.json')).waza_list
+    waza_machine_row = (await import('~/assets/v1/pokedex/pokedex/Red_Green_Blue_Pikachu/waza_machine.json')).waza_machine
   } else {
     console.error(`No waza data available for game version: ${area}`)
     waza = { [area]: {} }

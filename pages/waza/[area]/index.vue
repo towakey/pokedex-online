@@ -54,9 +54,9 @@ if(areaParam === 'Scarlet_Violet'){
 } else if(areaParam === 'Gold_Silver_Crystal'){
   waza = (await import('~/assets/v1/pokedex/pokedex/Gold_Silver_Crystal/waza_list.json')).waza_list
   area.value = 'Gold_Silver_Crystal'
-} else if(areaParam === 'Red_Green_Blue_Yellow'){
-  waza = (await import('~/assets/v1/pokedex/pokedex/Red_Green_Blue_Yellow/waza_list.json')).waza_list
-  area.value = 'Red_Green_Blue_Yellow'
+} else if(areaParam === 'Red_Green_Blue_Pikachu'){
+  waza = (await import('~/assets/v1/pokedex/pokedex/Red_Green_Blue_Pikachu/waza_list.json')).waza_list
+  area.value = 'Red_Green_Blue_Pikachu'
 }
 
 if(['paldea', 'kitakami', 'blueberry'].includes(areaParam)){

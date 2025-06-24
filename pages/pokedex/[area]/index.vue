@@ -22,7 +22,44 @@ interface Pokemon {
   }>;
 }
 
-const fetchedPokedex = (await useFetch<{result: Pokemon[]}>('/api/v1/pokedex?mode=index&area='+route.params.area)).data.value.result
+interface RawPokedexResponse {
+  success: boolean;
+  data: Record<string, any[]>;
+  region: string | null;
+}
+
+const fetchPokedexIndex = async (area: string): Promise<Pokemon[]> => {
+  const { data } = await useFetch<RawPokedexResponse>(
+    `http://localhost/pokedex/pokedex.php?region=${area}`,
+    { key: `pokedex-index-${area}` }
+  )
+  if (!data.value || !data.value.success) return []
+
+  const pokedexArray: Pokemon[] = []
+  Object.values(data.value.data).forEach((statusArray: any) => {
+    if (!Array.isArray(statusArray) || statusArray.length === 0) return
+    const first = statusArray[0]
+    const statuses = statusArray.map((s: any) => ({
+      weight: s.weight,
+      height: s.height,
+      name: s.name ? { jpn: s.name.jpn } : undefined,
+      type1: s.type1,
+      type2: s.type2
+    }))
+    pokedexArray.push({
+      no: first.no,
+      id: first.id,
+      globalNo: first.globalNo,
+      name: area === 'global' ? (first.name?.jpn ?? '') : first.name,
+      status: statuses
+    })
+  })
+  // 図鑑番号順に並べ替え
+  pokedexArray.sort((a, b) => Number(a.no) - Number(b.no))
+  return pokedexArray
+}
+
+const fetchedPokedex: Pokemon[] = await fetchPokedexIndex(route.params.area as string)
 // 図鑑番号が空のポケモンを除外
 const pokedex = route.params.area === 'global' 
   ? fetchedPokedex 
@@ -388,9 +425,10 @@ useHead({
               <v-avatar
                 class="ms-2"
                 size="100"
+                tile
                 >
                   <NuxtImg
-                    :src='`/img/${("0000" + pokemon.globalNo).slice(-4)}.png`'
+                    :src='`/img/pokedex/${pokemon.id}.png`'
                     alt=""
                     width="100"
                     height="100"
@@ -415,9 +453,9 @@ useHead({
                   cols=""
                   class="text-left d-flex"
                   >
-                    <div class="d-flex flex-column">
-                      <typeIcon v-if="pokemon.status[0].type1" :type="pokemon.status[0].type1" />
-                      <typeIcon v-if="pokemon.status[0].type2" :type="pokemon.status[0].type2" />
+                    <div class="d-flex">
+                      <typeIcon v-if="pokemon.status[0].type1" :type="pokemon.status[0].type1" :mode="'icon'" />
+                      <typeIcon v-if="pokemon.status[0].type2" :type="pokemon.status[0].type2" :mode="'icon'" />
                     </div>
                   </v-col>
                 </v-row>

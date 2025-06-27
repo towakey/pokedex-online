@@ -355,7 +355,7 @@ export default defineAppConfig({
       area: 'unova_bw'
     },
     {
-      title: 'ジョウト図鑑',
+      title: 'ジョウト図鑑(ハートゴールド ソウルシルバー)',
       path: '/johto_hgss',
       content: '図鑑総数 251匹',
       area: 'johto_hgss'
@@ -367,7 +367,7 @@ export default defineAppConfig({
       area: 'sinnoh'
     },
     {
-      title: 'カントー図鑑',
+      title: 'カントー図鑑(ファイアレッド リーフグリーン)',
       path: '/kanto_frlg',
       content: '図鑑総数 151匹',
       area: 'kanto_frlg'

@@ -51,11 +51,11 @@ interface PokedexResponse {
 
 interface ExistsResponse {
   query: {
-    id: string;
-    area: string;
+    no: string;
+    region: string;
     mode: string;
   };
-  result: boolean;
+  result: number;
 }
 
 const config = useRuntimeConfig()
@@ -133,11 +133,20 @@ if (pokedex.result.length) {
 // // console.log(pokedex)
 // // console.log(prev)
 // // console.log(next)
-let existsPokedex : { [key: string]: ExistsResponse } = {}
-let pdx
-for(pdx in appConfig.pokedex_list.filter(item => !item.area.includes('global'))){
-  const {data, error, refresh} = (await useFetch<ExistsResponse>('/api/v1/pokedex?mode=exists&area='+appConfig.pokedex_list[Number(pdx)+1].area+'&id='+String(route.params.id)))
-  existsPokedex[appConfig.pokedex_list[Number(pdx)+1].area] = data.value
+const existsPokedex: { [key: string]: ExistsResponse } = {}
+const regionList = appConfig.pokedex_list.filter(item => item.area !== 'global')
+// 存在判定は常に全国図鑑番号で行う
+const globalNo = route.params.area === 'global' ? Number(route.params.id) : pokedex.result[0].globalNo
+const paddedGlobalNo = String(globalNo).padStart(4, '0')
+for (const item of regionList) {
+  const { data } = await useFetch<ExistsResponse>(
+    `http://localhost/pokedex/pokedex.php?mode=exists&region=${item.area}&no=${paddedGlobalNo}`,
+    { key: `exists-${item.area}-${paddedGlobalNo}` }
+  )
+  existsPokedex[item.area] = {
+    query: { no: paddedGlobalNo, region: item.area, mode: 'exists' },
+    result: data.value?.result ?? -1
+  }
 }
 // console.log('checkpoint1')
 
@@ -585,7 +594,7 @@ const statusIndex = ref()
         v-for="item in appConfig.pokedex_list.filter(item => item.title !== '全国図鑑')" :key="item.title"
         >
           <NuxtLink
-          :to="{path: `/pokedex${item.path}/${existsPokedex[item.area].result}`}"
+          :to="{path: `/pokedex${item.path}/${('0000' + existsPokedex[item.area].result).slice(-4)}`}"
           class="nuxtlink"
           v-if="existsPokedex[item.area].result > -1"
           >

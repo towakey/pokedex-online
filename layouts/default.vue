@@ -127,11 +127,19 @@ onMounted(() => {
         <!-- <v-img src="/public/icon.png"></v-img> -->
         <!-- <v-img src="/public/icon.png" alt="icon" max-width="40"></v-img> -->
         <!-- <v-icon> -->
-          <img src="/public/icon.png"
-          alt="Nav icon"
-          :width="50"
-          :height="50"
-          contain
+          <img
+            v-if="!isLoading"
+            src="/public/icon.png"
+            alt="Nav icon"
+            :width="50"
+            :height="50"
+          />
+          <img
+            v-else
+            src="/img/loading/polygon_loading_2.gif"
+            alt="Loading..."
+            :width="50"
+            :height="50"
           />
         <!-- </v-icon> -->
         <!-- <v-icon>mdi-menu</v-icon> -->
@@ -147,16 +155,7 @@ onMounted(() => {
       </v-toolbar-title>
       <v-spacer />
 
-      <!-- ローディングインジケーターを追加 -->
-      <v-img
-        v-if="isLoading"
-        :src="'/img/loading/polygon_loading_2.gif'"
-        alt="Loading..."
-        width="40"
-        height="40"
-        class="mr-4"
-        contain
-      />
+
 
       <v-menu>
           <template v-slot:activator="{ props }">

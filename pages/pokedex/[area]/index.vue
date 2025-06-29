@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import PokemonCard from '~/components/PokemonCard.vue'
 const appConfig = useAppConfig()
 const route = useRoute()
 const searchTerm = ref()
@@ -19,6 +20,10 @@ interface Pokemon {
     name?: { jpn: string };  // 地域別エリアで使用
     type1?: string;
     type2?: string;
+    form?: string | string[];
+    region?: string | string[];
+    mega_evolution?: string | string[];
+    gigantamax?: string | string[];
   }>;
 }
 
@@ -38,20 +43,26 @@ const fetchPokedexIndex = async (area: string): Promise<Pokemon[]> => {
   const pokedexArray: Pokemon[] = []
   Object.values(data.value.data).forEach((statusArray: any) => {
     if (!Array.isArray(statusArray) || statusArray.length === 0) return
-    const first = statusArray[0]
-    const statuses = statusArray.map((s: any) => ({
-      weight: s.weight,
-      height: s.height,
-      name: s.name ? { jpn: s.name.jpn } : undefined,
-      type1: s.type1,
-      type2: s.type2
-    }))
-    pokedexArray.push({
-      no: first.no,
-      id: first.id,
-      globalNo: first.globalNo,
-      name: area === 'global' ? (first.name?.jpn ?? '') : first.name,
-      status: statuses
+    // 各図鑑番号の配列（通常・メガ・キョダイなど）を個別に追加
+    statusArray.forEach((s: any) => {
+      const statusObj = {
+        weight: s.weight,
+        height: s.height,
+        name: s.name ? { jpn: s.name.jpn } : undefined,
+        type1: s.type1,
+        type2: s.type2,
+        form: s.form,
+        region: s.region,
+        mega_evolution: s.mega_evolution,
+        gigantamax: s.gigantamax
+      }
+      pokedexArray.push({
+        no: s.no,
+        id: s.id,
+        globalNo: s.globalNo,
+        name: area === 'global' ? (s.name?.jpn ?? '') : s.name,
+        status: [statusObj]
+      })
     })
   })
   // 図鑑番号順に並べ替え
@@ -404,64 +415,16 @@ useHead({
     </v-dialog>
     <v-row>
       <v-col
-      cols="12"
-      sm="4"
-      v-for="pokemon in pokelist"
-      :key="pokemon"
+        cols="12"
+        sm="6"
+        v-for="pokemon in pokelist"
+        :key="pokemon.no"
       >
         <NuxtLink
-        :to="{path: `/pokedex/${route.params.area}/${pokemon.no}`}"
-        class="nuxtlink"
+          :to="{ path: `/pokedex/${route.params.area}/${pokemon.no}` }"
+          class="nuxtlink"
         >
-          <v-card
-          elevation="0"
-          variant="outlined"
-          style="background-color: white;"
-          >
-            <div
-            class="d-flex flex-no-wrap justify-space-between w-100"
-            >
-
-              <v-avatar
-                class="ms-2"
-                size="100"
-                tile
-                >
-                  <NuxtImg
-                    :src='`/img/pokedex/${pokemon.id}.png`'
-                    alt=""
-                    width="100"
-                    height="100"
-                    fit="cover"
-                  />
-              </v-avatar>
-
-              <v-card-title
-              class="pa-0 w-100"
-              >
-                <v-row
-                class="ma-0"
-                >
-                  <v-col
-                  cols="5"
-                  style="min-width: 120px; max-width: 300px;"
-                  >
-                    <div class="text-truncate">No.{{ ("0000"+pokemon.no).slice(-4) }}</div>
-                    <div class="text-truncate">{{ pokemon.status[0].name.jpn }}</div>
-                  </v-col>
-                  <v-col 
-                  cols=""
-                  class="text-left d-flex"
-                  >
-                    <div class="d-flex">
-                      <typeIcon v-if="pokemon.status[0].type1" :type="pokemon.status[0].type1" :mode="'icon'" />
-                      <typeIcon v-if="pokemon.status[0].type2" :type="pokemon.status[0].type2" :mode="'icon'" />
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-card-title>
-            </div>
-          </v-card>
+          <PokemonCard :pokemon="pokemon" :area="route.params.area" />
         </NuxtLink>
       </v-col>
     </v-row>
